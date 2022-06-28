@@ -1,0 +1,23 @@
+{
+  "name": "tamagotchi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "controller.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yb9255/tamagotchi.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yb9255/tamagotchi/issues"
+  },
+  "homepage": "https://github.com/yb9255/tamagotchi#readme",
+  "dependencies": {
+    "eslint-plugin-prettier": "^4.1.0"
+  }
+}
