@@ -1,12 +1,17 @@
-import tamagotchiFrame from "./views/TamagotchiFrame.js";
-import tamagotchi from "./views/Tamagotchi.js";
+import tamagotchiFrame from './views/TamagotchiFrame.js';
+import tamagotchi from './views/Tamagotchi.js';
 
 function draw() {
-  if (document.querySelector("#canvas").getContext) {
+  const frame = document.querySelector('#frame');
+  const tablet = document.querySelector('#tablet');
+
+  if (frame.getContext) {
     tamagotchiFrame.drawTamagotchiEgg();
     tamagotchiFrame.drawTamagotchiBackground();
-    tamagotchiFrame.drawTamagotchiTablet();
-    tamagotchi.drawTamagotchi("./image/lv1-stand.png");
+
+    if (tablet.getContext) {
+      tamagotchi.drawTamagotchi();
+    }
   }
 }
 
@@ -14,4 +19,4 @@ function init() {
   draw();
 }
 
-init();
+window.addEventListener('load', init);

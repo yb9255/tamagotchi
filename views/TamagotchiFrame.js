@@ -1,64 +1,48 @@
-import View from './View.js';
+import Animation from './Animation.js';
 
-class TamagotchiFrameView extends View {
+class TamagotchiFrame extends Animation {
   constructor() {
     super();
+    this.context = document.querySelector('#frame').getContext('2d');
   }
 
   drawTamagotchiEgg() {
-    const ctx = this.ctx;
+    const context = this.context;
 
-    ctx.fillStyle = '#e4358c';
-    ctx.beginPath();
-    ctx.ellipse(450, 450, 350, 435, 0, 0, Math.PI * 2);
-    ctx.fill();
+    context.fillStyle = '#e4358c';
+    context.beginPath();
+    context.ellipse(450, 450, 350, 435, 0, 0, Math.PI * 2);
+    context.fill();
   }
 
   drawTamagotchiBackground() {
-    const ctx = this.ctx;
+    const context = this.context;
 
-    ctx.fillStyle = 'yellow';
+    context.fillStyle = 'yellow';
 
-    ctx.beginPath();
-    ctx.moveTo(230, 230);
-    ctx.lineTo(320, 230);
-    ctx.lineTo(370, 215);
-    ctx.lineTo(510, 230);
-    ctx.lineTo(590, 220);
-    ctx.lineTo(690, 240);
-    ctx.lineTo(680, 320);
-    ctx.lineTo(695, 410);
-    ctx.lineTo(680, 480);
-    ctx.lineTo(675, 680);
-    ctx.lineTo(545, 663);
-    ctx.lineTo(445, 680);
-    ctx.lineTo(355, 671);
-    ctx.lineTo(293, 680);
-    ctx.lineTo(221, 660);
-    ctx.lineTo(230, 603);
-    ctx.lineTo(219, 492);
-    ctx.lineTo(230, 355);
-    ctx.lineTo(215, 270);
-    ctx.lineTo(230, 230);
-    ctx.fill();
-  }
-
-  drawTamagotchiTablet() {
-    const ctx = this.ctx;
-
-    ctx.fillStyle = '#eff';
-    ctx.beginPath();
-    ctx.moveTo(255, 245);
-    ctx.lineTo(645, 245);
-    ctx.arcTo(655, 245, 655, 255, 10);
-    ctx.lineTo(655, 645);
-    ctx.arcTo(655, 655, 645, 655, 10);
-    ctx.lineTo(255, 655);
-    ctx.arcTo(245, 655, 245, 645, 10);
-    ctx.lineTo(245, 255);
-    ctx.arcTo(245, 245, 255, 245, 10);
-    ctx.fill();
+    context.beginPath();
+    context.moveTo(230, 230);
+    context.lineTo(320, 230);
+    context.lineTo(370, 215);
+    context.lineTo(510, 230);
+    context.lineTo(590, 220);
+    context.lineTo(690, 240);
+    context.lineTo(680, 320);
+    context.lineTo(695, 410);
+    context.lineTo(680, 480);
+    context.lineTo(675, 680);
+    context.lineTo(545, 663);
+    context.lineTo(445, 680);
+    context.lineTo(355, 671);
+    context.lineTo(293, 680);
+    context.lineTo(221, 660);
+    context.lineTo(230, 603);
+    context.lineTo(219, 492);
+    context.lineTo(230, 355);
+    context.lineTo(215, 270);
+    context.lineTo(230, 230);
+    context.fill();
   }
 }
 
-export default new TamagotchiFrameView();
+export default new TamagotchiFrame();

@@ -1,20 +1,47 @@
-import View from './View.js';
+import Animation from './Animation.js';
 
-class TamagotchiView extends View {
+class Tamagotchi extends Animation {
   constructor() {
     super();
+    this.context = document.querySelector('#tablet').getContext('2d');
+    this.image;
   }
 
-  drawTamagotchi(url) {
-    const ctx = this.ctx;
-    const image = new Image();
+  drawTamagotchi() {
+    this.image = new Image();
+    const url = './image/lv1-idle.png';
+    this.image.src = url;
 
-    ctx.shadowColor = 'transparent';
-    ctx.shadowBlur = 0;
-    image.src = url;
-    image.onload = () =>
-      ctx.drawImage(image, 0, 0, 300, 300, 300, 300, 300, 300);
+    this.image.onload = async () => {
+      await this.bounceUp();
+      await this.bounceUp();
+      await this.bounceUp();
+    };
+  }
+
+  bounceUp() {
+    let currentFrameX = 0;
+    let frameCount = 2;
+    let frameWidth = 300;
+
+    return this.animate((resolve) => {
+      this.context.drawImage(
+        this.image,
+        frameWidth * currentFrameX,
+        0,
+        300,
+        300,
+        55,
+        55,
+        300,
+        300,
+      );
+      currentFrameX++;
+      if (currentFrameX > frameCount) {
+        resolve(true);
+      }
+    });
   }
 }
 
-export default new TamagotchiView();
+export default new Tamagotchi();

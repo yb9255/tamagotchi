@@ -1,6 +1,6 @@
 class Egg {
   constructor() {
-    this.ctx = document.querySelector('#canvas').getContext('2d');
+    this.context = document.querySelector('#frame').getContext('2d');
   }
 }
 

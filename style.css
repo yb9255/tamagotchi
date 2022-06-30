@@ -18,6 +18,15 @@ body {
   position: relative;
 }
 
+#tablet {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #eff;
+  border-radius: 5px;
+}
+
 .btns {
   display: flex;
   justify-content: space-around;
