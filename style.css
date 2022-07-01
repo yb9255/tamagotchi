@@ -1,3 +1,4 @@
+/* COMMON */
 * {
   padding: 0;
   margin: 0;
@@ -11,6 +12,8 @@ body {
   height: 100vh;
   background-color: violet;
 }
+
+/* CANVAS */
 
 .tamagotchi-container {
   width: 900px;
@@ -26,6 +29,8 @@ body {
   background-color: #eff;
   border-radius: 5px;
 }
+
+/* BUTTONS */
 
 .btns {
   display: flex;
@@ -45,6 +50,33 @@ body {
   border-radius: 50px;
 }
 
+.btn:active {
+  background-color: white;
+}
+
 .btn--2 {
   transform: translateY(50px);
+}
+
+/* MODAL */
+
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px;
+  height: 100px;
+  background-color: blueviolet;
+  border-radius: 10px;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* ETC */
+
+.hidden {
+  display: none;
 }

@@ -1,8 +1,5 @@
-import Animation from './Animation.js';
-
-class TamagotchiFrame extends Animation {
+class Frame {
   constructor() {
-    super();
     this.context = document.querySelector('#frame').getContext('2d');
   }
 
@@ -45,4 +42,4 @@ class TamagotchiFrame extends Animation {
   }
 }
 
-export default new TamagotchiFrame();
+export default new Frame();

@@ -1,22 +1,19 @@
-import tamagotchiFrame from './views/TamagotchiFrame.js';
-import tamagotchi from './views/Tamagotchi.js';
+import gameState from './models/GameState.js';
+import Frame from './views/Frame.js';
 
 function draw() {
   const frame = document.querySelector('#frame');
   const tablet = document.querySelector('#tablet');
 
-  if (frame.getContext) {
-    tamagotchiFrame.drawTamagotchiEgg();
-    tamagotchiFrame.drawTamagotchiBackground();
-
-    if (tablet.getContext) {
-      tamagotchi.drawTamagotchi();
-    }
+  if (frame.getContext && tablet.getContext) {
+    Frame.drawTamagotchiEgg();
+    Frame.drawTamagotchiBackground();
   }
 }
 
 function init() {
   draw();
+  gameState.handleEventOverTime();
 }
 
-window.addEventListener('load', init);
+init();
