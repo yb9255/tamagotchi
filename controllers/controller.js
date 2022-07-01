@@ -8,7 +8,7 @@ function handleButtonsListener(gameState, buttonState) {
     buttonState.leftCallback =
       buttonState.middleCallback =
       buttonState.rightCallback =
-        gameState.startGame;
+        gameState.startGame.bind(buttonState, buttonState.modal);
 
     buttonState.addAllListeners();
   } else if (gameState.growth === 'EGG') {

@@ -1,11 +1,8 @@
-import ButtonState from './ButtonState.js';
-
 class GameState {
   constructor() {
     this.clock = 0;
     this.nextTimeToTick = Date.now();
     this.currentState = 'INIT';
-    this.buttonState = ButtonState;
     this.growth = 'INIT';
     this.fun = -1;
     this.hungry = -1;
@@ -18,8 +15,8 @@ class GameState {
     this.clock++;
   }
 
-  startGame() {
-    this.buttonState.modal.classList.add('hidden');
+  startGame(modal) {
+    modal.classList.add('hidden');
     this.currentState = 'EGG';
     this.growth = 'EGG';
     this.birthCount = 5;
