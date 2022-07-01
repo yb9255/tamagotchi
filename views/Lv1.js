@@ -1,7 +1,14 @@
 import Animatable from './Animatable.js';
 import { LV1_IDLING_PATH, LV1_EATING_PATH } from '../constants/imagePath.js';
 import { IDLING, EATING } from '../constants/gameState.js';
-import { DX_OFFSET } from '../constants/offset.js';
+import {
+  DX_OFFSET,
+  LEFT,
+  RIGHT,
+  BOUNCE_TIME,
+  FEED_TIME,
+  MOVE_TIME,
+} from '../constants/animation.js';
 
 class Lv1 extends Animatable {
   constructor() {
@@ -9,6 +16,7 @@ class Lv1 extends Animatable {
     this.dX = 55;
     this.dY = 55;
     this.frameWidth = 300;
+    this.a = 1;
   }
 
   drawLv1(url) {
@@ -50,10 +58,10 @@ class Lv1 extends Animatable {
         resolve();
         return;
       }
-    }, 300);
+    }, FEED_TIME);
   }
 
-  bounceUp(ms) {
+  bounceUp() {
     const frameCount = 2;
     let currentFrame = 0;
 
@@ -76,10 +84,10 @@ class Lv1 extends Animatable {
         resolve();
         return true;
       }
-    }, ms);
+    }, BOUNCE_TIME);
   }
 
-  bounceDown(ms) {
+  bounceDown() {
     let currentFrame = 2;
 
     return this.animate((resolve) => {
@@ -101,12 +109,14 @@ class Lv1 extends Animatable {
         resolve();
         return true;
       }
-    }, ms);
+    }, BOUNCE_TIME);
   }
 
-  moveLeft(ms) {
-    let moveCount = 2;
-    this.dX -= DX_OFFSET;
+  move(direction) {
+    const isLeft = direction === LEFT;
+    let moveCount = isLeft ? 2 : 0;
+
+    isLeft ? (this.dX -= DX_OFFSET) : (this.dX += DX_OFFSET);
 
     return this.animate((resolve) => {
       this.context.drawImage(
@@ -120,61 +130,37 @@ class Lv1 extends Animatable {
         300,
         300,
       );
-      this.dX -= DX_OFFSET;
-      moveCount--;
+      isLeft ? (this.dX -= DX_OFFSET) : (this.dX += DX_OFFSET);
+      isLeft ? moveCount-- : moveCount++;
 
-      if (!moveCount) {
+      const isResolved = isLeft ? !moveCount : moveCount === 2;
+
+      if (isResolved) {
         resolve();
         return true;
       }
-    }, ms);
+    }, MOVE_TIME);
   }
 
-  moveRight(ms) {
-    let moveCount = 0;
-    this.dX += DX_OFFSET;
-
-    return this.animate((resolve) => {
-      this.context.drawImage(
-        this.image,
-        0,
-        0,
-        300,
-        300,
-        this.dX,
-        this.dY,
-        300,
-        300,
-      );
-      this.dX += DX_OFFSET;
-      moveCount++;
-
-      if (moveCount === 2) {
-        resolve();
-        return true;
-      }
-    }, ms);
-  }
-
-  async bounce(ms) {
-    await this.bounceUp(ms);
-    await this.bounceDown(ms);
+  async bounce() {
+    await this.bounceUp();
+    await this.bounceDown();
   }
 
   async idle() {
     if (this.pending.length) {
-      this.handleEvent(this.drawTamagotchi.bind(this, IDLING));
+      this.handleEvent(this.drawLv1.bind(this, IDLING));
       return;
     }
 
-    await this.bounce(300);
-    await this.moveLeft(500);
-    await this.bounce(300);
-    await this.moveRight(500);
-    await this.bounce(300);
-    await this.moveRight(500);
-    await this.bounce(300);
-    await this.moveLeft(500);
+    await this.bounce();
+    await this.move(LEFT);
+    await this.bounce();
+    await this.move(RIGHT);
+    await this.bounce();
+    await this.move(RIGHT);
+    await this.bounce();
+    await this.move(LEFT);
 
     requestAnimationFrame(this.idle.bind(this));
   }
