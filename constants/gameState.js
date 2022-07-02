@@ -1,5 +1,5 @@
 export const INIT = 'INIT';
-export const GROWTH = ['EGG', 'LV.1', 'LV,2'];
+export const GROWTH = ['EGG', 'CHILD', 'ADULT'];
 export const [MENU, IDLING, EATING, PLAYING] = [
   'MENU',
   'IDLING',
