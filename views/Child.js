@@ -1,5 +1,8 @@
 import Animatable from './Animatable.js';
-import { LV1_IDLING_PATH, LV1_EATING_PATH } from '../constants/imagePath.js';
+import {
+  CHILD_IDLING_PATH,
+  CHILD_EATING_PATH,
+} from '../constants/imagePath.js';
 import { IDLING, EATING } from '../constants/gameState.js';
 import {
   DX_OFFSET,
@@ -19,17 +22,17 @@ class Child extends Animatable {
     this.a = 1;
   }
 
-  drawLv1(state) {
+  drawChild(state) {
     this.dX = 55;
     this.dY = 55;
 
     switch (state) {
       case IDLING:
-        this.image.src = LV1_IDLING_PATH;
+        this.image.src = CHILD_IDLING_PATH;
         this.image.addEventListener('load', this._idle.bind(this));
         break;
       case EATING:
-        this.image.src = LV1_EATING_PATH;
+        this.image.src = CHILD_EATING_PATH;
         this.pending.push(this._feed.bind(this));
         break;
     }
@@ -154,7 +157,7 @@ class Child extends Animatable {
 
   async _idle() {
     if (this.pending.length) {
-      this.handleEvent(this.drawLv1.bind(this, IDLING));
+      this.handleEvent(this.drawChild.bind(this, IDLING));
       return;
     }
 
