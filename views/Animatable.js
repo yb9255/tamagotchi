@@ -17,6 +17,7 @@ class Animatable {
         }
 
         if (isComplete && nextAnimation) {
+          await this.delay(ms);
           nextAnimation();
         }
       };

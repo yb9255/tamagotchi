@@ -124,7 +124,7 @@ class Egg extends Animatable {
   }
 
   _breakEgg(nextDraw) {
-    const lastFrame = 6;
+    const lastFrame = 5;
     let currentFrame = 2;
 
     return this.animate(
