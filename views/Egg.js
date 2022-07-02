@@ -1,5 +1,13 @@
 import Animatable from './Animatable.js';
-import { STANDING, SHAKED, BIRTH, DX_OFFSET } from '../constants/egg.js';
+import {
+  STANDING,
+  SHAKED,
+  BIRTH,
+  DX_OFFSET,
+  STANDUP_TIME,
+  SHAKED_TIME,
+  BREAKUP_TIME,
+} from '../constants/egg.js';
 import { EGG_PATH } from '../constants/imagePath.js';
 
 class Egg extends Animatable {
@@ -54,7 +62,7 @@ class Egg extends Animatable {
 
         return true;
       }
-    }, 500);
+    }, STANDUP_TIME);
   }
 
   _shakeEgg() {
@@ -112,7 +120,7 @@ class Egg extends Animatable {
 
         return true;
       }
-    }, 1000);
+    }, SHAKED_TIME);
   }
 
   _breakEgg() {
@@ -139,7 +147,7 @@ class Egg extends Animatable {
 
         return true;
       }
-    }, 500);
+    }, BREAKUP_TIME);
   }
 }
 
