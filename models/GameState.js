@@ -1,32 +1,41 @@
+import { INIT, GROWTH, IDLING } from '../constants/gameState.js';
+
 class GameState {
   constructor() {
     this.clock = 0;
     this.nextTimeToTick = Date.now();
-    this.currentState = 'INIT';
-    this.growth = 'INIT';
+    this.currentState = INIT;
+    this.growth = INIT;
     this.fun = -1;
     this.hungry = -1;
     this.birthCount = -1;
     this.startGame = this.startGame.bind(this);
     this.hatchEgg = this.hatchEgg.bind(this);
+    this.modal = document.querySelector('.modal');
   }
 
   tick() {
     this.clock++;
   }
 
-  startGame(modal) {
-    modal.classList.add('hidden');
-    this.currentState = 'EGG';
-    this.growth = 'EGG';
+  startGame() {
+    this.currentState = GROWTH[0];
+    this.growth = GROWTH[0];
     this.birthCount = 5;
   }
 
-  hatchEgg() {
-    this.birthCount--;
+  hatchEgg(shake, breakEgg) {
     if (!this.birthCount) {
-      this.growth = 'LV1';
-      this.currentState = 'IDLING';
+      breakEgg();
+      this.modal.classList.add('hidden');
+      this.growth = GROWTH[1];
+      this.currentState = IDLING;
+      return;
+    }
+
+    if (this.birthCount) {
+      shake();
+      this.birthCount--;
     }
   }
 }

@@ -3,7 +3,7 @@ class Frame {
     this.context = document.querySelector('#frame').getContext('2d');
   }
 
-  drawTamagotchiEgg() {
+  _drawTamagotchiEgg() {
     const context = this.context;
 
     context.fillStyle = '#e4358c';
@@ -12,7 +12,7 @@ class Frame {
     context.fill();
   }
 
-  drawTamagotchiBackground() {
+  _drawTamagotchiBackground() {
     const context = this.context;
 
     context.fillStyle = 'yellow';
@@ -39,6 +39,11 @@ class Frame {
     context.lineTo(215, 270);
     context.lineTo(230, 230);
     context.fill();
+  }
+
+  draw() {
+    this._drawTamagotchiEgg();
+    this._drawTamagotchiBackground();
   }
 }
 
