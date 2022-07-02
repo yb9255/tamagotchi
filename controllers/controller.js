@@ -1,54 +1,58 @@
-import { TICK_SECONDS } from '../constants/gameState.js';
+import egg from '../views/Egg.js';
 
-function handleButtonsListener(gameState, buttonState) {
-  if (gameState.growth === 'INIT') {
+import { INIT, GROWTH, TICK_SECONDS } from '../constants/gameState.js';
+import { STANDING, SHAKED, BIRTH } from '../constants/egg.js';
+
+async function handleEventsByChange(gameState, buttonState) {
+  if (gameState.growth === INIT) {
+    const callback = gameState.startGame;
+
     buttonState.state = gameState.growth;
     buttonState.removeAllListeners();
 
-    buttonState.leftCallback =
-      buttonState.middleCallback =
-      buttonState.rightCallback =
-        gameState.startGame.bind(buttonState, buttonState.modal);
+    buttonState.addAllListeners({
+      leftCallback: callback,
+      middleCallback: callback,
+      rightCallback: callback,
+    });
+  } else if (gameState.growth === GROWTH[0]) {
+    egg.drawEgg(STANDING);
 
-    buttonState.addAllListeners();
-  } else if (gameState.growth === 'EGG') {
+    const shakeEgg = egg.drawEgg.bind(egg, SHAKED);
+    const breakEgg = egg.drawEgg.bind(egg, BIRTH);
+
+    const callback = gameState.hatchEgg.bind(gameState, shakeEgg, breakEgg);
+
     buttonState.state = gameState.growth;
     buttonState.removeAllListeners();
 
-    buttonState.leftCallback =
-      buttonState.middleCallback =
-      buttonState.rightCallback =
-        gameState.hatchEgg;
-
-    buttonState.addAllListeners();
-  } else if (gameState.growth === 'LV1') {
+    buttonState.addAllListeners({
+      leftCallback: callback,
+      middleCallback: callback,
+      rightCallback: callback,
+    });
+  } else if (gameState.growth === GROWTH[1]) {
     buttonState.state = gameState.growth;
-  } else if (gameState.growth === 'LV2') {
+    buttonState.removeAllListeners();
+  } else if (gameState.growth === GROWTH[2]) {
     buttonState.state = gameState.growth;
   }
 }
 
 export function drawFrame(fraimeView) {
-  const frame = document.querySelector('#frame');
-  const tablet = document.querySelector('#tablet');
-
-  if (frame.getContext && tablet.getContext) {
-    fraimeView.drawTamagotchiEgg();
-    fraimeView.drawTamagotchiBackground();
-  }
+  fraimeView.draw();
 }
 
 export function handleStateOverTime(gameState, buttonState) {
   const now = Date.now();
 
   if (gameState.growth !== buttonState.state) {
-    handleButtonsListener(gameState, buttonState);
+    handleEventsByChange(gameState, buttonState);
   }
 
   if (gameState.nextTimeToTick <= now) {
     gameState.tick();
     gameState.nextTimeToTick += TICK_SECONDS;
-    console.log('TICK', gameState.clock);
   }
 
   requestAnimationFrame(handleStateOverTime.bind(null, gameState, buttonState));

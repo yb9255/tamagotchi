@@ -1,2 +1,3 @@
-export const LV1_IDLING_PATH = './image/lv1-idle.png';
-export const LV1_EATING_PATH = './image/lv1-eat.png';
+export const EGG_PATH = './image/egg.png';
+export const CHILD_IDLING_PATH = './image/child-idle.png';
+export const CHILD_EATING_PATH = './image/child-eat.png';

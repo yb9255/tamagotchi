@@ -1,5 +1,8 @@
 import Animatable from './Animatable.js';
-import { LV1_IDLING_PATH, LV1_EATING_PATH } from '../constants/imagePath.js';
+import {
+  CHILD_IDLING_PATH,
+  CHILD_EATING_PATH,
+} from '../constants/imagePath.js';
 import { IDLING, EATING } from '../constants/gameState.js';
 import {
   DX_OFFSET,
@@ -8,9 +11,9 @@ import {
   BOUNCE_TIME,
   FEED_TIME,
   MOVE_TIME,
-} from '../constants/animation.js';
+} from '../constants/child.js';
 
-class Lv1 extends Animatable {
+class Child extends Animatable {
   constructor() {
     super();
     this.dX = 55;
@@ -19,23 +22,23 @@ class Lv1 extends Animatable {
     this.a = 1;
   }
 
-  drawLv1(url) {
+  drawChild(state) {
     this.dX = 55;
     this.dY = 55;
 
-    switch (url) {
+    switch (state) {
       case IDLING:
-        this.image.src = LV1_IDLING_PATH;
-        this.image.addEventListener('load', this.idle.bind(this));
+        this.image.src = CHILD_IDLING_PATH;
+        this.image.addEventListener('load', this._idle.bind(this));
         break;
       case EATING:
-        this.image.src = LV1_EATING_PATH;
-        this.pending.push(this.feed.bind(this));
+        this.image.src = CHILD_EATING_PATH;
+        this.pending.push(this._feed.bind(this));
         break;
     }
   }
 
-  feed() {
+  _feed() {
     const frameCount = 6;
     let currentFrame = 0;
 
@@ -56,12 +59,13 @@ class Lv1 extends Animatable {
       if (currentFrame > frameCount) {
         clearTimeout(this.timer);
         resolve();
-        return;
+
+        return true;
       }
     }, FEED_TIME);
   }
 
-  bounceUp() {
+  _bounceUp() {
     const frameCount = 2;
     let currentFrame = 0;
 
@@ -82,12 +86,13 @@ class Lv1 extends Animatable {
       if (currentFrame > frameCount) {
         clearTimeout(this.timer);
         resolve();
+
         return true;
       }
     }, BOUNCE_TIME);
   }
 
-  bounceDown() {
+  _bounceDown() {
     let currentFrame = 2;
 
     return this.animate((resolve) => {
@@ -107,12 +112,13 @@ class Lv1 extends Animatable {
       if (currentFrame < 0) {
         clearTimeout(this.timer);
         resolve();
+
         return true;
       }
     }, BOUNCE_TIME);
   }
 
-  move(direction) {
+  _move(direction) {
     const isLeft = direction === LEFT;
     let moveCount = isLeft ? 2 : 0;
 
@@ -136,34 +142,36 @@ class Lv1 extends Animatable {
       const isResolved = isLeft ? !moveCount : moveCount === 2;
 
       if (isResolved) {
+        clearTimeout(this.timer);
         resolve();
+
         return true;
       }
     }, MOVE_TIME);
   }
 
-  async bounce() {
-    await this.bounceUp();
-    await this.bounceDown();
+  async _bounce() {
+    await this._bounceUp();
+    await this._bounceDown();
   }
 
-  async idle() {
+  async _idle() {
     if (this.pending.length) {
-      this.handleEvent(this.drawLv1.bind(this, IDLING));
+      this.handleEvent(this.drawChild.bind(this, IDLING));
       return;
     }
 
-    await this.bounce();
-    await this.move(LEFT);
-    await this.bounce();
-    await this.move(RIGHT);
-    await this.bounce();
-    await this.move(RIGHT);
-    await this.bounce();
-    await this.move(LEFT);
+    await this._bounce();
+    await this._move(LEFT);
+    await this._bounce();
+    await this._move(RIGHT);
+    await this._bounce();
+    await this._move(RIGHT);
+    await this._bounce();
+    await this._move(LEFT);
 
-    requestAnimationFrame(this.idle.bind(this));
+    requestAnimationFrame(this._idle.bind(this));
   }
 }
 
-export default new Lv1();
+export default new Child();

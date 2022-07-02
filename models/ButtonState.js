@@ -7,10 +7,21 @@ class ButtonState {
     this.leftBtn = document.querySelector('.btn--1');
     this.middleBtn = document.querySelector('.btn--2');
     this.rightBtn = document.querySelector('.btn--3');
-    this.modal = document.querySelector('.modal');
   }
 
-  addAllListeners() {
+  get state() {
+    return this._state;
+  }
+
+  set state(state) {
+    this._state = state;
+  }
+
+  addAllListeners({ leftCallback, middleCallback, rightCallback }) {
+    this.leftCallback = leftCallback;
+    this.middleCallback = middleCallback;
+    this.rightCallback = rightCallback;
+
     this.leftBtn.addEventListener('click', this.leftCallback);
     this.middleBtn.addEventListener('click', this.middleCallback);
     this.rightBtn.addEventListener('click', this.rightCallback);
