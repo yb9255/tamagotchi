@@ -30,7 +30,6 @@ class GameState {
       this.modal.classList.add('hidden');
       this.growth = GROWTH[1];
       this.currentState = IDLING;
-      return;
     }
 
     if (this.birthCount) {

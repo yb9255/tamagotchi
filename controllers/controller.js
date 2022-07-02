@@ -1,6 +1,7 @@
 import egg from '../views/Egg.js';
+import child from '../views/Child.js';
 
-import { INIT, GROWTH, TICK_SECONDS } from '../constants/gameState.js';
+import { INIT, GROWTH, IDLING, TICK_SECONDS } from '../constants/gameState.js';
 import { STANDING, SHAKED, BIRTH } from '../constants/egg.js';
 
 async function handleEventsByChange(gameState, buttonState) {
@@ -19,7 +20,12 @@ async function handleEventsByChange(gameState, buttonState) {
     egg.drawEgg(STANDING);
 
     const shakeEgg = egg.drawEgg.bind(egg, SHAKED);
-    const breakEgg = egg.drawEgg.bind(egg, BIRTH);
+
+    const breakEgg = egg.drawEgg.bind(
+      egg,
+      BIRTH,
+      child.drawChild.bind(child, IDLING),
+    );
 
     const callback = gameState.hatchEgg.bind(gameState, shakeEgg, breakEgg);
 

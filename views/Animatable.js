@@ -5,7 +5,7 @@ class Animatable {
     this.pending = [];
   }
 
-  animate(draw, ms) {
+  animate(draw, ms, nextAnimation = null) {
     return new Promise((resolve) => {
       const animation = async () => {
         this.clear();
@@ -15,10 +15,22 @@ class Animatable {
           await this.delay(ms);
           animation();
         }
+
+        if (isComplete && nextAnimation) {
+          nextAnimation();
+        }
       };
 
       animation();
     });
+  }
+
+  async handleEvent(idle) {
+    const event = this.pending.shift();
+    if (typeof event !== 'function') return;
+
+    await event();
+    idle();
   }
 
   clear() {
@@ -30,14 +42,6 @@ class Animatable {
     return new Promise((resolve) => {
       setTimeout(resolve, ms);
     });
-  }
-
-  async handleEvent(idle) {
-    const event = this.pending.shift();
-    if (typeof event !== 'function') return;
-
-    await event();
-    idle();
   }
 }
 

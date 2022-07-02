@@ -19,7 +19,7 @@ class Egg extends Animatable {
     this.dY = 120;
   }
 
-  drawEgg(state) {
+  drawEgg(state, nextDraw = null) {
     this.image.removeEventListener('load', this.callback);
     this.image.src = EGG_PATH;
 
@@ -31,7 +31,7 @@ class Egg extends Animatable {
         this.callback = this._shakeEgg.bind(this);
         break;
       case BIRTH:
-        this.callback = this._breakEgg.bind(this);
+        this.callback = this._breakEgg.bind(this, nextDraw);
         break;
     }
 
@@ -123,31 +123,35 @@ class Egg extends Animatable {
     }, SHAKED_TIME);
   }
 
-  _breakEgg() {
-    const lastFrame = 4;
+  _breakEgg(nextDraw) {
+    const lastFrame = 6;
     let currentFrame = 2;
 
-    return this.animate((resolve) => {
-      this.context.drawImage(
-        this.image,
-        this.frameWidth * currentFrame,
-        0,
-        200,
-        200,
-        this.dX,
-        this.dY,
-        200,
-        200,
-      );
-      currentFrame++;
+    return this.animate(
+      (resolve) => {
+        this.context.drawImage(
+          this.image,
+          this.frameWidth * currentFrame,
+          0,
+          200,
+          200,
+          this.dX,
+          this.dY,
+          200,
+          200,
+        );
+        currentFrame++;
 
-      if (lastFrame === currentFrame) {
-        clearTimeout(this.timer);
-        resolve();
+        if (lastFrame === currentFrame) {
+          clearTimeout(this.timer);
+          resolve();
 
-        return true;
-      }
-    }, BREAKUP_TIME);
+          return true;
+        }
+      },
+      BREAKUP_TIME,
+      nextDraw,
+    );
   }
 }
 
