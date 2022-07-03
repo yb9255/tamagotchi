@@ -1,41 +1,61 @@
-import { INIT, GROWTH, IDLING } from '../constants/gameState.js';
+import { INIT, GROWTH, IDLING, MENU } from '../constants/gameState.js';
 
 class GameState {
   constructor() {
-    this.clock = 0;
-    this.nextTimeToTick = Date.now();
-    this.currentState = INIT;
+    this.state = INIT;
     this.growth = INIT;
     this.fun = -1;
     this.hungry = -1;
     this.birthCount = -1;
+
+    this.setStatesByTime = this.setStatesByTime.bind(this);
     this.startGame = this.startGame.bind(this);
     this.hatchEgg = this.hatchEgg.bind(this);
-    this.modal = document.querySelector('.modal');
+    this.setMenuState = this.setMenuState.bind(this);
+    this.cancelMenuState = this.cancelMenuState.bind(this);
   }
 
-  tick() {
-    this.clock++;
+  setStatesByTime() {
+    if (
+      (this.growth === GROWTH[1] || this.growth === GROWTH[2]) &&
+      this.state !== MENU
+    ) {
+      if (this.fun) {
+        this.fun -= 1;
+      }
+
+      if (this.hungry < 10) {
+        this.hungry += 1;
+      }
+    }
   }
 
   startGame() {
-    this.currentState = GROWTH[0];
+    this.state = GROWTH[0];
     this.growth = GROWTH[0];
     this.birthCount = 5;
   }
 
-  hatchEgg(shake, breakEgg) {
-    if (!this.birthCount) {
-      breakEgg();
-      this.modal.classList.add('hidden');
+  async hatchEgg(shake) {
+    if (this.birthCount <= 0) {
       this.growth = GROWTH[1];
-      this.currentState = IDLING;
+      this.fun = 10;
+      this.hungry = 0;
+      this.state = IDLING;
     }
 
     if (this.birthCount) {
-      shake();
+      await shake();
       this.birthCount--;
     }
+  }
+
+  setMenuState() {
+    this.state = MENU;
+  }
+
+  cancelMenuState() {
+    this.state = IDLING;
   }
 }
 

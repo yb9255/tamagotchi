@@ -3,6 +3,11 @@ class Frame {
     this.context = document.querySelector('#frame').getContext('2d');
   }
 
+  draw() {
+    this._drawTamagotchiEgg();
+    this._drawTamagotchiBackground();
+  }
+
   _drawTamagotchiEgg() {
     const context = this.context;
 
@@ -39,11 +44,6 @@ class Frame {
     context.lineTo(215, 270);
     context.lineTo(230, 230);
     context.fill();
-  }
-
-  draw() {
-    this._drawTamagotchiEgg();
-    this._drawTamagotchiBackground();
   }
 }
 

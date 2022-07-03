@@ -1,65 +1,76 @@
 import egg from '../views/Egg.js';
 import child from '../views/Child.js';
+import modal from '../views/Modal.js';
 
-import { INIT, GROWTH, IDLING, TICK_SECONDS } from '../constants/gameState.js';
-import { STANDING, SHAKED, BIRTH } from '../constants/egg.js';
+import { INIT, GROWTH, TICK_SECONDS } from '../constants/gameState.js';
 
 async function handleEventsByChange(gameState, buttonState) {
   if (gameState.growth === INIT) {
     const callback = gameState.startGame;
 
+    buttonState.removeListeners();
     buttonState.state = gameState.growth;
-    buttonState.removeAllListeners();
 
-    buttonState.addAllListeners({
+    buttonState.addListeners({
       leftCallback: callback,
       middleCallback: callback,
       rightCallback: callback,
     });
   } else if (gameState.growth === GROWTH[0]) {
-    egg.drawEgg(STANDING);
+    const shakeEgg = egg.drawShakedEgg;
+    const callback = gameState.hatchEgg.bind(gameState, shakeEgg);
 
-    const shakeEgg = egg.drawEgg.bind(egg, SHAKED);
-
-    const breakEgg = egg.drawEgg.bind(
-      egg,
-      BIRTH,
-      child.drawChild.bind(child, IDLING),
-    );
-
-    const callback = gameState.hatchEgg.bind(gameState, shakeEgg, breakEgg);
-
+    buttonState.removeListeners();
     buttonState.state = gameState.growth;
-    buttonState.removeAllListeners();
 
-    buttonState.addAllListeners({
+    await egg.drawStandingEgg();
+
+    buttonState.addListeners({
       leftCallback: callback,
       middleCallback: callback,
       rightCallback: callback,
     });
   } else if (gameState.growth === GROWTH[1]) {
+    const leftCallback = child.drawMenu.bind(child, gameState.setMenuState);
+    const rightCallback = child.removeMenu.bind(
+      child,
+      gameState.cancelMenuState,
+    );
+
+    modal.hiddenModal();
+    buttonState.removeListeners();
     buttonState.state = gameState.growth;
-    buttonState.removeAllListeners();
+
+    await egg.drawBreakingEgg();
+    child.drawIdlingChild();
+
+    buttonState.addListeners({
+      leftCallback,
+      middleCallback: null,
+      rightCallback,
+    });
   } else if (gameState.growth === GROWTH[2]) {
     buttonState.state = gameState.growth;
   }
 }
 
-export function drawFrame(fraimeView) {
-  fraimeView.draw();
-}
+export function handleStatesOverTime(gameState, buttonState) {
+  let nextTimeToTick = Date.now();
 
-export function handleStateOverTime(gameState, buttonState) {
-  const now = Date.now();
+  const handleEventsOnTick = () => {
+    const now = Date.now();
 
-  if (gameState.growth !== buttonState.state) {
-    handleEventsByChange(gameState, buttonState);
-  }
+    if (gameState.growth !== buttonState.state) {
+      handleEventsByChange(gameState, buttonState);
+    }
 
-  if (gameState.nextTimeToTick <= now) {
-    gameState.tick();
-    gameState.nextTimeToTick += TICK_SECONDS;
-  }
+    if (nextTimeToTick <= now) {
+      gameState.setStatesByTime();
+      nextTimeToTick = nextTimeToTick + TICK_SECONDS;
+    }
 
-  requestAnimationFrame(handleStateOverTime.bind(null, gameState, buttonState));
+    requestAnimationFrame(handleEventsOnTick);
+  };
+
+  handleEventsOnTick();
 }
