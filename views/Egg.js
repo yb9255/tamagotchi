@@ -1,8 +1,5 @@
 import Animatable from './Animatable.js';
 import {
-  STANDING,
-  SHAKED,
-  BIRTH,
   DX_OFFSET,
   STANDUP_TIME,
   SHAKED_TIME,
@@ -17,28 +14,14 @@ class Egg extends Animatable {
     this.frameWidth = 180;
     this.dX = 110;
     this.dY = 120;
-  }
-
-  drawEgg(state, nextDraw = null) {
-    this.image.removeEventListener('load', this.callback);
     this.image.src = EGG_PATH;
 
-    switch (state) {
-      case STANDING:
-        this.callback = this._standUpEgg.bind(this);
-        break;
-      case SHAKED:
-        this.callback = this._shakeEgg.bind(this);
-        break;
-      case BIRTH:
-        this.callback = this._breakEgg.bind(this, nextDraw);
-        break;
-    }
-
-    this.image.addEventListener('load', this.callback);
+    this.drawStandingEgg = this.drawStandingEgg.bind(this);
+    this.drawShakedEgg = this.drawShakedEgg.bind(this);
+    this.drawBreakingEgg = this.drawBreakingEgg.bind(this);
   }
 
-  _standUpEgg() {
+  async drawStandingEgg() {
     const lastFrame = 3;
     let currentFrame = 0;
 
@@ -57,15 +40,13 @@ class Egg extends Animatable {
       currentFrame++;
 
       if (lastFrame === currentFrame) {
-        clearTimeout(this.timer);
         resolve();
-
         return true;
       }
     }, STANDUP_TIME);
   }
 
-  _shakeEgg() {
+  async drawShakedEgg() {
     const standFrame = this.frameWidth * 2;
     let shakeCount = 3;
 
@@ -115,43 +96,35 @@ class Egg extends Animatable {
       shakeCount--;
 
       if (!shakeCount) {
-        clearTimeout(this.timer);
         resolve();
-
         return true;
       }
     }, SHAKED_TIME);
   }
 
-  _breakEgg(nextDraw) {
-    const lastFrame = 5;
+  async drawBreakingEgg() {
+    const lastFrame = 6;
     let currentFrame = 2;
 
-    return this.animate(
-      (resolve) => {
-        this.context.drawImage(
-          this.image,
-          this.frameWidth * currentFrame,
-          0,
-          200,
-          200,
-          this.dX,
-          this.dY,
-          200,
-          200,
-        );
-        currentFrame++;
+    return this.animate((resolve) => {
+      this.context.drawImage(
+        this.image,
+        this.frameWidth * currentFrame,
+        0,
+        200,
+        200,
+        this.dX,
+        this.dY,
+        200,
+        200,
+      );
+      currentFrame++;
 
-        if (lastFrame === currentFrame) {
-          clearTimeout(this.timer);
-          resolve();
-
-          return true;
-        }
-      },
-      BREAKUP_TIME,
-      nextDraw,
-    );
+      if (lastFrame === currentFrame) {
+        resolve();
+        return true;
+      }
+    }, BREAKUP_TIME);
   }
 }
 

@@ -1,24 +1,23 @@
 class Animatable {
   constructor() {
     this.context = document.querySelector('#tablet').getContext('2d');
+    this.isCanceled = false;
+    this.timer = null;
     this.image = new Image();
     this.pending = [];
   }
 
-  animate(draw, ms, nextAnimation = null) {
+  animate(draw, ms) {
     return new Promise((resolve) => {
       const animation = async () => {
         this.clear();
+        if (this.isCanceled) return;
+
         const isComplete = draw(resolve);
 
         if (!isComplete) {
           await this.delay(ms);
           animation();
-        }
-
-        if (isComplete && nextAnimation) {
-          await this.delay(ms);
-          nextAnimation();
         }
       };
 
@@ -26,7 +25,11 @@ class Animatable {
     });
   }
 
-  async handleEvent(idle) {
+  cancelAnimation(isCanceled) {
+    this.isCanceled = isCanceled;
+  }
+
+  async handlePendingEvent(idle) {
     const event = this.pending.shift();
     if (typeof event !== 'function') return;
 

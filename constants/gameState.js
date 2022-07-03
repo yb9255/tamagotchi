@@ -6,4 +6,4 @@ export const [MENU, IDLING, EATING, PLAYING] = [
   'EATING',
   'PLAYING',
 ];
-export const TICK_SECONDS = 3000;
+export const TICK_SECONDS = 5000;
