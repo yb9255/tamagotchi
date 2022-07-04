@@ -1,4 +1,4 @@
-class Frame {
+class FrameView {
   constructor() {
     this.context = document.querySelector('#frame').getContext('2d');
   }
@@ -47,4 +47,4 @@ class Frame {
   }
 }
 
-export default new Frame();
+export default new FrameView();

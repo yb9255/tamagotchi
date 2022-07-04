@@ -5,7 +5,7 @@ class GameState {
     this.state = INIT;
     this.growth = INIT;
     this.fun = -1;
-    this.hungry = -1;
+    this.hunger = -1;
     this.birthCount = -1;
     this.tiredness = -1;
     this.exp = -1;
@@ -27,11 +27,11 @@ class GameState {
         this.fun -= 1;
       }
 
-      if (this.hungry < 10) {
-        this.hungry += 1;
+      if (this.hunger < 10) {
+        this.hunger += 1;
       }
 
-      if (this.fun > 5 && this.hungry < 5) {
+      if (this.fun > 5 && this.hunger < 5) {
         this.exp += 0.5;
       }
 
@@ -49,7 +49,7 @@ class GameState {
     if (this.birthCount <= 0) {
       this.growth = GROWTH[1];
       this.fun = 5;
-      this.hungry = 5;
+      this.hunger = 5;
       this.tiredness = 0;
       this.exp = 0;
       this.state = IDLING;
@@ -70,10 +70,10 @@ class GameState {
   }
 
   reduceHunger() {
-    this.hungry -= 3;
+    this.hunger -= 3;
 
-    if (this.hungry < 0) {
-      this.hungry = 0;
+    if (this.hunger < 0) {
+      this.hunger = 0;
     }
   }
 

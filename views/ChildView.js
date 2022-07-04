@@ -1,5 +1,5 @@
-import Animatable from './Animatable.js';
-import menu from './Menu.js';
+import ImageView from './ImageView.js';
+import menuView from './MenuView.js';
 
 import {
   CHILD_IDLING_IMAGE_PATH,
@@ -17,13 +17,13 @@ import {
   DENY_TIME,
 } from '../constants/child.js';
 
-class Child extends Animatable {
+class ChildView extends ImageView {
   constructor() {
     super();
     this.dX = 55;
     this.dY = 55;
     this.frameWidth = 300;
-    this.menu = menu;
+    this.menu = menuView;
 
     this.drawIdlingChild = this.drawIdlingChild.bind(this);
     this.drawEatingChild = this.drawEatingChild.bind(this);
@@ -70,6 +70,7 @@ class Child extends Animatable {
 
     this.cancelAnimation(false);
     await this.menu.selectMenu(callbacks);
+
     this.removeMenu(removeMenuState);
   }
 
@@ -279,4 +280,4 @@ class Child extends Animatable {
   }
 }
 
-export default new Child();
+export default new ChildView();

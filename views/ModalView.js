@@ -1,4 +1,4 @@
-class Modal {
+class ModalView {
   constructor() {
     this.modal = document.querySelector('.modal');
   }
@@ -12,4 +12,4 @@ class Modal {
   }
 }
 
-export default new Modal();
+export default new ModalView();
