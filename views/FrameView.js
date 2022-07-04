@@ -1,6 +1,6 @@
-class Frame {
+class FrameView {
   constructor() {
-    this.context = document.querySelector('#frame').getContext('2d');
+    this.context = document.querySelector('#View').getContext('2d');
   }
 
   draw() {
@@ -47,4 +47,4 @@ class Frame {
   }
 }
 
-export default new Frame();
+export default new FrameView();

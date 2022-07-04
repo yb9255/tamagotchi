@@ -2,6 +2,7 @@
 * {
   padding: 0;
   margin: 0;
+  box-sizing: border-box;
 }
 
 body {
@@ -86,14 +87,12 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  margin: 0;
-  padding: 0;
-  list-style: none;
 }
 
 .menu-item {
-  width: 150px;
-  font-size: 40px;
+  width: 400px;
+  font-size: 50px;
+  padding-left: 100px;
   font-family: 'VT323';
 }
 
@@ -101,6 +100,18 @@ body {
   content: '>';
   width: 50px;
   height: 50px;
+}
+
+/* STATE */
+
+.state {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 /* ETC */

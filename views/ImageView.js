@@ -1,4 +1,4 @@
-class Animatable {
+class ImageView {
   constructor() {
     this.context = document.querySelector('#tablet').getContext('2d');
     this.isCanceled = false;
@@ -49,4 +49,4 @@ class Animatable {
   }
 }
 
-export default Animatable;
+export default ImageView;

@@ -1,4 +1,4 @@
-class Menu {
+class MenuView {
   constructor() {
     this.menu = document.querySelector('.menu');
     this.items = this.menu.querySelectorAll('.menu-item');
@@ -65,4 +65,4 @@ class Menu {
   }
 }
 
-export default new Menu();
+export default new MenuView();

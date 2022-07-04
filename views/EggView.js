@@ -1,4 +1,4 @@
-import Animatable from './Animatable.js';
+import ImageView from './ImageView.js';
 import {
   DX_OFFSET,
   STANDUP_TIME,
@@ -7,7 +7,7 @@ import {
 } from '../constants/egg.js';
 import { EGG_IMAGE_PATH } from '../constants/imagePath.js';
 
-class Egg extends Animatable {
+class EggView extends ImageView {
   constructor() {
     super();
     this.callback;
@@ -134,4 +134,4 @@ class Egg extends Animatable {
   }
 }
 
-export default new Egg();
+export default new EggView();

@@ -1,6 +1,6 @@
-import egg from '../views/Egg.js';
-import child from '../views/Child.js';
-import modal from '../views/Modal.js';
+import eggView from '../views/EggView.js';
+import childView from '../views/ChildView.js';
+import modalView from '../views/ModalView.js';
 
 import { INIT, GROWTH, TICK_SECONDS } from '../constants/gameState.js';
 
@@ -45,13 +45,13 @@ function handleChangingPetPhases(gameState, buttonState) {
 }
 
 async function initEggPhase(gameState, buttonState) {
-  const shakeEgg = egg.drawShakedEgg;
+  const shakeEgg = eggView.drawShakedEgg;
   const callback = gameState.hatchEgg.bind(gameState, shakeEgg);
 
   buttonState.removeListeners();
   buttonState.state = gameState.growth;
 
-  await egg.drawStandingEgg();
+  await eggView.drawStandingEgg();
 
   buttonState.addListeners({
     leftCallback: callback,
@@ -61,41 +61,47 @@ async function initEggPhase(gameState, buttonState) {
 }
 
 async function initChildPhase(gameState, buttonState) {
-  const leftCallback = child.drawMenu.bind(child, gameState.setMenuState);
+  const leftCallback = childView.drawMenu.bind(
+    childView,
+    gameState.setMenuState,
+  );
 
-  const middleCallback = child.selectMenu.bind(
-    child,
+  const middleCallback = childView.selectMenu.bind(
+    childView,
     {
       feedCallback: async () => {
-        if (gameState.hungry < 2) {
-          await child.drawDenyingChild();
+        if (gameState.hunger < 2) {
+          await childView.drawDenyingChild();
           return;
         }
 
-        await child.drawEatingChild();
+        await childView.drawEatingChild();
         gameState.reduceHunger();
       },
       playCallback: async () => {
         if (gameState.fun > 8) {
-          await child.drawDenyingChild();
+          await childView.drawDenyingChild();
           return;
         }
 
-        await child.drawPlayingChild();
+        await childView.drawPlayingChild();
         gameState.makePetFun();
       },
     },
     gameState.cancelMenuState,
   );
 
-  const rightCallback = child.removeMenu.bind(child, gameState.cancelMenuState);
+  const rightCallback = childView.removeMenu.bind(
+    childView,
+    gameState.cancelMenuState,
+  );
 
-  modal.hiddenModal();
+  modalView.hiddenModal();
   buttonState.removeListeners();
   buttonState.state = gameState.growth;
 
-  await egg.drawBreakingEgg();
-  child.drawIdlingChild();
+  await eggView.drawBreakingEgg();
+  childView.drawIdlingChild();
 
   buttonState.addListeners({
     leftCallback,
