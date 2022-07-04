@@ -70,7 +70,8 @@ class ChildView extends ImageView {
 
     this.cancelAnimation(false);
     await this.menu.selectMenu(callbacks);
-    removeMenuState();
+
+    this.removeMenu(removeMenuState);
   }
 
   _bounceUp() {

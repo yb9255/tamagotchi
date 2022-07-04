@@ -1,6 +1,6 @@
 class FrameView {
   constructor() {
-    this.context = document.querySelector('#View').getContext('2d');
+    this.context = document.querySelector('#frame').getContext('2d');
   }
 
   draw() {
