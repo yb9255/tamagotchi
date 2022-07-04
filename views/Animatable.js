@@ -4,7 +4,6 @@ class Animatable {
     this.isCanceled = false;
     this.timer = null;
     this.image = new Image();
-    this.pending = [];
   }
 
   animate(draw, ms) {
@@ -29,12 +28,13 @@ class Animatable {
     this.isCanceled = isCanceled;
   }
 
-  async handlePendingEvent(idle) {
-    const event = this.pending.shift();
-    if (typeof event !== 'function') return;
+  loadImage(src) {
+    this.image = new Image();
+    this.image.src = src;
 
-    await event();
-    idle();
+    return new Promise((resolve) => {
+      this.image.onload = resolve;
+    });
   }
 
   clear() {

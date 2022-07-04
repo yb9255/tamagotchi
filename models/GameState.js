@@ -7,18 +7,21 @@ class GameState {
     this.fun = -1;
     this.hungry = -1;
     this.birthCount = -1;
+    this.tiredness = -1;
+    this.exp = -1;
 
     this.setStatesByTime = this.setStatesByTime.bind(this);
     this.startGame = this.startGame.bind(this);
     this.hatchEgg = this.hatchEgg.bind(this);
     this.setMenuState = this.setMenuState.bind(this);
     this.cancelMenuState = this.cancelMenuState.bind(this);
+    this.reduceHunger = this.reduceHunger.bind(this);
   }
 
   setStatesByTime() {
     if (
       (this.growth === GROWTH[1] || this.growth === GROWTH[2]) &&
-      this.state !== MENU
+      this.state === IDLING
     ) {
       if (this.fun) {
         this.fun -= 1;
@@ -27,6 +30,12 @@ class GameState {
       if (this.hungry < 10) {
         this.hungry += 1;
       }
+
+      if (this.fun > 5 && this.hungry < 5) {
+        this.exp += 0.5;
+      }
+
+      this.tiredness += 0.5;
     }
   }
 
@@ -39,8 +48,10 @@ class GameState {
   async hatchEgg(shake) {
     if (this.birthCount <= 0) {
       this.growth = GROWTH[1];
-      this.fun = 10;
-      this.hungry = 0;
+      this.fun = 5;
+      this.hungry = 5;
+      this.tiredness = 0;
+      this.exp = 0;
       this.state = IDLING;
     }
 
@@ -56,6 +67,23 @@ class GameState {
 
   cancelMenuState() {
     this.state = IDLING;
+  }
+
+  reduceHunger() {
+    this.hungry -= 3;
+
+    if (this.hungry < 0) {
+      this.hungry = 0;
+    }
+  }
+
+  makePetFun() {
+    this.fun += 3;
+    this.tiredness += 1;
+
+    if (this.fun > 10) {
+      this.fun = 10;
+    }
   }
 }
 

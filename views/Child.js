@@ -2,14 +2,19 @@ import Animatable from './Animatable.js';
 import menu from './Menu.js';
 
 import {
-  CHILD_IDLING_PATH,
-  CHILD_EATING_PATH,
+  CHILD_IDLING_IMAGE_PATH,
+  CHILD_EATING_IMAGE_PATH,
+  CHILD_PLAY_IMAGE_PATH,
+  CHILD_DENY_IMAGE_PATH,
 } from '../constants/imagePath.js';
+
 import {
   DX_OFFSET,
   BOUNCE_TIME,
   FEED_TIME,
   MOVE_TIME,
+  PLAY_TIME,
+  DENY_TIME,
 } from '../constants/child.js';
 
 class Child extends Animatable {
@@ -23,17 +28,27 @@ class Child extends Animatable {
     this.drawIdlingChild = this.drawIdlingChild.bind(this);
     this.drawEatingChild = this.drawEatingChild.bind(this);
     this.drawMenu = this.drawMenu.bind(this);
+    this.selectMenu = this.selectMenu.bind(this);
     this.removeMenu = this.removeMenu.bind(this);
   }
 
   async drawIdlingChild() {
-    this.image.src = CHILD_IDLING_PATH;
+    await this.loadImage(CHILD_IDLING_IMAGE_PATH);
     await this._idle();
   }
 
   async drawEatingChild() {
-    this.image.src = CHILD_EATING_PATH;
-    this.pending.push(this._feed.bind(this));
+    await this.loadImage(CHILD_EATING_IMAGE_PATH);
+    await this._feed();
+  }
+
+  async drawPlayingChild() {
+    await this.loadImage(CHILD_PLAY_IMAGE_PATH);
+    await this._play();
+  }
+  async drawDenyingChild() {
+    await this.loadImage(CHILD_DENY_IMAGE_PATH);
+    await this._deny();
   }
 
   drawMenu(setMenuState) {
@@ -50,32 +65,12 @@ class Child extends Animatable {
     this.drawIdlingChild();
   }
 
-  _feed() {
-    this.dX = 55;
-    this.dY = 55;
-    const frameCount = 6;
-    let currentFrame = 0;
+  async selectMenu(callbacks, removeMenuState) {
+    if (!this.isCanceled) return;
 
-    return this.animate((resolve) => {
-      this.context.drawImage(
-        this.image,
-        this.frameWidth * currentFrame,
-        0,
-        300,
-        300,
-        this.dX,
-        this.dY,
-        300,
-        300,
-      );
-      currentFrame++;
-
-      if (currentFrame > frameCount) {
-        resolve();
-
-        return true;
-      }
-    }, FEED_TIME);
+    this.cancelAnimation(false);
+    await this.menu.selectMenu(callbacks);
+    this.removeMenu(removeMenuState);
   }
 
   _bounceUp() {
@@ -122,7 +117,6 @@ class Child extends Animatable {
 
       if (currentFrame < 0) {
         resolve();
-
         return true;
       }
     }, BOUNCE_TIME);
@@ -184,11 +178,6 @@ class Child extends Animatable {
     this.dX = 55;
     this.dY = 55;
 
-    if (this.pending.length) {
-      this.handlePendingEvent(this.drawIdlingChild.bind(this));
-      return;
-    }
-
     await this._bounceUp();
     await this._bounceDown();
     await this._moveLeft();
@@ -202,7 +191,91 @@ class Child extends Animatable {
     await this._bounceDown();
     await this._moveLeft();
 
-    this._idle.call(this);
+    this._idle();
+  }
+
+  _feed() {
+    this.dX = 55;
+    this.dY = 55;
+    const frameCount = 6;
+    let currentFrame = 0;
+
+    return this.animate((resolve) => {
+      this.context.drawImage(
+        this.image,
+        this.frameWidth * currentFrame,
+        0,
+        300,
+        300,
+        this.dX,
+        this.dY,
+        300,
+        300,
+      );
+
+      currentFrame++;
+
+      if (currentFrame > frameCount) {
+        resolve();
+        return true;
+      }
+    }, FEED_TIME);
+  }
+
+  _play() {
+    this.dX = 55;
+    this.dY = 55;
+    const frameCount = 6;
+    let currentFrame = 0;
+
+    return this.animate((resolve) => {
+      this.context.drawImage(
+        this.image,
+        this.frameWidth * (currentFrame % 2),
+        0,
+        300,
+        300,
+        this.dX,
+        this.dY,
+        300,
+        300,
+      );
+
+      currentFrame++;
+
+      if (currentFrame > frameCount) {
+        resolve();
+        return true;
+      }
+    }, PLAY_TIME);
+  }
+
+  _deny() {
+    this.dX = 55;
+    this.dY = 55;
+    const frameCount = 4;
+    let currentFrame = 0;
+
+    return this.animate((resolve) => {
+      this.context.drawImage(
+        this.image,
+        this.frameWidth * (currentFrame % 2),
+        0,
+        300,
+        300,
+        this.dX,
+        this.dY,
+        300,
+        300,
+      );
+
+      currentFrame++;
+
+      if (currentFrame > frameCount) {
+        resolve();
+        return true;
+      }
+    }, DENY_TIME);
   }
 }
 

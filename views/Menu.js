@@ -19,6 +19,36 @@ class Menu {
     this.items[this.currentItemIndex].classList.add('focused');
   }
 
+  async selectMenu({
+    feedCallback,
+    playCallback,
+    stateCallback,
+    sleepCallback,
+  }) {
+    this.items[this.currentItemIndex].classList.remove('focused');
+    this.menu.classList.add('hidden');
+
+    if (this.currentItemIndex === 0) {
+      await feedCallback();
+      return;
+    }
+
+    if (this.currentItemIndex === 1) {
+      await playCallback();
+      return;
+    }
+
+    if (this.currentItemIndex === 2) {
+      await stateCallback();
+      return;
+    }
+
+    if (this.currentItemIndex === 3) {
+      await sleepCallback();
+      return;
+    }
+  }
+
   handleMenu() {
     if (this.menu.classList.contains('hidden')) {
       this._openMenu();
