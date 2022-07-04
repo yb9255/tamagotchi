@@ -28,12 +28,11 @@ class ImageView {
     this.isCanceled = isCanceled;
   }
 
-  loadImage(src) {
-    this.image = new Image();
-    this.image.src = src;
+  loadImage(image, src) {
+    image.src = src;
 
     return new Promise((resolve) => {
-      this.image.onload = resolve;
+      image.onload = resolve;
     });
   }
 

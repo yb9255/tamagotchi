@@ -20,58 +20,55 @@ import {
 class ChildView extends ImageView {
   constructor() {
     super();
-    this.dX = 55;
-    this.dY = 55;
+    this.dx = 55;
+    this.dy = 55;
     this.frameWidth = 300;
     this.menu = menuView;
 
     this.drawIdlingChild = this.drawIdlingChild.bind(this);
     this.drawEatingChild = this.drawEatingChild.bind(this);
-    this.drawMenu = this.drawMenu.bind(this);
-    this.selectMenu = this.selectMenu.bind(this);
-    this.removeMenu = this.removeMenu.bind(this);
+    this.drawPlayingChild = this.drawPlayingChild.bind(this);
+    this.drawDenyingChild = this.drawDenyingChild.bind(this);
   }
 
   async drawIdlingChild() {
-    await this.loadImage(CHILD_IDLING_IMAGE_PATH);
+    await this.loadImage(this.image, CHILD_IDLING_IMAGE_PATH);
     await this._idle();
   }
 
   async drawEatingChild() {
-    await this.loadImage(CHILD_EATING_IMAGE_PATH);
+    await this.loadImage(this.image, CHILD_EATING_IMAGE_PATH);
     await this._feed();
   }
 
   async drawPlayingChild() {
-    await this.loadImage(CHILD_PLAY_IMAGE_PATH);
+    await this.loadImage(this.image, CHILD_PLAY_IMAGE_PATH);
     await this._play();
   }
   async drawDenyingChild() {
-    await this.loadImage(CHILD_DENY_IMAGE_PATH);
+    await this.loadImage(this.image, CHILD_DENY_IMAGE_PATH);
     await this._deny();
   }
 
-  drawMenu(setMenuState) {
+  drawMenu() {
     this.clear();
-    this.cancelAnimation(true);
     this.menu.handleMenu();
-    setMenuState();
+    this.cancelAnimation(true);
   }
 
-  removeMenu(removeMenuState) {
+  removeMenu() {
+    this.clear();
     this.cancelAnimation(false);
-    removeMenuState();
+    this.menu.currentItemIndex = 0;
     this.menu.cancelMenu();
-    this.drawIdlingChild();
   }
 
-  async selectMenu(callbacks, removeMenuState) {
+  async selectMenu(callbacks) {
     if (!this.isCanceled) return;
 
     this.cancelAnimation(false);
+    this.menu.cancelMenu();
     await this.menu.selectMenu(callbacks);
-
-    this.removeMenu(removeMenuState);
   }
 
   _bounceUp() {
@@ -85,8 +82,8 @@ class ChildView extends ImageView {
         0,
         300,
         300,
-        this.dX,
-        this.dY,
+        this.dx,
+        this.dy,
         300,
         300,
       );
@@ -109,8 +106,8 @@ class ChildView extends ImageView {
         0,
         300,
         300,
-        this.dX,
-        this.dY,
+        this.dx,
+        this.dy,
         300,
         300,
       );
@@ -125,7 +122,7 @@ class ChildView extends ImageView {
 
   _moveLeft() {
     let moveCount = 2;
-    this.dX -= DX_OFFSET;
+    this.dx -= DX_OFFSET;
 
     return this.animate((resolve) => {
       this.context.drawImage(
@@ -134,12 +131,12 @@ class ChildView extends ImageView {
         0,
         300,
         300,
-        this.dX,
-        this.dY,
+        this.dx,
+        this.dy,
         300,
         300,
       );
-      this.dX -= DX_OFFSET;
+      this.dx -= DX_OFFSET;
       moveCount--;
 
       if (!moveCount) {
@@ -151,7 +148,7 @@ class ChildView extends ImageView {
 
   _moveRight() {
     let moveCount = 0;
-    this.dX += DX_OFFSET;
+    this.dx += DX_OFFSET;
 
     return this.animate((resolve) => {
       this.context.drawImage(
@@ -160,12 +157,12 @@ class ChildView extends ImageView {
         0,
         300,
         300,
-        this.dX,
-        this.dY,
+        this.dx,
+        this.dy,
         300,
         300,
       );
-      this.dX += DX_OFFSET;
+      this.dx += DX_OFFSET;
       moveCount++;
 
       if (moveCount === 2) {
@@ -176,8 +173,8 @@ class ChildView extends ImageView {
   }
 
   async _idle() {
-    this.dX = 55;
-    this.dY = 55;
+    this.dx = 55;
+    this.dy = 55;
 
     await this._bounceUp();
     await this._bounceDown();
@@ -196,8 +193,8 @@ class ChildView extends ImageView {
   }
 
   _feed() {
-    this.dX = 55;
-    this.dY = 55;
+    this.dx = 55;
+    this.dy = 55;
     const frameCount = 6;
     let currentFrame = 0;
 
@@ -208,8 +205,8 @@ class ChildView extends ImageView {
         0,
         300,
         300,
-        this.dX,
-        this.dY,
+        this.dx,
+        this.dy,
         300,
         300,
       );
@@ -224,8 +221,8 @@ class ChildView extends ImageView {
   }
 
   _play() {
-    this.dX = 55;
-    this.dY = 55;
+    this.dx = 55;
+    this.dy = 55;
     const frameCount = 6;
     let currentFrame = 0;
 
@@ -236,8 +233,8 @@ class ChildView extends ImageView {
         0,
         300,
         300,
-        this.dX,
-        this.dY,
+        this.dx,
+        this.dy,
         300,
         300,
       );
@@ -252,8 +249,8 @@ class ChildView extends ImageView {
   }
 
   _deny() {
-    this.dX = 55;
-    this.dY = 55;
+    this.dx = 55;
+    this.dy = 55;
     const frameCount = 4;
     let currentFrame = 0;
 
@@ -264,8 +261,8 @@ class ChildView extends ImageView {
         0,
         300,
         300,
-        this.dX,
-        this.dY,
+        this.dx,
+        this.dy,
         300,
         300,
       );

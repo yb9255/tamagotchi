@@ -4,6 +4,7 @@ class MenuView {
     this.items = this.menu.querySelectorAll('.menu-item');
     this.currentItemIndex = 0;
 
+    this.selectMenu = this.selectMenu.bind(this);
     this.handleMenu = this.handleMenu.bind(this);
     this.cancelMenu = this.cancelMenu.bind(this);
   }
@@ -16,6 +17,7 @@ class MenuView {
   _changeMenu() {
     this.items[this.currentItemIndex].classList.remove('focused');
     this.currentItemIndex = (this.currentItemIndex + 1) % this.items.length;
+
     this.items[this.currentItemIndex].classList.add('focused');
   }
 
@@ -60,7 +62,6 @@ class MenuView {
 
   cancelMenu() {
     this.items[this.currentItemIndex].classList.remove('focused');
-    this.currentItemIndex = 0;
     this.menu.classList.add('hidden');
   }
 }
