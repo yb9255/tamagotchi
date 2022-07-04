@@ -1,8 +1,9 @@
 import eggView from '../views/EggView.js';
 import childView from '../views/ChildView.js';
 import modalView from '../views/ModalView.js';
+import stateView from '../views/StateView.js';
 
-import { INIT, GROWTH, TICK_SECONDS } from '../constants/gameState.js';
+import { INIT, GROWTH, TICK_SECONDS, IDLING } from '../constants/gameState.js';
 
 export function handleStatesOverTime(gameState, buttonState) {
   let nextTimeToTick = Date.now();
@@ -61,40 +62,88 @@ async function initEggPhase(gameState, buttonState) {
 }
 
 async function initChildPhase(gameState, buttonState) {
-  const leftCallback = childView.drawMenu.bind(
-    childView,
-    gameState.setMenuState,
-  );
+  const leftCallback = () => {
+    childView.drawMenu();
+    gameState.setMenuState();
+  };
 
-  const middleCallback = childView.selectMenu.bind(
-    childView,
-    {
-      feedCallback: async () => {
-        if (gameState.hunger < 2) {
-          await childView.drawDenyingChild();
-          return;
-        }
+  const middleCallback = childView.selectMenu.bind(childView, {
+    async feedCallback() {
+      buttonState.removeListeners();
 
-        await childView.drawEatingChild();
-        gameState.reduceHunger();
-      },
-      playCallback: async () => {
-        if (gameState.fun > 8) {
-          await childView.drawDenyingChild();
-          return;
-        }
+      if (gameState.hunger < 2) {
+        await childView.drawDenyingChild();
 
-        await childView.drawPlayingChild();
-        gameState.makePetFun();
-      },
+        buttonState.addListeners({
+          leftCallback,
+          middleCallback,
+          rightCallback,
+        });
+
+        gameState.setIdlingState();
+        childView.drawIdlingChild();
+
+        return;
+      }
+      await childView.drawEatingChild();
+
+      gameState.reduceHunger();
+      gameState.setIdlingState();
+      childView.drawIdlingChild();
+
+      buttonState.addListeners({
+        leftCallback,
+        middleCallback,
+        rightCallback,
+      });
     },
-    gameState.cancelMenuState,
-  );
+    async playCallback() {
+      buttonState.removeListeners();
 
-  const rightCallback = childView.removeMenu.bind(
-    childView,
-    gameState.cancelMenuState,
-  );
+      if (gameState.fun > 8) {
+        await childView.drawDenyingChild();
+
+        buttonState.addListeners({
+          leftCallback,
+          middleCallback,
+          rightCallback,
+        });
+
+        gameState.setIdlingState();
+        childView.drawIdlingChild();
+
+        return;
+      }
+
+      await childView.drawPlayingChild();
+      gameState.makePetFun();
+      gameState.setIdlingState();
+      childView.drawIdlingChild();
+
+      buttonState.addListeners({
+        leftCallback,
+        middleCallback,
+        rightCallback,
+      });
+    },
+    stateCallback() {
+      childView.removeMenu();
+      stateView.drawStateView(
+        gameState.fun,
+        gameState.hunger,
+        gameState.tiredness,
+      );
+    },
+    sleepCallback() {},
+  });
+
+  const rightCallback = async () => {
+    if (gameState.state === IDLING) return;
+
+    childView.removeMenu();
+    gameState.setIdlingState();
+    childView.drawIdlingChild();
+  };
 
   modalView.hiddenModal();
   buttonState.removeListeners();

@@ -94,24 +94,13 @@ body {
   font-size: 50px;
   padding-left: 100px;
   font-family: 'VT323';
+  color: #444;
 }
 
 .focused::before {
   content: '>';
   width: 50px;
   height: 50px;
-}
-
-/* STATE */
-
-.state {
-  display: flex;
-  flex-direction: column;
-  gap: 50px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 }
 
 /* ETC */

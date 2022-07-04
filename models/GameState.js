@@ -14,7 +14,7 @@ class GameState {
     this.startGame = this.startGame.bind(this);
     this.hatchEgg = this.hatchEgg.bind(this);
     this.setMenuState = this.setMenuState.bind(this);
-    this.cancelMenuState = this.cancelMenuState.bind(this);
+    this.setIdlingState = this.setIdlingState.bind(this);
     this.reduceHunger = this.reduceHunger.bind(this);
   }
 
@@ -31,8 +31,8 @@ class GameState {
         this.hunger += 1;
       }
 
-      if (this.fun > 5 && this.hunger < 5) {
-        this.exp += 0.5;
+      if (this.fun > 5 && this.hunger < 5 && this.tiredness < 7) {
+        this.exp += 5;
       }
 
       this.tiredness += 0.5;
@@ -50,7 +50,7 @@ class GameState {
       this.growth = GROWTH[1];
       this.fun = 5;
       this.hunger = 5;
-      this.tiredness = 0;
+      this.tiredness = 3;
       this.exp = 0;
       this.state = IDLING;
     }
@@ -65,7 +65,7 @@ class GameState {
     this.state = MENU;
   }
 
-  cancelMenuState() {
+  setIdlingState() {
     this.state = IDLING;
   }
 
