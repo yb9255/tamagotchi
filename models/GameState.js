@@ -16,6 +16,8 @@ class GameState {
     this.setMenuState = this.setMenuState.bind(this);
     this.setIdlingState = this.setIdlingState.bind(this);
     this.reduceHunger = this.reduceHunger.bind(this);
+    this.resetFunState = this.resetFunState.bind(this);
+    this.resetTirednessState = this.resetTirednessState.bind(this);
   }
 
   setStatesByTime() {
@@ -83,6 +85,14 @@ class GameState {
     if (this.fun > 10) {
       this.fun = 10;
     }
+  }
+
+  resetFunState() {
+    this.fun = 0;
+  }
+
+  resetTirednessState() {
+    this.tiredness = 0;
   }
 }
 

@@ -24,9 +24,14 @@ class Controller {
         currenTime++;
       }
 
-      if (this.gameState.growth !== this.buttonState.state) {
-        this._handleChangingPetPhases();
+      if (this.gameState.tiredness === 10) {
+        this._handleFallingAsleep();
       }
+
+      if (this.gameState.tiredness)
+        if (this.gameState.growth !== this.buttonState.state) {
+          this._handleChangingPetPhases();
+        }
 
       if (currenTime >= nextTimeforEvent) {
         this.gameState.setStatesByTime();
@@ -37,6 +42,20 @@ class Controller {
     };
 
     handleEventsOnTick();
+  }
+
+  async _handleFallingAsleep() {
+    this.gameState.resetFunState();
+    this.gameState.resetTirednessState();
+
+    if (this.gameState === GROWTH[1]) {
+      await this.childView.drawSleepingChild();
+      this.childView.drawIdlingChild();
+    }
+
+    if (this.gameState === GROWTH[2]) {
+      console.log('1');
+    }
   }
 
   _handleChangingPetPhases() {
@@ -131,6 +150,7 @@ class Controller {
               middleCallback,
               rightCallback,
             });
+
             return;
           }
 
@@ -155,7 +175,34 @@ class Controller {
             controller.gameState.tiredness,
           );
         },
-        sleepCallback() {},
+        async sleepCallback() {
+          controller.buttonState.removeListeners();
+
+          if (controller.gameState.tiredness < 3) {
+            await controller.childView.drawDenyingChild();
+
+            controller.gameState.setIdlingState();
+            controller.childView.drawIdlingChild();
+
+            controller.buttonState.addListeners({
+              leftCallback,
+              middleCallback,
+              rightCallback,
+            });
+
+            return;
+          }
+
+          controller.gameState.resetTirednessState();
+          await controller.childView.drawSleepingChild();
+          controller.childView.drawIdlingChild();
+
+          controller.buttonState.addListeners({
+            leftCallback,
+            middleCallback,
+            rightCallback,
+          });
+        },
       }))(this);
 
       this.menuView.selectMenu(callbacks);
