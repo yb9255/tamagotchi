@@ -1,6 +1,8 @@
-class FrameView {
+import View from './View.js';
+
+class FrameView extends View {
   constructor() {
-    this.context = document.querySelector('#frame').getContext('2d');
+    super(document.querySelector('#frame').getContext('2d'));
   }
 
   draw() {
@@ -47,4 +49,4 @@ class FrameView {
   }
 }
 
-export default new FrameView();
+export default FrameView;

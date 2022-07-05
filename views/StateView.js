@@ -1,9 +1,9 @@
-import ImageView from './ImageView.js';
+import View from './View.js';
 import { STATE_POINT_IMAGE_PATH } from '../constants/imagePath.js';
 
-class StateView extends ImageView {
+class StateView extends View {
   constructor() {
-    super();
+    super(document.querySelector('#tablet').getContext('2d'));
     this.stateContainer = document.querySelector('.state-view-container');
     this.stateItems = document.querySelectorAll('.state-item');
     this.frameWidth = 200;
@@ -85,4 +85,4 @@ class StateView extends ImageView {
   }
 }
 
-export default new StateView();
+export default StateView;

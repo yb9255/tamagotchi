@@ -1,16 +1,23 @@
-class ImageView {
-  constructor() {
-    this.context = document.querySelector('#tablet').getContext('2d');
-    this.isCanceled = false;
-    this.timer = null;
+class View {
+  constructor(context) {
+    this.context = context;
+    this.animIsCanceled = false;
     this.image = new Image();
+  }
+
+  hide(element) {
+    element.classList.add('hidden');
+  }
+
+  show(element) {
+    element.classList.remove('hidden');
   }
 
   animate(draw, ms) {
     return new Promise((resolve) => {
       const animation = async () => {
         this.clear();
-        if (this.isCanceled) return;
+        if (this.animIsCanceled) return;
 
         const isComplete = draw(resolve);
 
@@ -24,8 +31,8 @@ class ImageView {
     });
   }
 
-  cancelAnimation(isCanceled) {
-    this.isCanceled = isCanceled;
+  handleAnimationCancel(isCanceled) {
+    this.animIsCanceled = isCanceled;
   }
 
   loadImage(image, src) {
@@ -48,4 +55,4 @@ class ImageView {
   }
 }
 
-export default ImageView;
+export default View;

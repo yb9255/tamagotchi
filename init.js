@@ -1,12 +1,29 @@
 import gameState from './models/GameState.js';
 import buttonState from './models/ButtonState.js';
-import frameView from './views/FrameView.js';
 
-import { handleStatesOverTime } from './controllers/controller.js';
+import Controller from './controllers/Controller.js';
+import EggView from './views/EggView.js';
+import ChildView from './views/ChildView.js';
+import StateView from './views/StateView.js';
+import ModalView from './views/ModalView.js';
+import FrameView from './views/FrameView.js';
 
 function init() {
-  frameView.draw();
-  handleStatesOverTime(gameState, buttonState);
+  const store = {
+    gameState,
+    buttonState,
+  };
+
+  const views = {
+    frameView: new FrameView(),
+    eggView: new EggView(),
+    childView: new ChildView(),
+    stateView: new StateView(),
+    modalView: new ModalView(),
+  };
+
+  const controller = new Controller(store, views);
+  controller.handleEventsOverTime();
 }
 
-init();
+document.addEventListener('DOMContentLoaded', init);

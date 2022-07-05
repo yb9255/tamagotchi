@@ -1,5 +1,4 @@
-import ImageView from './ImageView.js';
-import menuView from './MenuView.js';
+import View from './View.js';
 
 import {
   CHILD_IDLING_IMAGE_PATH,
@@ -17,13 +16,12 @@ import {
   DENY_TIME,
 } from '../constants/child.js';
 
-class ChildView extends ImageView {
+class ChildView extends View {
   constructor() {
-    super();
+    super(document.querySelector('#tablet').getContext('2d'));
     this.dx = 55;
     this.dy = 55;
     this.frameWidth = 300;
-    this.menu = menuView;
 
     this.drawIdlingChild = this.drawIdlingChild.bind(this);
     this.drawEatingChild = this.drawEatingChild.bind(this);
@@ -48,27 +46,6 @@ class ChildView extends ImageView {
   async drawDenyingChild() {
     await this.loadImage(this.image, CHILD_DENY_IMAGE_PATH);
     await this._deny();
-  }
-
-  drawMenu() {
-    this.clear();
-    this.menu.handleMenu();
-    this.cancelAnimation(true);
-  }
-
-  removeMenu() {
-    this.clear();
-    this.cancelAnimation(false);
-    this.menu.currentItemIndex = 0;
-    this.menu.cancelMenu();
-  }
-
-  async selectMenu(callbacks) {
-    if (!this.isCanceled) return;
-
-    this.cancelAnimation(false);
-    this.menu.cancelMenu();
-    await this.menu.selectMenu(callbacks);
   }
 
   _bounceUp() {
@@ -277,4 +254,4 @@ class ChildView extends ImageView {
   }
 }
 
-export default new ChildView();
+export default ChildView;
