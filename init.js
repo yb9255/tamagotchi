@@ -1,7 +1,7 @@
 import gameState from './models/GameState.js';
 import buttonState from './models/ButtonState.js';
 
-import Controller from './controllers/Controller.js';
+import Controller from './controllers/index.js';
 import EggView from './views/EggView.js';
 import ChildView from './views/ChildView.js';
 import StateView from './views/StateView.js';
