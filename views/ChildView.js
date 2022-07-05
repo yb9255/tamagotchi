@@ -5,6 +5,7 @@ import {
   CHILD_EATING_IMAGE_PATH,
   CHILD_PLAY_IMAGE_PATH,
   CHILD_DENY_IMAGE_PATH,
+  CHILD_SLEEPING_IMAGE_PATH,
 } from '../constants/imagePath.js';
 
 import {
@@ -14,6 +15,7 @@ import {
   MOVE_TIME,
   PLAY_TIME,
   DENY_TIME,
+  SLEEP_TIME,
 } from '../constants/child.js';
 
 class ChildView extends View {
@@ -46,6 +48,11 @@ class ChildView extends View {
   async drawDenyingChild() {
     await this.loadImage(this.image, CHILD_DENY_IMAGE_PATH);
     await this._deny();
+  }
+
+  async drawSleepingChild() {
+    await this.loadImage(this.image, CHILD_SLEEPING_IMAGE_PATH);
+    await this._sleep();
   }
 
   _bounceUp() {
@@ -251,6 +258,34 @@ class ChildView extends View {
         return true;
       }
     }, DENY_TIME);
+  }
+
+  _sleep() {
+    this.dx = 55;
+    this.dy = 55;
+    const frameCount = 9;
+    let currentFrame = 0;
+
+    return this.animate((resolve) => {
+      this.context.drawImage(
+        this.image,
+        this.frameWidth * (currentFrame % 3),
+        0,
+        300,
+        300,
+        this.dx,
+        this.dy,
+        300,
+        300,
+      );
+
+      currentFrame++;
+
+      if (currentFrame > frameCount) {
+        resolve();
+        return true;
+      }
+    }, SLEEP_TIME);
   }
 }
 
