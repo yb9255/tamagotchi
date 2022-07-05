@@ -13,26 +13,7 @@ class Controller {
     this.menuView = null;
   }
 
-  handleChangingPetPhases() {
-    if (this.gameState.growth === INIT) {
-      this.buttonState.state = this.gameState.growth;
-      const callback = this.gameState.startGame;
-
-      this.buttonState.addListeners({
-        leftCallback: callback,
-        middleCallback: callback,
-        rightCallback: callback,
-      });
-    } else if (this.gameState.growth === GROWTH[0]) {
-      this.initEggPhase();
-    } else if (this.gameState.growth === GROWTH[1]) {
-      this.initChildPhase();
-    } else if (this.gameState.growth === GROWTH[2]) {
-      this.buttonState.state = this.gameState.growth;
-    }
-  }
-
-  handleStatesOverTime() {
+  handleEventsOverTime() {
     let currenTime = 0;
     let nextTimeforEvent = TICK_SECONDS;
 
@@ -44,7 +25,7 @@ class Controller {
       }
 
       if (this.gameState.growth !== this.buttonState.state) {
-        this.handleChangingPetPhases();
+        this._handleChangingPetPhases();
       }
 
       if (currenTime >= nextTimeforEvent) {
@@ -58,7 +39,26 @@ class Controller {
     handleEventsOnTick();
   }
 
-  async initEggPhase() {
+  _handleChangingPetPhases() {
+    if (this.gameState.growth === INIT) {
+      this.buttonState.state = this.gameState.growth;
+      const callback = this.gameState.startGame;
+
+      this.buttonState.addListeners({
+        leftCallback: callback,
+        middleCallback: callback,
+        rightCallback: callback,
+      });
+    } else if (this.gameState.growth === GROWTH[0]) {
+      this._initEggPhase();
+    } else if (this.gameState.growth === GROWTH[1]) {
+      this._initChildPhase();
+    } else if (this.gameState.growth === GROWTH[2]) {
+      this.buttonState.state = this.gameState.growth;
+    }
+  }
+
+  async _initEggPhase() {
     const callback = async () => {
       this.gameState.subtractBirthCount();
       await this.eggView.drawShakedEgg();
@@ -76,7 +76,7 @@ class Controller {
     });
   }
 
-  async initChildPhase() {
+  async _initChildPhase() {
     this.menuView = new MenuView(this.childView);
     this.buttonState.removeListeners();
 

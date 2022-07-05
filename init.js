@@ -23,7 +23,7 @@ function init() {
   };
 
   const controller = new Controller(store, views);
-  controller.handleStatesOverTime();
+  controller.handleEventsOverTime();
 }
 
 document.addEventListener('DOMContentLoaded', init);

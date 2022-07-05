@@ -28,7 +28,8 @@ class MenuView {
 
     this.currentMainView.handleAnimationCancel(false);
     this._cancelMenu();
-    await this._selectMenu(callbacks);
+    await this._triggerCallback(callbacks);
+    this.currentItemIndex = 0;
   }
 
   _openMenu() {
@@ -43,15 +44,12 @@ class MenuView {
     this.items[this.currentItemIndex].classList.add('focused');
   }
 
-  async _selectMenu({
+  async _triggerCallback({
     feedCallback,
     playCallback,
     stateCallback,
     sleepCallback,
   }) {
-    this.items[this.currentItemIndex].classList.remove('focused');
-    this.menu.classList.add('hidden');
-
     if (this.currentItemIndex === 0) {
       await feedCallback();
       return;
@@ -83,7 +81,7 @@ class MenuView {
   }
 
   _cancelMenu() {
-    this.items[this.currentItemIndex].classList.remove('focused');
+    this.items.forEach((item) => item.classList.remove('focused'));
     this.menu.classList.add('hidden');
   }
 }
