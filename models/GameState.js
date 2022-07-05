@@ -12,7 +12,7 @@ class GameState {
 
     this.setStatesByTime = this.setStatesByTime.bind(this);
     this.startGame = this.startGame.bind(this);
-    this.hatchEgg = this.hatchEgg.bind(this);
+    this.subtractBirthCount = this.subtractBirthCount.bind(this);
     this.setMenuState = this.setMenuState.bind(this);
     this.setIdlingState = this.setIdlingState.bind(this);
     this.reduceHunger = this.reduceHunger.bind(this);
@@ -45,7 +45,7 @@ class GameState {
     this.birthCount = 5;
   }
 
-  async hatchEgg(shake) {
+  async subtractBirthCount() {
     if (this.birthCount <= 0) {
       this.growth = GROWTH[1];
       this.fun = 5;
@@ -56,7 +56,6 @@ class GameState {
     }
 
     if (this.birthCount) {
-      await shake();
       this.birthCount--;
     }
   }

@@ -1,5 +1,8 @@
-class ModalView {
+import View from './View.js';
+
+class ModalView extends View {
   constructor() {
+    super(document.querySelector('#tablet').getContext('2d'));
     this.modal = document.querySelector('.modal');
   }
 
@@ -12,4 +15,4 @@ class ModalView {
   }
 }
 
-export default new ModalView();
+export default ModalView;

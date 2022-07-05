@@ -1,12 +1,34 @@
 class MenuView {
-  constructor() {
+  constructor(currentMainView) {
     this.menu = document.querySelector('.menu');
     this.items = this.menu.querySelectorAll('.menu-item');
+    this.currentMainView = currentMainView;
     this.currentItemIndex = 0;
 
+    this.drawMenu = this.drawMenu.bind(this);
+    this.removeMenu = this.removeMenu.bind(this);
     this.selectMenu = this.selectMenu.bind(this);
-    this.handleMenu = this.handleMenu.bind(this);
-    this.cancelMenu = this.cancelMenu.bind(this);
+  }
+
+  drawMenu() {
+    this.currentMainView.clear();
+    this._handleMenu();
+    this.currentMainView.handleAnimationCancel(true);
+  }
+
+  removeMenu() {
+    this.currentMainView.clear();
+    this.currentMainView.handleAnimationCancel(false);
+    this.currentItemIndex = 0;
+    this._cancelMenu();
+  }
+
+  async selectMenu(callbacks) {
+    if (!this.currentMainView.animIsCanceled) return;
+
+    this.currentMainView.handleAnimationCancel(false);
+    this._cancelMenu();
+    await this._selectMenu(callbacks);
   }
 
   _openMenu() {
@@ -21,7 +43,7 @@ class MenuView {
     this.items[this.currentItemIndex].classList.add('focused');
   }
 
-  async selectMenu({
+  async _selectMenu({
     feedCallback,
     playCallback,
     stateCallback,
@@ -51,7 +73,7 @@ class MenuView {
     }
   }
 
-  handleMenu() {
+  _handleMenu() {
     if (this.menu.classList.contains('hidden')) {
       this._openMenu();
       return;
@@ -60,10 +82,10 @@ class MenuView {
     this._changeMenu();
   }
 
-  cancelMenu() {
+  _cancelMenu() {
     this.items[this.currentItemIndex].classList.remove('focused');
     this.menu.classList.add('hidden');
   }
 }
 
-export default new MenuView();
+export default MenuView;

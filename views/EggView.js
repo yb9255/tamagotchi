@@ -1,4 +1,4 @@
-import ImageView from './ImageView.js';
+import View from './View.js';
 import {
   DX_OFFSET,
   STANDUP_TIME,
@@ -7,9 +7,9 @@ import {
 } from '../constants/egg.js';
 import { EGG_IMAGE_PATH } from '../constants/imagePath.js';
 
-class EggView extends ImageView {
+class EggView extends View {
   constructor() {
-    super();
+    super(document.querySelector('#tablet').getContext('2d'));
     this.callback;
     this.frameWidth = 180;
     this.dx = 110;
@@ -142,4 +142,4 @@ class EggView extends ImageView {
   }
 }
 
-export default new EggView();
+export default EggView;
