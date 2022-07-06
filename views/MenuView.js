@@ -45,28 +45,28 @@ class MenuView {
   }
 
   async _triggerCallback({
-    feedCallback,
-    playCallback,
-    stateCallback,
-    sleepCallback,
+    triggerFeedCallback,
+    triggerPlayCallback,
+    triggerStateCallback,
+    triggerSleepCallback,
   }) {
     if (this.currentItemIndex === 0) {
-      await feedCallback();
+      await triggerFeedCallback();
       return;
     }
 
     if (this.currentItemIndex === 1) {
-      await playCallback();
+      await triggerPlayCallback();
       return;
     }
 
     if (this.currentItemIndex === 2) {
-      await stateCallback();
+      await triggerStateCallback();
       return;
     }
 
     if (this.currentItemIndex === 3) {
-      await sleepCallback();
+      await triggerSleepCallback();
       return;
     }
   }

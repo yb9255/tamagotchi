@@ -17,7 +17,11 @@ class View {
     return new Promise((resolve) => {
       const animation = async () => {
         this.clear();
-        if (this.animIsCanceled) return;
+
+        if (this.animIsCanceled) {
+          resolve();
+          return;
+        }
 
         const isComplete = draw(resolve);
 

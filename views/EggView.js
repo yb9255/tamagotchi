@@ -22,17 +22,17 @@ class EggView extends View {
 
   async drawStandingEgg() {
     await this.loadImage(this.image, EGG_IMAGE_PATH);
-    await this._standEgg();
+    return this._standEgg();
   }
 
   async drawShakedEgg() {
     await this.loadImage(this.image, EGG_IMAGE_PATH);
-    await this._shakeEgg();
+    return this._shakeEgg();
   }
 
   async drawBreakingEgg() {
     await this.loadImage(this.image, EGG_IMAGE_PATH);
-    await this._breakEgg();
+    return this._breakEgg();
   }
 
   _standEgg() {
