@@ -24,11 +24,13 @@ class ChildView extends View {
     this.dx = 55;
     this.dy = 55;
     this.frameWidth = 300;
+    this.i = 0;
 
     this.drawIdlingChild = this.drawIdlingChild.bind(this);
     this.drawEatingChild = this.drawEatingChild.bind(this);
     this.drawPlayingChild = this.drawPlayingChild.bind(this);
     this.drawDenyingChild = this.drawDenyingChild.bind(this);
+    this.drawSleepingChild = this.drawSleepingChild.bind(this);
   }
 
   async drawIdlingChild() {
@@ -38,21 +40,21 @@ class ChildView extends View {
 
   async drawEatingChild() {
     await this.loadImage(this.image, CHILD_EATING_IMAGE_PATH);
-    await this._feed();
+    return this._feed();
   }
 
   async drawPlayingChild() {
     await this.loadImage(this.image, CHILD_PLAY_IMAGE_PATH);
-    await this._play();
+    return this._play();
   }
   async drawDenyingChild() {
     await this.loadImage(this.image, CHILD_DENY_IMAGE_PATH);
-    await this._deny();
+    return this._deny();
   }
 
   async drawSleepingChild() {
     await this.loadImage(this.image, CHILD_SLEEPING_IMAGE_PATH);
-    await this._sleep();
+    return this._sleep();
   }
 
   _bounceUp() {
@@ -135,6 +137,8 @@ class ChildView extends View {
     this.dx += DX_OFFSET;
 
     return this.animate((resolve) => {
+      if (this.animIsCanceled) return;
+
       this.context.drawImage(
         this.image,
         0,
@@ -156,7 +160,7 @@ class ChildView extends View {
     }, MOVE_TIME);
   }
 
-  async _idle() {
+  async _idle(anim = false) {
     this.dx = 55;
     this.dy = 55;
 
@@ -173,7 +177,9 @@ class ChildView extends View {
     await this._bounceDown();
     await this._moveLeft();
 
-    this._idle();
+    if (!anim) {
+      this._idle(this.animIsCanceled);
+    }
   }
 
   _feed() {
