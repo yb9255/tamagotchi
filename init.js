@@ -7,6 +7,7 @@ import ChildView from './views/ChildView.js';
 import StateView from './views/StateView.js';
 import ModalView from './views/ModalView.js';
 import FrameView from './views/FrameView.js';
+import setCSR from './routes/route.js';
 
 import './index.css';
 
@@ -29,3 +30,7 @@ function init() {
 }
 
 document.addEventListener('DOMContentLoaded', init);
+
+document.addEventListener('DOMContentLoaded', () => {
+  setCSR();
+});

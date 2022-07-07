@@ -12,10 +12,6 @@ module.exports = {
       template: './index.html',
       filename: './index.html',
     }),
-    new HtmlWebpackPlugin({
-      template: './profile.html',
-      filename: './profile.html',
-    }),
     new Dotenv(),
   ],
   module: {
