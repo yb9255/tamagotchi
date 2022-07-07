@@ -2,24 +2,23 @@ import View from './View.js';
 import { STATE_POINT_IMAGE_PATH } from '../constants/imagePath.js';
 
 class StateView extends View {
+  #frameWidth = 200;
+  #funStateImage = new Image();
+  #hungerStateImage = new Image();
+  #tirednessStateImage = new Image();
+
   constructor() {
     super(document.querySelector('#tablet').getContext('2d'));
-    this.stateContainer = document.querySelector('.state-view-container');
-    this.stateItems = document.querySelectorAll('.state-item');
-    this.frameWidth = 200;
-    this.funStateImage = new Image();
-    this.hungerStateImage = new Image();
-    this.tirednessStateImage = new Image();
   }
 
   async drawStateView(fun, hunger, tireness) {
-    this._writeStateName();
-    this._drawFunState(fun);
-    this._drawHungerState(hunger);
-    this._drawTirednessState(tireness);
+    this.#writeStateName();
+    this.#drawFunState(fun);
+    this.#drawHungerState(hunger);
+    this.#drawTirednessState(tireness);
   }
 
-  _writeStateName() {
+  #writeStateName() {
     this.context.font = '40px VT323';
     this.context.fillStyle = '#444';
     this.context.fillText('FUN', 40, 80);
@@ -27,15 +26,15 @@ class StateView extends View {
     this.context.fillText('TIREDNESS', 40, 280);
   }
 
-  async _drawFunState(fun) {
+  async #drawFunState(fun) {
     const dx = 135;
     const dy = 30;
 
-    await this.loadImage(this.funStateImage, STATE_POINT_IMAGE_PATH);
+    await this.loadImage(this.#funStateImage, STATE_POINT_IMAGE_PATH);
 
     this.context.drawImage(
-      this.funStateImage,
-      this.frameWidth * fun,
+      this.#funStateImage,
+      this.#frameWidth * fun,
       0,
       200,
       50,
@@ -46,15 +45,15 @@ class StateView extends View {
     );
   }
 
-  async _drawHungerState(hunger) {
+  async #drawHungerState(hunger) {
     const dx = 135;
     const dy = 130;
 
-    await this.loadImage(this.hungerStateImage, STATE_POINT_IMAGE_PATH);
+    await this.loadImage(this.#hungerStateImage, STATE_POINT_IMAGE_PATH);
 
     this.context.drawImage(
-      this.hungerStateImage,
-      this.frameWidth * hunger,
+      this.#hungerStateImage,
+      this.#frameWidth * hunger,
       0,
       200,
       50,
@@ -65,15 +64,15 @@ class StateView extends View {
     );
   }
 
-  async _drawTirednessState(tiredness) {
+  async #drawTirednessState(tiredness) {
     const dx = 135;
     const dy = 233;
 
-    await this.loadImage(this.tirednessStateImage, STATE_POINT_IMAGE_PATH);
+    await this.loadImage(this.#tirednessStateImage, STATE_POINT_IMAGE_PATH);
 
     this.context.drawImage(
-      this.hungerStateImage,
-      this.frameWidth * Math.floor(tiredness),
+      this.#tirednessStateImage,
+      this.#frameWidth * Math.floor(tiredness),
       0,
       200,
       50,

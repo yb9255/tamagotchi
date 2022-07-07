@@ -5,14 +5,6 @@ class View {
     this.image = new Image();
   }
 
-  hide(element) {
-    element.classList.add('hidden');
-  }
-
-  show(element) {
-    element.classList.remove('hidden');
-  }
-
   animate(draw, ms) {
     return new Promise((resolve) => {
       const animation = async () => {

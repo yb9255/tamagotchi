@@ -19,12 +19,12 @@ import {
 } from '../constants/child.js';
 
 class ChildView extends View {
+  #dx = 55;
+  #dy = 55;
+  #frameWidth = 300;
+
   constructor() {
     super(document.querySelector('#tablet').getContext('2d'));
-    this.dx = 55;
-    this.dy = 55;
-    this.frameWidth = 300;
-    this.i = 0;
 
     this.drawIdlingChild = this.drawIdlingChild.bind(this);
     this.drawEatingChild = this.drawEatingChild.bind(this);
@@ -35,41 +35,41 @@ class ChildView extends View {
 
   async drawIdlingChild() {
     await this.loadImage(this.image, CHILD_IDLING_IMAGE_PATH);
-    await this._idle();
+    await this.#idle();
   }
 
   async drawEatingChild() {
     await this.loadImage(this.image, CHILD_EATING_IMAGE_PATH);
-    return this._feed();
+    return this.#feed();
   }
 
   async drawPlayingChild() {
     await this.loadImage(this.image, CHILD_PLAY_IMAGE_PATH);
-    return this._play();
+    return this.#play();
   }
   async drawDenyingChild() {
     await this.loadImage(this.image, CHILD_DENY_IMAGE_PATH);
-    return this._deny();
+    return this.#deny();
   }
 
   async drawSleepingChild() {
     await this.loadImage(this.image, CHILD_SLEEPING_IMAGE_PATH);
-    return this._sleep();
+    return this.#sleep();
   }
 
-  _bounceUp() {
+  #bounceUp() {
     const frameCount = 2;
     let currentFrame = 0;
 
     return this.animate((resolve) => {
       this.context.drawImage(
         this.image,
-        this.frameWidth * currentFrame,
+        this.#frameWidth * currentFrame,
         0,
         300,
         300,
-        this.dx,
-        this.dy,
+        this.#dx,
+        this.#dy,
         300,
         300,
       );
@@ -82,18 +82,18 @@ class ChildView extends View {
     }, BOUNCE_TIME);
   }
 
-  _bounceDown() {
+  #bounceDown() {
     let currentFrame = 2;
 
     return this.animate((resolve) => {
       this.context.drawImage(
         this.image,
-        this.frameWidth * currentFrame,
+        this.#frameWidth * currentFrame,
         0,
         300,
         300,
-        this.dx,
-        this.dy,
+        this.#dx,
+        this.#dy,
         300,
         300,
       );
@@ -106,9 +106,9 @@ class ChildView extends View {
     }, BOUNCE_TIME);
   }
 
-  _moveLeft() {
+  #moveLeft() {
     let moveCount = 2;
-    this.dx -= DX_OFFSET;
+    this.#dx -= DX_OFFSET;
 
     return this.animate((resolve) => {
       this.context.drawImage(
@@ -117,12 +117,12 @@ class ChildView extends View {
         0,
         300,
         300,
-        this.dx,
-        this.dy,
+        this.#dx,
+        this.#dy,
         300,
         300,
       );
-      this.dx -= DX_OFFSET;
+      this.#dx -= DX_OFFSET;
       moveCount--;
 
       if (!moveCount) {
@@ -132,9 +132,9 @@ class ChildView extends View {
     }, MOVE_TIME);
   }
 
-  _moveRight() {
+  #moveRight() {
     let moveCount = 0;
-    this.dx += DX_OFFSET;
+    this.#dx += DX_OFFSET;
 
     return this.animate((resolve) => {
       if (this.animIsCanceled) return;
@@ -145,12 +145,12 @@ class ChildView extends View {
         0,
         300,
         300,
-        this.dx,
-        this.dy,
+        this.#dx,
+        this.#dy,
         300,
         300,
       );
-      this.dx += DX_OFFSET;
+      this.#dx += DX_OFFSET;
       moveCount++;
 
       if (moveCount === 2) {
@@ -160,43 +160,43 @@ class ChildView extends View {
     }, MOVE_TIME);
   }
 
-  async _idle(anim = false) {
-    this.dx = 55;
-    this.dy = 55;
+  async #idle(anim = false) {
+    this.#dx = 55;
+    this.#dy = 55;
 
-    await this._bounceUp();
-    await this._bounceDown();
-    await this._moveLeft();
-    await this._bounceUp();
-    await this._bounceDown();
-    await this._moveRight();
-    await this._bounceUp();
-    await this._bounceDown();
-    await this._moveRight();
-    await this._bounceUp();
-    await this._bounceDown();
-    await this._moveLeft();
+    await this.#bounceUp();
+    await this.#bounceDown();
+    await this.#moveLeft();
+    await this.#bounceUp();
+    await this.#bounceDown();
+    await this.#moveRight();
+    await this.#bounceUp();
+    await this.#bounceDown();
+    await this.#moveRight();
+    await this.#bounceUp();
+    await this.#bounceDown();
+    await this.#moveLeft();
 
     if (!anim) {
-      this._idle(this.animIsCanceled);
+      this.#idle(this.animIsCanceled);
     }
   }
 
-  _feed() {
-    this.dx = 55;
-    this.dy = 55;
+  #feed() {
+    this.#dx = 55;
+    this.#dy = 55;
     const frameCount = 6;
     let currentFrame = 0;
 
     return this.animate((resolve) => {
       this.context.drawImage(
         this.image,
-        this.frameWidth * currentFrame,
+        this.#frameWidth * currentFrame,
         0,
         300,
         300,
-        this.dx,
-        this.dy,
+        this.#dx,
+        this.#dy,
         300,
         300,
       );
@@ -210,21 +210,21 @@ class ChildView extends View {
     }, FEED_TIME);
   }
 
-  _play() {
-    this.dx = 55;
-    this.dy = 55;
+  #play() {
+    this.#dx = 55;
+    this.#dy = 55;
     const frameCount = 6;
     let currentFrame = 0;
 
     return this.animate((resolve) => {
       this.context.drawImage(
         this.image,
-        this.frameWidth * (currentFrame % 2),
+        this.#frameWidth * (currentFrame % 2),
         0,
         300,
         300,
-        this.dx,
-        this.dy,
+        this.#dx,
+        this.#dy,
         300,
         300,
       );
@@ -238,21 +238,21 @@ class ChildView extends View {
     }, PLAY_TIME);
   }
 
-  _deny() {
-    this.dx = 55;
-    this.dy = 55;
+  #deny() {
+    this.#dx = 55;
+    this.#dy = 55;
     const frameCount = 4;
     let currentFrame = 0;
 
     return this.animate((resolve) => {
       this.context.drawImage(
         this.image,
-        this.frameWidth * (currentFrame % 2),
+        this.#frameWidth * (currentFrame % 2),
         0,
         300,
         300,
-        this.dx,
-        this.dy,
+        this.#dx,
+        this.#dy,
         300,
         300,
       );
@@ -266,21 +266,21 @@ class ChildView extends View {
     }, DENY_TIME);
   }
 
-  _sleep() {
-    this.dx = 55;
-    this.dy = 55;
+  #sleep() {
+    this.#dx = 55;
+    this.#dy = 55;
     const frameCount = 9;
     let currentFrame = 0;
 
     return this.animate((resolve) => {
       this.context.drawImage(
         this.image,
-        this.frameWidth * (currentFrame % 3),
+        this.#frameWidth * (currentFrame % 3),
         0,
         300,
         300,
-        this.dx,
-        this.dy,
+        this.#dx,
+        this.#dy,
         300,
         300,
       );
