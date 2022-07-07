@@ -8,6 +8,8 @@ import StateView from './views/StateView.js';
 import ModalView from './views/ModalView.js';
 import FrameView from './views/FrameView.js';
 
+import './index.css';
+
 function init() {
   const store = {
     gameState,

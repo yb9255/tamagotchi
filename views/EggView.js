@@ -8,12 +8,12 @@ import {
 import { EGG_IMAGE_PATH } from '../constants/imagePath.js';
 
 class EggView extends View {
+  #frameWidth = 180;
+  #dx = 110;
+  #dy = 120;
+
   constructor() {
     super(document.querySelector('#tablet').getContext('2d'));
-    this.callback;
-    this.frameWidth = 180;
-    this.dx = 110;
-    this.dy = 120;
 
     this.drawStandingEgg = this.drawStandingEgg.bind(this);
     this.drawShakedEgg = this.drawShakedEgg.bind(this);
@@ -22,32 +22,32 @@ class EggView extends View {
 
   async drawStandingEgg() {
     await this.loadImage(this.image, EGG_IMAGE_PATH);
-    return this._standEgg();
+    return this.#standEgg();
   }
 
   async drawShakedEgg() {
     await this.loadImage(this.image, EGG_IMAGE_PATH);
-    return this._shakeEgg();
+    return this.#shakeEgg();
   }
 
   async drawBreakingEgg() {
     await this.loadImage(this.image, EGG_IMAGE_PATH);
-    return this._breakEgg();
+    return this.#breakEgg();
   }
 
-  _standEgg() {
+  #standEgg() {
     const lastFrame = 3;
     let currentFrame = 0;
 
     return this.animate((resolve) => {
       this.context.drawImage(
         this.image,
-        this.frameWidth * currentFrame,
+        this.#frameWidth * currentFrame,
         0,
         200,
         200,
-        this.dx,
-        this.dy,
+        this.#dx,
+        this.#dy,
         200,
         200,
       );
@@ -60,8 +60,8 @@ class EggView extends View {
     }, STANDUP_TIME);
   }
 
-  _shakeEgg() {
-    const standFrame = this.frameWidth * 2;
+  #shakeEgg() {
+    const standFrame = this.#frameWidth * 2;
     let shakeCount = 3;
 
     return this.animate((resolve) => {
@@ -72,8 +72,8 @@ class EggView extends View {
           0,
           200,
           200,
-          this.dx - DX_OFFSET,
-          this.dy,
+          this.#dx - DX_OFFSET,
+          this.#dy,
           200,
           200,
         );
@@ -86,8 +86,8 @@ class EggView extends View {
           0,
           200,
           200,
-          this.dx + DX_OFFSET,
-          this.dy,
+          this.#dx + DX_OFFSET,
+          this.#dy,
           200,
           200,
         );
@@ -100,8 +100,8 @@ class EggView extends View {
           0,
           200,
           200,
-          this.dx,
-          this.dy,
+          this.#dx,
+          this.#dy,
           200,
           200,
         );
@@ -116,19 +116,19 @@ class EggView extends View {
     }, SHAKED_TIME);
   }
 
-  _breakEgg() {
+  #breakEgg() {
     const lastFrame = 6;
     let currentFrame = 2;
 
     return this.animate((resolve) => {
       this.context.drawImage(
         this.image,
-        this.frameWidth * currentFrame,
+        this.#frameWidth * currentFrame,
         0,
         200,
         200,
-        this.dx,
-        this.dy,
+        this.#dx,
+        this.#dy,
         200,
         200,
       );

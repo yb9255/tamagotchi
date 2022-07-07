@@ -6,11 +6,11 @@ class FrameView extends View {
   }
 
   draw() {
-    this._drawTamagotchiEgg();
-    this._drawTamagotchiBackground();
+    this.#drawTamagotchiEgg();
+    this.#drawTamagotchiBackground();
   }
 
-  _drawTamagotchiEgg() {
+  #drawTamagotchiEgg() {
     const context = this.context;
 
     context.fillStyle = '#e4358c';
@@ -19,7 +19,7 @@ class FrameView extends View {
     context.fill();
   }
 
-  _drawTamagotchiBackground() {
+  #drawTamagotchiBackground() {
     const context = this.context;
 
     context.fillStyle = 'yellow';
