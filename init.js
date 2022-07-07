@@ -7,6 +7,7 @@ import ChildView from './views/ChildView.js';
 import StateView from './views/StateView.js';
 import ModalView from './views/ModalView.js';
 import FrameView from './views/FrameView.js';
+import setCSR from './routes/route.js';
 
 import './index.css';
 
@@ -26,6 +27,7 @@ function init() {
 
   const controller = new Controller(store, views);
   controller.handleEventsOverTime();
+  setCSR();
 }
 
 document.addEventListener('DOMContentLoaded', init);
