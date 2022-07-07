@@ -1,5 +1,5 @@
-import gameState from './models/GameState.js';
-import buttonState from './models/ButtonState.js';
+import GameState from './models/GameState.js';
+import ButtonState from './models/ButtonState.js';
 
 import Controller from './controllers/index.js';
 import EggView from './views/EggView.js';
@@ -7,14 +7,16 @@ import ChildView from './views/ChildView.js';
 import StateView from './views/StateView.js';
 import ModalView from './views/ModalView.js';
 import FrameView from './views/FrameView.js';
-import setCSR from './routes/route.js';
+import setCSR from './routes/router.js';
 
 import './index.css';
 
-function init() {
+async function init() {
+  setCSR();
+
   const store = {
-    gameState,
-    buttonState,
+    gameState: new GameState(),
+    buttonState: new ButtonState(),
   };
 
   const views = {
@@ -27,7 +29,6 @@ function init() {
 
   const controller = new Controller(store, views);
   controller.handleEventsOverTime();
-  setCSR();
 }
 
 document.addEventListener('DOMContentLoaded', init);

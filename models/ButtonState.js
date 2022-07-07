@@ -37,4 +37,4 @@ class ButtonState {
   }
 }
 
-export default new ButtonState();
+export default ButtonState;

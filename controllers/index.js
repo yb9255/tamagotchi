@@ -22,6 +22,8 @@ class Controller {
   }
 
   handleEventsOverTime() {
+    console.log('d');
+
     let currenTime = 0;
     let nextTimeforEvent = TICK_SECONDS;
 
@@ -31,7 +33,7 @@ class Controller {
       if (this.gameState.state === IDLING) {
         currenTime++;
       }
-
+      console.log(currenTime);
       if (this.gameState.tiredness >= 10) {
         this.gameState.resetTirednessState();
         this.gameState.resetFunState();

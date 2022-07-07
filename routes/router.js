@@ -1,33 +1,35 @@
-export function navigateTo(href) {
+import MainPage from './MainPage.js';
+
+function navigateTo(href) {
   history.pushState(null, null, href);
   router();
 }
 
-export function router() {
+function router() {
   const routes = [
     {
       path: '/',
-      view: () => console.log('main'),
+      view: MainPage,
     },
     {
       path: '/login',
-      view: () => console.log('login'),
+      view: MainPage,
     },
     {
       path: '/profile',
-      view: () => console.log('profile'),
+      view: MainPage,
     },
     {
       path: '/profile/:userId',
-      view: () => console.log('profile userId'),
+      view: MainPage,
     },
     {
       path: '/game',
-      view: () => console.log('game'),
+      view: MainPage,
     },
     {
       path: '/game/:userId',
-      view: () => console.log('game userId'),
+      view: MainPage,
     },
   ];
 
@@ -49,7 +51,11 @@ export function router() {
     };
   }
 
-  const view = match.route.view();
+  const view = new match.route.view();
+  const root = document.querySelector('#root');
+
+  root.innerHTML = '';
+  root.insertAdjacentHTML('afterbegin', view.getHtml());
 }
 
 export default function setCSR() {

@@ -96,4 +96,4 @@ class GameState {
   }
 }
 
-export default new GameState();
+export default GameState;
