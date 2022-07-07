@@ -43,7 +43,10 @@ export function router() {
   });
 
   if (!match) {
-    navigateTo('/');
+    match = {
+      route: routes[0],
+      result: ['/'],
+    };
   }
 
   const view = match.route.view();

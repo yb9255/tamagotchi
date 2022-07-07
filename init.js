@@ -27,10 +27,7 @@ function init() {
 
   const controller = new Controller(store, views);
   controller.handleEventsOverTime();
+  setCSR();
 }
 
 document.addEventListener('DOMContentLoaded', init);
-
-document.addEventListener('DOMContentLoaded', () => {
-  setCSR();
-});
