@@ -11,9 +11,8 @@ class LoginPage extends Page {
   getHtml() {
     return `
       <div class="${styles.container}">
-        <div class="${styles['login-heading']}>
-          <img src="${LOGO_IMAGE_PATH}" alt="logo" />
-        </div>
+        <img src="${LOGO_IMAGE_PATH}" alt="logo" />
+        <button>Sign in with Google</button>
       </div>
     `;
   }

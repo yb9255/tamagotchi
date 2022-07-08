@@ -6,7 +6,7 @@ import StateView from '../views/StateView.js';
 import ModalView from '../views/ModalView.js';
 import FrameView from '../views/FrameView.js';
 import MenuView from '../views/MenuView.js';
-import Router from '../routes/Router.js';
+import Router from '../routes/router.js';
 import { INIT, GROWTH, TICK_SECONDS, IDLING } from '../constants/gameState.js';
 
 import {
@@ -83,7 +83,6 @@ class Controller {
     const leftBtn = document.querySelector(`.${mainStyles['btn--1']}`);
     const middleBtn = document.querySelector(`.${mainStyles['btn--2']}`);
     const rightBtn = document.querySelector(`.${mainStyles['btn--3']}`);
-    console.log(rightBtn);
     const frame = document.querySelector(`#${mainStyles.frame}`);
     const tablet = document.querySelector(`#${mainStyles.tablet}`);
     const modal = document.querySelector(`.${mainStyles.modal}`);
