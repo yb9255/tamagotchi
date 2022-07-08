@@ -1,3 +1,4 @@
+export const LOGO_IMAGE_PATH = './images/logo.png';
 export const EGG_IMAGE_PATH = './images/egg.png';
 export const CHILD_IDLING_IMAGE_PATH = './images/child-idle.png';
 export const CHILD_EATING_IMAGE_PATH = './images/child-eat.png';

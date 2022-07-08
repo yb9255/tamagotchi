@@ -1,8 +1,9 @@
 class View {
-  constructor(context) {
-    this.context = context;
-    this.animIsCanceled = false;
+  constructor() {
+    this.canvas = null;
+    this.context = null;
     this.image = new Image();
+    this.timer = null;
   }
 
   animate(draw, ms) {
@@ -10,16 +11,10 @@ class View {
       const animation = async () => {
         this.clear();
 
-        if (this.animIsCanceled) {
-          resolve();
-          return;
-        }
-
         const isComplete = draw(resolve);
 
         if (!isComplete) {
-          await this.delay(ms);
-          animation();
+          this.timer = setTimeout(animation, ms);
         }
       };
 
@@ -27,8 +22,13 @@ class View {
     });
   }
 
-  handleAnimationCancel(isCanceled) {
-    this.animIsCanceled = isCanceled;
+  setContext(canvas) {
+    this.canvas = canvas;
+    this.context = this.canvas.getContext('2d');
+  }
+
+  cancelAnimation() {
+    clearTimeout(this.timer);
   }
 
   loadImage(image, src) {
@@ -41,7 +41,7 @@ class View {
 
   clear() {
     const context = this.context;
-    context.clearRect(0, 0, 400, 400);
+    context.clearRect(0, 0, this.canvas.width, this.canvas.height);
   }
 
   delay(ms) {

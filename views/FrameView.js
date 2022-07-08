@@ -2,10 +2,11 @@ import View from './View.js';
 
 class FrameView extends View {
   constructor() {
-    super(document.querySelector('#frame').getContext('2d'));
+    super();
   }
 
   draw() {
+    this.clear();
     this.#drawTamagotchiEgg();
     this.#drawTamagotchiBackground();
   }
@@ -23,7 +24,6 @@ class FrameView extends View {
     const context = this.context;
 
     context.fillStyle = 'yellow';
-
     context.beginPath();
     context.moveTo(230, 230);
     context.lineTo(320, 230);

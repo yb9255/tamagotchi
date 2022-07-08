@@ -1,49 +1,64 @@
+import mainStyles from '../css/main.css';
+
 class MenuView {
-  #menu = document.querySelector('.menu');
-  #items = this.#menu.querySelectorAll('.menu-item');
+  #menu = null;
+  #items = null;
   #currentMainView;
   #currentItemIndex = 0;
 
-  constructor(currentMainView) {
-    this.#currentMainView = currentMainView;
-
+  constructor() {
     this.drawMenu = this.drawMenu.bind(this);
     this.removeMenu = this.removeMenu.bind(this);
     this.selectMenu = this.selectMenu.bind(this);
   }
 
+  setCurrentMainView(currentMainView) {
+    this.#currentMainView = currentMainView;
+  }
+
+  setMenuElements(menu, items) {
+    this.#menu = menu;
+    this.#items = items;
+  }
+
   drawMenu() {
     this.#currentMainView.clear();
-    this.#handleMenu();
-    this.#currentMainView.handleAnimationCancel(true);
+    this.#currentMainView.cancelAnimation();
+
+    if (this.#menu.classList.contains(`${mainStyles.hidden}`)) {
+      this.#openMenu();
+      return;
+    }
+
+    this.#changeMenu();
   }
 
   removeMenu() {
     this.#currentMainView.clear();
-    this.#currentMainView.handleAnimationCancel(false);
     this.#currentItemIndex = 0;
     this.#cancelMenu();
   }
 
-  async selectMenu(callbacks) {
-    if (!this.#currentMainView.animIsCanceled) return;
+  async selectMenu(callbacks, gameState) {
+    if (gameState.state !== 'MENU') return;
 
-    this.#currentMainView.handleAnimationCancel(false);
     this.#cancelMenu();
     await this.#triggerCallback(callbacks);
     this.#currentItemIndex = 0;
   }
 
   #openMenu() {
-    this.#menu.classList.remove('hidden');
-    this.#items[this.#currentItemIndex].classList.add('focused');
+    this.#menu.classList.remove(`${mainStyles.hidden}`);
+    this.#items[this.#currentItemIndex].classList.add(`${mainStyles.focused}`);
   }
 
   #changeMenu() {
-    this.#items[this.#currentItemIndex].classList.remove('focused');
+    this.#items[this.#currentItemIndex].classList.remove(
+      `${mainStyles.focused}`,
+    );
     this.#currentItemIndex = (this.#currentItemIndex + 1) % this.#items.length;
 
-    this.#items[this.#currentItemIndex].classList.add('focused');
+    this.#items[this.#currentItemIndex].classList.add(`${mainStyles.focused}`);
   }
 
   async #triggerCallback({
@@ -73,18 +88,11 @@ class MenuView {
     }
   }
 
-  #handleMenu() {
-    if (this.#menu.classList.contains('hidden')) {
-      this.#openMenu();
-      return;
-    }
-
-    this.#changeMenu();
-  }
-
   #cancelMenu() {
-    this.#items.forEach((item) => item.classList.remove('focused'));
-    this.#menu.classList.add('hidden');
+    this.#items.forEach((item) =>
+      item.classList.remove(`${mainStyles.focused}`),
+    );
+    this.#menu.classList.add(`${mainStyles.hidden}`);
   }
 }
 

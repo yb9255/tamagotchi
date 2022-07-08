@@ -1,4 +1,8 @@
 import Page from './Page.js';
+import styles from '../css/main.css';
+import navbarStyles from '../css/navbar.css';
+
+import { LOGO_IMAGE_PATH } from '../constants/imagePath.js';
 
 class MainPage extends Page {
   constructor(params) {
@@ -8,22 +12,31 @@ class MainPage extends Page {
 
   getHtml() {
     return `
-      <a href="/login" data-link>login</a>
-      <a href="/profile" data-link>profile</a>
-      <div class="tamagotchi-container">
-        <canvas id="frame" width="900" height="900"></canvas>
-        <canvas id="tablet" width="400" height="400"></canvas>
-        <div class="btns">
-          <button class="btn btn--1"></button>
-          <button class="btn btn--2"></button>
-          <button class="btn btn--3"></button>
-        </div>
-        <div class="modal"><span>Press Any Button!</span></div>
-        <div class="menu hidden">
-          <div class="menu-item">FEED</div>
-          <div class="menu-item">PLAY</div>
-          <div class="menu-item">STATE</div>
-          <div class="menu-item">SLEEP</div>
+      <div class="${styles.container}">
+        <nav>
+          <img src="${LOGO_IMAGE_PATH}" alt="logo" />
+          <div class="${navbarStyles['navbar-links']}">
+            <a href="/" data-link>main</a>
+            <a href="/login" data-link>login</a>
+            <a href="/profile" class="${styles.hidden}" data-link>profile</a>
+            <a href="/profile" class="${styles.hidden}" data-link>profile</a>
+          </div>
+        </nav>
+        <div class="${styles['tamagotchi-container']}">
+          <canvas id="${styles.frame}" width="900" height="900"></canvas>
+          <canvas id="${styles.tablet}" width="400" height="400"></canvas>
+          <div class="${styles.btns}">
+            <button class="${styles.btn} ${styles['btn--1']}"></button>
+            <button class="${styles.btn} ${styles['btn--2']}"></button>
+            <button class="${styles.btn} ${styles['btn--3']}"></button>
+          </div>
+          <div class="${styles.modal}"><span>Press Any Button!</span></div>
+          <div class="${styles.menu} ${styles.hidden}">
+            <div class="${styles['menu-item']}">FEED</div>
+            <div class="${styles['menu-item']}">PLAY</div>
+            <div class="${styles['menu-item']}">STATE</div>
+            <div class="${styles['menu-item']}">SLEEP</div>
+          </div>
         </div>
       </div>
     `;

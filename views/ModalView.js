@@ -1,18 +1,20 @@
-import View from './View.js';
+import mainStyles from '../css/main.css';
 
-class ModalView extends View {
-  #modal = document.querySelector('.modal');
+class ModalView {
+  #modal = null;
 
-  constructor() {
-    super(document.querySelector('#tablet').getContext('2d'));
+  constructor() {}
+
+  setModalElement(modal) {
+    this.#modal = modal;
   }
 
   openModal() {
-    this.#modal.classList.remove('hidden');
+    this.#modal.classList.remove(`${mainStyles.hidden}`);
   }
 
   hiddenModal() {
-    this.#modal.classList.add('hidden');
+    this.#modal.classList.add(`${mainStyles.hidden}`);
   }
 }
 

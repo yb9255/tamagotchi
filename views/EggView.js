@@ -13,8 +13,7 @@ class EggView extends View {
   #dy = 120;
 
   constructor() {
-    super(document.querySelector('#tablet').getContext('2d'));
-
+    super();
     this.drawStandingEgg = this.drawStandingEgg.bind(this);
     this.drawShakedEgg = this.drawShakedEgg.bind(this);
     this.drawBreakingEgg = this.drawBreakingEgg.bind(this);
