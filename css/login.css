@@ -1,9 +1,32 @@
 .container {
   display: flex;
+  justify-content: center;
   flex-direction: column;
-  gap: 30px;
+  gap: 10vh;
   align-items: center;
   width: 100vw;
   height: 100vh;
   background-color: #f3aaf3;
+}
+
+button {
+  width: 15vw;
+  height: 5vh;
+  color: #2d3d72;
+  border: 1px solid #2d3d72;
+  border-radius: 5px;
+  background-color: transparent;
+  text-transform: capitalize;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+button:hover {
+  color: #fff;
+  background-color: #2d3d72;
+  border: none;
+}
+
+button:active {
+  background-color: #345ee7;
 }

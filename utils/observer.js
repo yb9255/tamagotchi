@@ -3,7 +3,7 @@ export function observeRoot(controller) {
     if (controller.router.currentRoute === '/') {
       controller.handleMainPage();
     } else if (controller.router.currentRoute === '/login') {
-      console.log('login');
+      //
     }
   });
 

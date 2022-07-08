@@ -12,7 +12,9 @@ module.exports = {
       template: './index.html',
       filename: './index.html',
     }),
-    new Dotenv(),
+    new Dotenv({
+      path: '.env',
+    }),
   ],
   module: {
     rules: [
