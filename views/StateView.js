@@ -8,7 +8,7 @@ class StateView extends View {
   #tirednessStateImage = new Image();
 
   constructor() {
-    super(document.querySelector('#tablet').getContext('2d'));
+    super();
   }
 
   async drawStateView(fun, hunger, tireness) {

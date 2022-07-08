@@ -4,10 +4,9 @@ class ButtonState {
     this.leftCallback = null;
     this.middleCallback = null;
     this.rightCallback = null;
-    this.leftBtn = document.querySelector('.btn--1');
-    this.middleBtn = document.querySelector('.btn--2');
-    this.rightBtn = document.querySelector('.btn--3');
-
+    this.leftBtn = null;
+    this.middleBtn = null;
+    this.rightBtn = null;
     this.addListeners = this.addListeners.bind(this);
     this.removeListeners = this.removeListeners.bind(this);
   }
@@ -18,6 +17,12 @@ class ButtonState {
 
   set state(state) {
     this._state = state;
+  }
+
+  setButtonElements(leftBtn, middleBtn, rightBtn) {
+    this.leftBtn = leftBtn;
+    this.middleBtn = middleBtn;
+    this.rightBtn = rightBtn;
   }
 
   addListeners({ leftCallback, middleCallback, rightCallback }) {
@@ -37,4 +42,4 @@ class ButtonState {
   }
 }
 
-export default new ButtonState();
+export default ButtonState;

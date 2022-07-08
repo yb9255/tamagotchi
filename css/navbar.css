@@ -1,0 +1,29 @@
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  width: 100vw;
+  height: 10vh;
+  padding: 5px 50px;
+  background-color: #f07bed;
+}
+
+nav img {
+  width: 10vw;
+  height: 5vh;
+}
+
+.navbar-links {
+  display: flex;
+  width: 10vw;
+  align-items: center;
+  gap: 30px;
+}
+
+nav a {
+  text-decoration: none;
+  text-align: center;
+  text-transform: uppercase;
+  color: #000;
+}

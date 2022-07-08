@@ -1,17 +1,17 @@
-/* COMMON */
 * {
-  padding: 0;
   margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
-body {
+.container {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  gap: 30px;
   align-items: center;
   width: 100vw;
   height: 100vh;
-  background-color: violet;
+  background-color: #f3aaf3;
 }
 
 /* CANVAS */
@@ -20,6 +20,9 @@ body {
   width: 900px;
   height: 900px;
   position: relative;
+}
+
+#frame {
 }
 
 #tablet {
@@ -55,8 +58,14 @@ body {
   background-color: white;
 }
 
+.btn--1 {
+}
+
 .btn--2 {
   transform: translateY(50px);
+}
+
+.btn--3 {
 }
 
 /* MODAL */

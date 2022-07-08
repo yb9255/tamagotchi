@@ -24,7 +24,7 @@ class ChildView extends View {
   #frameWidth = 300;
 
   constructor() {
-    super(document.querySelector('#tablet').getContext('2d'));
+    super();
 
     this.drawIdlingChild = this.drawIdlingChild.bind(this);
     this.drawEatingChild = this.drawEatingChild.bind(this);
@@ -137,8 +137,6 @@ class ChildView extends View {
     this.#dx += DX_OFFSET;
 
     return this.animate((resolve) => {
-      if (this.animIsCanceled) return;
-
       this.context.drawImage(
         this.image,
         0,
@@ -160,7 +158,7 @@ class ChildView extends View {
     }, MOVE_TIME);
   }
 
-  async #idle(anim = false) {
+  async #idle() {
     this.#dx = 55;
     this.#dy = 55;
 
@@ -177,9 +175,7 @@ class ChildView extends View {
     await this.#bounceDown();
     await this.#moveLeft();
 
-    if (!anim) {
-      this.#idle(this.animIsCanceled);
-    }
+    this.#idle();
   }
 
   #feed() {
