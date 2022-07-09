@@ -17,14 +17,7 @@ const provider = new GoogleAuthProvider(app);
 export default async function () {
   try {
     const response = await signInWithPopup(auth, provider);
-    const credential = GoogleAuthProvider.credentialFromResult(response);
-    const accessToken = credential.accessToken;
-    const user = response.user;
-
-    return {
-      accessToken,
-      user,
-    };
+    return response.user.accessToken;
   } catch (error) {
     //   const errorCode = error.code;
     //   const errorMessage = error.message;

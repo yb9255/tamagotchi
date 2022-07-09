@@ -1,5 +1,6 @@
 import GameState from '../models/GameState.js';
 import ButtonState from '../models/ButtonState.js';
+import UserState from '../models/UserState.js';
 import EggView from '../views/EggView.js';
 import ChildView from '../views/ChildView.js';
 import StateView from '../views/StateView.js';
@@ -24,6 +25,7 @@ class Controller {
     this.router = new Router();
     this.gameState = new GameState();
     this.buttonState = new ButtonState();
+    this.userState = new UserState();
     this.frameView = new FrameView();
     this.eggView = new EggView();
     this.childView = new ChildView();
@@ -74,6 +76,8 @@ class Controller {
 
     handleEventsOnTick();
   }
+
+  handleUserData() {}
 
   handleMainPage() {
     if (this.currentMainView) {

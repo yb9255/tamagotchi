@@ -9,7 +9,33 @@ async function init() {
   }
 
   if (controller.router.currentRoute === '/login') {
-    document.querySelector('button').addEventListener('click', postLogin);
+    document.querySelector('button').addEventListener('click', async () => {
+      const {
+        email,
+        picture,
+        state,
+        growth,
+        fun,
+        hunger,
+        birthCount,
+        tiredness,
+        happiness,
+        id,
+      } = (await postLogin()).userInformation;
+
+      console.log(
+        email,
+        picture,
+        state,
+        growth,
+        fun,
+        hunger,
+        birthCount,
+        tiredness,
+        happiness,
+        id,
+      );
+    });
   }
 }
 

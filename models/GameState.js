@@ -9,6 +9,7 @@ class GameState {
     this.birthCount = -1;
     this.tiredness = -1;
     this.exp = -1;
+    this.happiness = -1;
 
     this.setStatesByTime = this.setStatesByTime.bind(this);
     this.startGame = this.startGame.bind(this);

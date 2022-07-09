@@ -6,6 +6,28 @@ const API_URL =
     : process.env.API_URL_PROD;
 
 export async function postLogin() {
-  const userInfo = await signIn();
-  return userInfo;
+  try {
+    const accessToken = await signIn();
+
+    const response = await fetch(`${API_URL}/users/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        accessToken: `BEARER ${accessToken}`,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Something went wrong.. ${response.status}`);
+    }
+
+    localStorage.setItem('isLoggedIn', 'true');
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
 }

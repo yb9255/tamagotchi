@@ -1,3 +1,5 @@
+// import { postLogin } from '../utils/api.js';
+
 export function observeRoot(controller) {
   const observer = new MutationObserver(() => {
     if (controller.router.currentRoute === '/') {
