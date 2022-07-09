@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: process.env.API_KEY,
@@ -10,18 +10,7 @@ const firebaseConfig = {
   appId: process.env.APP_ID,
 };
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const provider = new GoogleAuthProvider(app);
+const firebaseApp = initializeApp(firebaseConfig);
 
-export default async function () {
-  try {
-    const response = await signInWithPopup(auth, provider);
-    return response.user.accessToken;
-  } catch (error) {
-    //   const errorCode = error.code;
-    //   const errorMessage = error.message;
-    //   const email = error.customData.email;
-    //   const credential = GoogleAuthProvider.credentialFromError(error);
-  }
-}
+export const auth = getAuth(firebaseApp);
+export const provider = new GoogleAuthProvider(firebaseApp);

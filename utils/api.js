@@ -1,14 +1,22 @@
-import signIn from '../firebase/firebase-config.js';
+import { auth, provider } from '../firebase/firebase-config';
+import { signInWithPopup, signOut } from 'firebase/auth';
 
 const API_URL =
   process.env.ENV === 'development'
     ? process.env.API_URL_DEV
     : process.env.API_URL_PROD;
 
-export async function postLogin() {
-  try {
-    const accessToken = await signIn();
+export async function getToken() {
+  const response = await signInWithPopup(auth, provider);
+  return response.user.accessToken;
+}
 
+export async function logout() {
+  signOut();
+}
+
+export async function postLogin(accessToken) {
+  try {
     const response = await fetch(`${API_URL}/users/login`, {
       method: 'POST',
       headers: {
@@ -24,9 +32,7 @@ export async function postLogin() {
     }
 
     localStorage.setItem('isLoggedIn', 'true');
-    const data = await response.json();
-
-    return data;
+    return await response.json();
   } catch (error) {
     console.error(error);
   }

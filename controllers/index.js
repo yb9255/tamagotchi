@@ -1,6 +1,7 @@
 import GameState from '../models/GameState.js';
 import ButtonState from '../models/ButtonState.js';
 import UserState from '../models/UserState.js';
+import TokenState from '../models/TokenState.js';
 import EggView from '../views/EggView.js';
 import ChildView from '../views/ChildView.js';
 import StateView from '../views/StateView.js';
@@ -8,6 +9,7 @@ import ModalView from '../views/ModalView.js';
 import FrameView from '../views/FrameView.js';
 import MenuView from '../views/MenuView.js';
 import Router from '../routes/router.js';
+
 import { INIT, GROWTH, TICK_SECONDS, IDLING } from '../constants/gameState.js';
 
 import {
@@ -17,6 +19,7 @@ import {
   stateCallback,
 } from '../utils/callbacks.js';
 import { observeRoot } from '../utils/observer.js';
+import { getToken, postLogin } from '../utils/api.js';
 
 import mainStyles from '../css/main.css';
 
@@ -26,6 +29,7 @@ class Controller {
     this.gameState = new GameState();
     this.buttonState = new ButtonState();
     this.userState = new UserState();
+    this.tokenState = new TokenState();
     this.frameView = new FrameView();
     this.eggView = new EggView();
     this.childView = new ChildView();
@@ -77,7 +81,40 @@ class Controller {
     handleEventsOnTick();
   }
 
-  handleUserData() {}
+  async handleUserLogin() {
+    const accessToken = await getToken();
+    this.tokenState.setAccessToken(accessToken);
+
+    const {
+      email,
+      picture,
+      state,
+      growth,
+      fun,
+      hunger,
+      birthCount,
+      tiredness,
+      happiness,
+      id,
+      exp,
+      profileName,
+      profileDescription,
+    } = (await this.tokenState.sendApiWithToken(postLogin)).userInformation;
+
+    this.userState.setUserState({ id, email, picture });
+    this.gameState.setGameState({
+      state,
+      growth,
+      fun,
+      hunger,
+      birthCount,
+      tiredness,
+      exp,
+      happiness,
+      profileName,
+      profileDescription,
+    });
+  }
 
   handleMainPage() {
     if (this.currentMainView) {
