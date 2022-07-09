@@ -17,9 +17,8 @@ class MainPage extends Page {
           <img src="${LOGO_IMAGE_PATH}" alt="logo" />
           <div class="${navbarStyles['navbar-links']}">
             <a href="/" data-link>main</a>
-            <a href="/login" data-link>login</a>
-            <a href="/profile" class="${styles.hidden}" data-link>profile</a>
-            <a href="/profile" class="${styles.hidden}" data-link>profile</a>
+            <a href="/profile" data-link>profile</a>
+            <a href="/login" class="${navbarStyles.logout}" data-link>logout</a>
           </div>
         </nav>
         <div class="${styles['tamagotchi-container']}">

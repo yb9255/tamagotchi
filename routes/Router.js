@@ -40,6 +40,8 @@ class Router {
   }
 
   router() {
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+
     const potentialMatches = this.#routes.map((route) => {
       return {
         route: route,
@@ -51,17 +53,18 @@ class Router {
       return potentialMatch.result !== null;
     });
 
-    if (!match) {
-      match = {
-        route: this.#routes[0],
-        result: ['/'],
-      };
-    }
-
     this.currentRoute = match.route.path;
 
     const view = new match.route.view();
     const root = document.querySelector('#root');
+
+    if (!isLoggedIn && location.pathname !== '/login') {
+      this.navigateTo('/login');
+      return;
+    } else if (isLoggedIn && (location.pathname === '/login' || !match)) {
+      this.navigateTo('/');
+      return;
+    }
 
     root.innerHTML = '';
     root.insertAdjacentHTML('afterbegin', view.getHtml());

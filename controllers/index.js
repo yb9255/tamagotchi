@@ -18,10 +18,10 @@ import {
   sleepCallback,
   stateCallback,
 } from '../utils/callbacks.js';
-import { observeRoot } from '../utils/observer.js';
-import { getToken, postLogin } from '../utils/api.js';
+import { getToken, postLogin, logout } from '../utils/api.js';
 
 import mainStyles from '../css/main.css';
+import navbarStyles from '../css/navbar.css';
 
 class Controller {
   constructor() {
@@ -48,8 +48,6 @@ class Controller {
     if (this.router.currentRoute === '/') {
       this.handleMainPage();
     }
-
-    observeRoot(this);
 
     const handleEventsOnTick = async () => {
       if (this.router.currentRoute === '/') {
@@ -114,6 +112,9 @@ class Controller {
       profileName,
       profileDescription,
     });
+
+    this.router.navigateTo('/');
+    this.handleEventsOverTime();
   }
 
   handleMainPage() {
@@ -127,6 +128,7 @@ class Controller {
     const frame = document.querySelector(`#${mainStyles.frame}`);
     const tablet = document.querySelector(`#${mainStyles.tablet}`);
     const modal = document.querySelector(`.${mainStyles.modal}`);
+    const logoutLink = document.querySelector(`.${navbarStyles.logout}`);
 
     this.buttonState.setButtonElements(leftBtn, middleBtn, rightBtn);
     this.frameView.setContext(frame);
@@ -134,6 +136,8 @@ class Controller {
     this.childView.setContext(tablet);
     this.stateView.setContext(tablet);
     this.modalView.setModalElement(modal);
+
+    logoutLink.addEventListener('click', logout);
 
     this.frameView.draw();
     this.#handleChangingPetPhases();

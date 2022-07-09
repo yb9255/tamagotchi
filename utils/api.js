@@ -1,5 +1,5 @@
 import { auth, provider } from '../firebase/firebase-config';
-import { signInWithPopup, signOut } from 'firebase/auth';
+import { signInWithPopup } from 'firebase/auth';
 
 const API_URL =
   process.env.ENV === 'development'
@@ -12,7 +12,8 @@ export async function getToken() {
 }
 
 export async function logout() {
-  signOut();
+  localStorage.removeItem('isLoggedIn');
+  auth.signOut();
 }
 
 export async function postLogin(accessToken) {
