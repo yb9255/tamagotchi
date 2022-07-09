@@ -1,5 +1,7 @@
 import GameState from '../models/GameState.js';
 import ButtonState from '../models/ButtonState.js';
+import UserState from '../models/UserState.js';
+import TokenState from '../models/TokenState.js';
 import EggView from '../views/EggView.js';
 import ChildView from '../views/ChildView.js';
 import StateView from '../views/StateView.js';
@@ -7,6 +9,7 @@ import ModalView from '../views/ModalView.js';
 import FrameView from '../views/FrameView.js';
 import MenuView from '../views/MenuView.js';
 import Router from '../routes/router.js';
+
 import { INIT, GROWTH, TICK_SECONDS, IDLING } from '../constants/gameState.js';
 
 import {
@@ -15,15 +18,18 @@ import {
   sleepCallback,
   stateCallback,
 } from '../utils/callbacks.js';
-import { observeRoot } from '../utils/observer.js';
+import { getToken, postLogin, logout } from '../utils/api.js';
 
 import mainStyles from '../css/main.css';
+import navbarStyles from '../css/navbar.css';
 
 class Controller {
   constructor() {
     this.router = new Router();
     this.gameState = new GameState();
     this.buttonState = new ButtonState();
+    this.userState = new UserState();
+    this.tokenState = new TokenState();
     this.frameView = new FrameView();
     this.eggView = new EggView();
     this.childView = new ChildView();
@@ -42,8 +48,6 @@ class Controller {
     if (this.router.currentRoute === '/') {
       this.handleMainPage();
     }
-
-    observeRoot(this);
 
     const handleEventsOnTick = async () => {
       if (this.router.currentRoute === '/') {
@@ -75,6 +79,44 @@ class Controller {
     handleEventsOnTick();
   }
 
+  async handleUserLogin() {
+    const accessToken = await getToken();
+    this.tokenState.setAccessToken(accessToken);
+
+    const {
+      email,
+      picture,
+      state,
+      growth,
+      fun,
+      hunger,
+      birthCount,
+      tiredness,
+      happiness,
+      id,
+      exp,
+      profileName,
+      profileDescription,
+    } = (await this.tokenState.sendApiWithToken(postLogin)).userInformation;
+
+    this.userState.setUserState({ id, email, picture });
+    this.gameState.setGameState({
+      state,
+      growth,
+      fun,
+      hunger,
+      birthCount,
+      tiredness,
+      exp,
+      happiness,
+      profileName,
+      profileDescription,
+    });
+
+    this.router.navigateTo('/');
+    this.handleEventsOverTime();
+  }
+
   handleMainPage() {
     if (this.currentMainView) {
       this.currentMainView.cancelAnimation();
@@ -86,6 +128,7 @@ class Controller {
     const frame = document.querySelector(`#${mainStyles.frame}`);
     const tablet = document.querySelector(`#${mainStyles.tablet}`);
     const modal = document.querySelector(`.${mainStyles.modal}`);
+    const logoutLink = document.querySelector(`.${navbarStyles.logout}`);
 
     this.buttonState.setButtonElements(leftBtn, middleBtn, rightBtn);
     this.frameView.setContext(frame);
@@ -93,6 +136,8 @@ class Controller {
     this.childView.setContext(tablet);
     this.stateView.setContext(tablet);
     this.modalView.setModalElement(modal);
+
+    logoutLink.addEventListener('click', logout);
 
     this.frameView.draw();
     this.#handleChangingPetPhases();

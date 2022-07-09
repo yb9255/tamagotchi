@@ -1,15 +1,20 @@
 import Controller from './controllers/index.js';
-import { postLogin } from './utils/api.js';
+import { observeRoot } from './utils/observer.js';
 
 async function init() {
+  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
   const controller = new Controller();
+  observeRoot(controller);
 
   if (controller.router.currentRoute === '/') {
-    controller.handleEventsOverTime();
-  }
-
-  if (controller.router.currentRoute === '/login') {
-    document.querySelector('button').addEventListener('click', postLogin);
+    if (isLoggedIn) {
+      controller.handleMainPage();
+      // await controller.handleUserLogin();
+    }
+  } else if (controller.router.currentRoute === '/login') {
+    document
+      .querySelector('button')
+      .addEventListener('click', controller.handleUserLogin.bind(controller));
   }
 }
 

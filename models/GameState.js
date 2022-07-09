@@ -9,6 +9,9 @@ class GameState {
     this.birthCount = -1;
     this.tiredness = -1;
     this.exp = -1;
+    this.happiness = -1;
+    this.profileName = null;
+    this.profileDescription = null;
 
     this.setStatesByTime = this.setStatesByTime.bind(this);
     this.startGame = this.startGame.bind(this);
@@ -18,6 +21,31 @@ class GameState {
     this.reduceHunger = this.reduceHunger.bind(this);
     this.resetFunState = this.resetFunState.bind(this);
     this.resetTirednessState = this.resetTirednessState.bind(this);
+  }
+
+  setGameState({
+    state,
+    growth,
+    fun,
+    hunger,
+    birthCount,
+    tiredness,
+    exp,
+    happiness,
+    profileName,
+    profileDescription,
+  }) {
+    this.state = state;
+    this.growth = growth;
+    this.fun = fun;
+    this.hunger = hunger;
+    this.happiness = happiness;
+    this.birthCount = birthCount;
+    this.tiredness = tiredness;
+    this.exp = exp;
+    this.happiness = happiness;
+    this.profileName = profileName;
+    this.profileDescription = profileDescription;
   }
 
   setStatesByTime() {
