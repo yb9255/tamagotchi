@@ -8,7 +8,6 @@ export function observeRoot(controller) {
         return;
       }
 
-      console.log(1);
       controller.handlePatchingUserInfo();
     }
 
