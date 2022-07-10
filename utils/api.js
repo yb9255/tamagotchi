@@ -6,18 +6,21 @@ const API_URL =
     ? process.env.API_URL_DEV
     : process.env.API_URL_PROD;
 
-export async function getToken() {
+async function getToken() {
   const response = await signInWithPopup(auth, provider);
   return response.user.accessToken;
 }
 
 export async function logout() {
+  document.cookie = `server_token=''; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
   localStorage.removeItem('isLoggedIn');
   auth.signOut();
 }
 
-export async function postLogin(accessToken) {
+export async function postLogin() {
   try {
+    const accessToken = await getToken();
+
     const response = await fetch(`${API_URL}/users/login`, {
       method: 'POST',
       headers: {
@@ -26,6 +29,7 @@ export async function postLogin(accessToken) {
       body: JSON.stringify({
         accessToken: `BEARER ${accessToken}`,
       }),
+      credentials: 'include',
     });
 
     if (!response.ok) {
@@ -33,8 +37,18 @@ export async function postLogin(accessToken) {
     }
 
     localStorage.setItem('isLoggedIn', 'true');
+
     return await response.json();
   } catch (error) {
     console.error(error);
   }
+}
+
+export async function getUserInformation() {
+  const response = await fetch(`${API_URL}/users/userInformation`, {
+    method: 'GET',
+    credentials: 'include',
+  });
+
+  return await response.json();
 }

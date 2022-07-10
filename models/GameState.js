@@ -124,6 +124,19 @@ class GameState {
   resetTirednessState() {
     this.tiredness = 0;
   }
+
+  reset() {
+    this.state = INIT;
+    this.growth = INIT;
+    this.fun = -1;
+    this.hunger = -1;
+    this.birthCount = -1;
+    this.tiredness = -1;
+    this.exp = -1;
+    this.happiness = -1;
+    this.profileName = null;
+    this.profileDescription = null;
+  }
 }
 
 export default GameState;

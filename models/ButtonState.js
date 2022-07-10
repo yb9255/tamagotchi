@@ -40,6 +40,16 @@ class ButtonState {
     this.middleBtn.removeEventListener('click', this.middleCallback);
     this.rightBtn.removeEventListener('click', this.rightCallback);
   }
+
+  reset() {
+    this.state = null;
+    this.leftCallback = null;
+    this.middleCallback = null;
+    this.rightCallback = null;
+    this.leftBtn = null;
+    this.middleBtn = null;
+    this.rightBtn = null;
+  }
 }
 
 export default ButtonState;
