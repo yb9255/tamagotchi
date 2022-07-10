@@ -1,5 +1,6 @@
 import MainPage from './MainPage.js';
 import LoginPage from './LoginPage.js';
+import ProfilePage from './ProfilePage.js';
 
 class Router {
   #routes = null;
@@ -17,7 +18,7 @@ class Router {
       },
       {
         path: '/profile',
-        view: MainPage,
+        view: ProfilePage,
       },
       {
         path: '/profile/:userId',
@@ -58,7 +59,7 @@ class Router {
     const view = new match.route.view();
     const root = document.querySelector('#root');
 
-    if (!isLoggedIn && location.pathname !== '/login') {
+    if (!isLoggedIn && (location.pathname !== '/login' || !match)) {
       this.navigateTo('/login');
       return;
     } else if (isLoggedIn && (location.pathname === '/login' || !match)) {
@@ -74,11 +75,14 @@ class Router {
     document.body.addEventListener('click', (event) => {
       if (event.target.matches('[data-link]')) {
         event.preventDefault();
+
         this.navigateTo(event.target.href);
       }
     });
 
-    window.addEventListener('popstate', this.router.bind(this));
+    window.addEventListener('popstate', () => {
+      this.router.bind(this);
+    });
 
     this.router();
   }

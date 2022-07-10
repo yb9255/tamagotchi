@@ -45,10 +45,36 @@ export async function postLogin() {
 }
 
 export async function getUserInformation() {
-  const response = await fetch(`${API_URL}/users/userInformation`, {
+  const response = await fetch(`${API_URL}/users/user-information`, {
     method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
     credentials: 'include',
   });
+
+  if (!response.ok) {
+    throw new Error(`Something went wrong.. ${response.status}`);
+  }
+
+  return await response.json();
+}
+
+export async function patchUserInformation(newInformation) {
+  const response = await fetch(`${API_URL}/users/new-information`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      newInformation,
+    }),
+    credentials: 'include',
+  });
+
+  if (!response.ok) {
+    throw new Error(`Something went wrong.. ${response.status}`);
+  }
 
   return await response.json();
 }

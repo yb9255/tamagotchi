@@ -9,7 +9,3 @@
   padding: 0;
   box-sizing: border-box;
 }
-
-:global(hidden) {
-  display: none;
-}
