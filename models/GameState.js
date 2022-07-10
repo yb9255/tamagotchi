@@ -137,6 +137,21 @@ class GameState {
     this.profileName = null;
     this.profileDescription = null;
   }
+
+  getProperties() {
+    return {
+      state: this.state,
+      growth: this.growth,
+      fun: this.fun,
+      hunger: this.hunger,
+      birthCount: this.birthCount,
+      tiredness: this.tiredness,
+      exp: this.exp,
+      happiness: this.happiness,
+      profileName: this.profileName,
+      profileDescription: this.profileDescription,
+    };
+  }
 }
 
 export default GameState;

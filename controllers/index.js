@@ -17,7 +17,12 @@ import {
   sleepCallback,
   stateCallback,
 } from '../utils/callbacks.js';
-import { postLogin, logout, getUserInformation } from '../utils/api.js';
+import {
+  postLogin,
+  logout,
+  getUserInformation,
+  patchUserInformation,
+} from '../utils/api.js';
 
 import mainStyles from '../css/main.css';
 import navbarStyles from '../css/navbar.css';
@@ -44,7 +49,7 @@ class Controller {
     let nextTimeforEvent = TICK_SECONDS;
 
     if (this.router.currentRoute === '/') {
-      this.handleMainPage();
+      this.handleSettingMainPage();
     }
 
     const handleEventsOnTick = async () => {
@@ -108,7 +113,6 @@ class Controller {
     });
 
     this.router.navigateTo('/');
-    this.handleEventsOverTime();
   }
 
   handleUserLogout() {
@@ -148,7 +152,7 @@ class Controller {
     });
   }
 
-  handleMainPage() {
+  handleSettingMainPage() {
     if (this.currentMainView) {
       this.currentMainView.cancelAnimation();
     }
@@ -159,7 +163,6 @@ class Controller {
     const frame = document.querySelector(`#${mainStyles.frame}`);
     const tablet = document.querySelector(`#${mainStyles.tablet}`);
     const modal = document.querySelector(`.${mainStyles.modal}`);
-    const logoutLink = document.querySelector(`.${navbarStyles.logout}`);
 
     this.buttonState.setButtonElements(leftBtn, middleBtn, rightBtn);
     this.frameView.setContext(frame);
@@ -168,10 +171,22 @@ class Controller {
     this.stateView.setContext(tablet);
     this.modalView.setModalElement(modal);
 
-    logoutLink.addEventListener('click', this.handleUserLogout.bind(this));
+    this.handleSettingNavBar();
 
     this.frameView.draw();
     this.#handleChangingPetPhases();
+  }
+
+  handleSettingNavBar() {
+    const logoutLink = document.querySelector(`.${navbarStyles.logout}`);
+    logoutLink.addEventListener('click', this.handleUserLogout.bind(this));
+  }
+
+  async handlePatchingUserInfo() {
+    await patchUserInformation({
+      ...this.userState.getProperties(),
+      ...this.gameState.getProperties(),
+    });
   }
 
   async #handleFallingAsleep() {

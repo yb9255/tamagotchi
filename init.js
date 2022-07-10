@@ -6,11 +6,22 @@ async function init() {
   const controller = new Controller();
   observeRoot(controller);
 
+  window.addEventListener('beforeunload', async (event) => {
+    if (controller.router.currentRoute !== '/login') {
+      await controller.handlePatchingUserInfo();
+      event.preventDefault();
+      event.returnValue = false;
+    }
+  });
+
   if (controller.router.currentRoute === '/') {
     if (isLoggedIn) {
-      controller.handleMainPage();
       controller.handleGettingUserInfo();
+      controller.handleSettingMainPage();
+      controller.handleEventsOverTime();
     }
+  } else if (controller.router.currentRoute === 'profile') {
+    controller.handleSettingNavBar();
   } else if (controller.router.currentRoute === '/login') {
     document
       .querySelector('button')
