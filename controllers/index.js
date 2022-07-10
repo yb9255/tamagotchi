@@ -1,7 +1,6 @@
 import GameState from '../models/GameState.js';
 import ButtonState from '../models/ButtonState.js';
 import UserState from '../models/UserState.js';
-import TokenState from '../models/TokenState.js';
 import EggView from '../views/EggView.js';
 import ChildView from '../views/ChildView.js';
 import StateView from '../views/StateView.js';
@@ -18,7 +17,7 @@ import {
   sleepCallback,
   stateCallback,
 } from '../utils/callbacks.js';
-import { getToken, postLogin, logout } from '../utils/api.js';
+import { postLogin, logout, getUserInformation } from '../utils/api.js';
 
 import mainStyles from '../css/main.css';
 import navbarStyles from '../css/navbar.css';
@@ -29,7 +28,6 @@ class Controller {
     this.gameState = new GameState();
     this.buttonState = new ButtonState();
     this.userState = new UserState();
-    this.tokenState = new TokenState();
     this.frameView = new FrameView();
     this.eggView = new EggView();
     this.childView = new ChildView();
@@ -80,9 +78,6 @@ class Controller {
   }
 
   async handleUserLogin() {
-    const accessToken = await getToken();
-    this.tokenState.setAccessToken(accessToken);
-
     const {
       email,
       picture,
@@ -93,13 +88,12 @@ class Controller {
       birthCount,
       tiredness,
       happiness,
-      id,
       exp,
       profileName,
       profileDescription,
-    } = (await this.tokenState.sendApiWithToken(postLogin)).userInformation;
+    } = (await postLogin()).userInformation;
 
-    this.userState.setUserState({ id, email, picture });
+    this.userState.setUserState({ email, picture });
     this.gameState.setGameState({
       state,
       growth,
@@ -115,6 +109,43 @@ class Controller {
 
     this.router.navigateTo('/');
     this.handleEventsOverTime();
+  }
+
+  handleUserLogout() {
+    this.gameState.reset();
+    this.buttonState.reset();
+    logout();
+  }
+
+  async handleGettingUserInfo() {
+    const {
+      email,
+      picture,
+      state,
+      growth,
+      fun,
+      hunger,
+      birthCount,
+      tiredness,
+      happiness,
+      exp,
+      profileName,
+      profileDescription,
+    } = (await getUserInformation()).userInformation;
+
+    this.userState.setUserState({ email, picture });
+    this.gameState.setGameState({
+      state,
+      growth,
+      fun,
+      hunger,
+      birthCount,
+      tiredness,
+      exp,
+      happiness,
+      profileName,
+      profileDescription,
+    });
   }
 
   handleMainPage() {
@@ -137,7 +168,7 @@ class Controller {
     this.stateView.setContext(tablet);
     this.modalView.setModalElement(modal);
 
-    logoutLink.addEventListener('click', logout);
+    logoutLink.addEventListener('click', this.handleUserLogout.bind(this));
 
     this.frameView.draw();
     this.#handleChangingPetPhases();

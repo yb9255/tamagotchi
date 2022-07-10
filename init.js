@@ -9,7 +9,7 @@ async function init() {
   if (controller.router.currentRoute === '/') {
     if (isLoggedIn) {
       controller.handleMainPage();
-      // await controller.handleUserLogin();
+      controller.handleGettingUserInfo();
     }
   } else if (controller.router.currentRoute === '/login') {
     document
