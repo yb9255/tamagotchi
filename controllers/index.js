@@ -126,6 +126,13 @@ class Controller {
   }
 
   async handleGettingUserInfo() {
+    const response = await getUserInformation();
+
+    if (response.message === '로그인 토큰이 존재하지 않습니다.') {
+      await this.handleUserLogin();
+      return;
+    }
+
     const {
       email,
       picture,
@@ -139,7 +146,7 @@ class Controller {
       exp,
       profileName,
       profileDescription,
-    } = (await getUserInformation()).userInformation;
+    } = response;
 
     this.userState.setUserState({ email, picture });
     this.gameState.setGameState({

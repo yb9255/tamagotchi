@@ -8,7 +8,6 @@ async function init() {
 
   window.addEventListener('beforeunload', async (event) => {
     if (controller.router.currentRoute !== '/login') {
-      controller.currentMainView.cancelAnimation();
       await controller.handlePatchingUserInfo();
       event.preventDefault();
       event.returnValue = false;

@@ -3,8 +3,8 @@ import styles from '../css/login.css';
 import { LOGO_IMAGE_PATH } from '../constants/imagePath';
 
 class LoginPage extends Page {
-  constructor() {
-    super();
+  constructor(params) {
+    super(params);
     this.setTitle('Tamagotchi!');
   }
 
