@@ -24,15 +24,26 @@ class Router {
         path: '/profile/:userId',
         view: MainPage,
       },
-      {
-        path: '/game',
-        view: MainPage,
-      },
-      {
-        path: '/game/:userId',
-        view: MainPage,
-      },
     ];
+  }
+
+  pathToRegex(path) {
+    return new RegExp(
+      '^' + path.replace(/\//g, '\\/').replace(/:\w+/g, '(.+)') + '$',
+    );
+  }
+
+  getParams(match) {
+    const keys = Array.from(match.route.path.matchAll(/:(\w+)/g)).map(
+      (result) => result[1],
+    );
+    const values = match.result.slice(1);
+
+    return Object.fromEntries(
+      keys.map((key, index) => {
+        return [key, values[index]];
+      }),
+    );
   }
 
   navigateTo(href) {
@@ -42,22 +53,16 @@ class Router {
 
   router() {
     const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-
     const potentialMatches = this.#routes.map((route) => {
       return {
         route: route,
-        result: location.pathname === route.path ? true : null,
+        result: location.pathname.match(this.pathToRegex(route.path)),
       };
     });
 
     let match = potentialMatches.find((potentialMatch) => {
       return potentialMatch.result !== null;
     });
-
-    this.currentRoute = match.route.path;
-
-    const view = new match.route.view();
-    const root = document.querySelector('#root');
 
     if (!isLoggedIn && (location.pathname !== '/login' || !match)) {
       this.navigateTo('/login');
@@ -66,6 +71,11 @@ class Router {
       this.navigateTo('/');
       return;
     }
+
+    this.currentRoute = match.route.path;
+
+    const view = new match.route.view(this.getParams(match));
+    const root = document.querySelector('#root');
 
     root.innerHTML = '';
     root.insertAdjacentHTML('afterbegin', view.getHtml());
