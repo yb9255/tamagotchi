@@ -204,6 +204,10 @@ class Controller {
       `.${profileStyles['edit-my-profile']}`,
     );
 
+    const roomBtn = document.querySelector(
+      `.${profileStyles['make-profile-room']}`,
+    );
+
     this.profileModalView.setModals(profileModal, updateModal, backdrop);
     this.profileModalView.drawProfileModal(this.gameState);
 
@@ -227,6 +231,11 @@ class Controller {
 
     updateBtn.addEventListener('click', () => {
       this.profileModalView.openUpdateModal();
+    });
+
+    roomBtn.addEventListener('click', () => {
+      const username = this.userState.email.split('@')[0];
+      this.router.navigateTo(`/profile/${username}`);
     });
 
     updateModal
