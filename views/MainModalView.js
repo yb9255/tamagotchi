@@ -1,6 +1,6 @@
 import mainStyles from '../css/main.css';
 
-class ModalView {
+class MainModalView {
   #modal = null;
 
   constructor() {}
@@ -18,4 +18,4 @@ class ModalView {
   }
 }
 
-export default ModalView;
+export default MainModalView;

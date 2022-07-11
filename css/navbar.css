@@ -4,7 +4,7 @@ nav {
   align-items: center;
   gap: 20px;
   width: 100vw;
-  height: 5vh;
+  height: 7vh;
   padding: 5px 20px;
   background-color: #f07bed;
 }
@@ -18,15 +18,19 @@ nav img {
   display: flex;
   width: 10vw;
   align-items: center;
-  gap: 30px;
+  gap: 3vw;
+  margin-right: 5vw;
 }
 
 nav a {
   text-decoration: none;
   text-align: center;
   text-transform: uppercase;
+  font-family: 'VT323';
+  font-size: 1.5rem;
   color: #000;
 }
 
 .logout {
+  display: block;
 }

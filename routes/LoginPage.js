@@ -12,7 +12,7 @@ class LoginPage extends Page {
     return `
       <div class="${styles.container}">
         <img src="${LOGO_IMAGE_PATH}" alt="logo" />
-        <button>Sign in with Google</button>
+        <button class=${styles['login-btn']}>Sign in with Google</button>
       </div>
     `;
   }

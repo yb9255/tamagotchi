@@ -78,3 +78,20 @@ export async function patchUserInformation(newInformation) {
 
   return await response.json();
 }
+
+export async function patchProfile(newProfile) {
+  const response = await fetch(`${API_URL}/users/profile`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ newProfile }),
+    credentials: 'include',
+  });
+
+  if (!response.ok) {
+    throw new Error(`Something went wrong.. ${response.status}`);
+  }
+
+  return await response.json();
+}

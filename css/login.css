@@ -9,7 +9,7 @@
   background-color: #f3aaf3;
 }
 
-button {
+.login-btn {
   width: 15vw;
   height: 5vh;
   color: #2d3d72;
@@ -21,12 +21,12 @@ button {
   transition: background-color 0.3s, color 0.3s;
 }
 
-button:hover {
+.login-btn:hover {
   color: #fff;
   background-color: #2d3d72;
   border: none;
 }
 
-button:active {
+.login-btn:active {
   background-color: #345ee7;
 }

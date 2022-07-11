@@ -23,6 +23,7 @@
 }
 
 #frame {
+  display: block;
 }
 
 #tablet {
@@ -59,6 +60,7 @@
 }
 
 .btn--1 {
+  display: block;
 }
 
 .btn--2 {
@@ -66,6 +68,7 @@
 }
 
 .btn--3 {
+  display: block;
 }
 
 /* MODAL */
