@@ -1,0 +1,185 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: #f3aaf3;
+  position: relative;
+  font-family: 'VT323';
+}
+
+/* BODY */
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 80vw;
+  height: 80vh;
+}
+
+.profile-heading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.profile-heading h1 {
+  font-size: 5rem;
+}
+
+.heading-btn-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.heading-btn-container button {
+  width: 15vw;
+  border: none;
+  font-family: inherit;
+  font-size: 1.1rem;
+  color: #c21dbc;
+  background-color: transparent;
+  border: 1px solid #c21dbc;
+  border-radius: 2rem;
+  padding: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.heading-btn-container button:hover {
+  color: #fff;
+  background-color: #c21dbc;
+  border: none;
+}
+
+.heading-btn-container .see-my-profile {
+}
+
+.heading-btn-container .edit-my-profile {
+}
+
+.heading-btn-container .make-profile-room {
+}
+
+/* MODAL */
+
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30vw;
+  height: 30vh;
+  background-color: #fff;
+  border-radius: 0.5rem;
+  z-index: 3;
+}
+
+.modal form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 3vh;
+}
+
+.modal form input {
+  width: 20vw;
+  padding: 0.3rem;
+  border: none;
+  border-bottom: 1px solid #f3aaf3;
+  outline: none;
+}
+
+.modal form input::placeholder {
+  color: #f3aaf3;
+}
+
+.modal form input:focus::placeholder {
+  color: transparent;
+}
+
+.modal form .name-input {
+}
+
+.modal form .description-input {
+}
+
+.modal form button {
+  width: 7vw;
+  height: 3vh;
+  color: #f07bed;
+  border: 1px solid #f07bed;
+  border-radius: 5px;
+  background-color: transparent;
+  text-transform: capitalize;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.modal form button:hover {
+  color: #fff;
+  background-color: #f07bed;
+  border: none;
+}
+
+.modal form button:active {
+  background-color: #f3aaf3;
+}
+
+.modal .x-btn {
+  font-size: 1.5rem;
+  position: absolute;
+  top: 0.5rem;
+  right: 1rem;
+  cursor: pointer;
+}
+
+.backdrop {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 2;
+}
+
+.update-modal {
+}
+
+.profile-modal {
+}
+
+.profile-modal img {
+  width: 300px;
+  height: 300px;
+}
+
+.profile-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.profile-detail .profile-name {
+}
+
+.profile-detail .profile-description {
+}
+
+.profile-detail .profile-happiness {
+}
+
+/* ETC */
+
+.hidden {
+  display: none;
+}

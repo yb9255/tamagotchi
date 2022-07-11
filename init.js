@@ -8,6 +8,7 @@ async function init() {
 
   window.addEventListener('beforeunload', async (event) => {
     if (controller.router.currentRoute !== '/login') {
+      controller.currentMainView.cancelAnimation();
       await controller.handlePatchingUserInfo();
       event.preventDefault();
       event.returnValue = false;
@@ -16,12 +17,16 @@ async function init() {
 
   if (controller.router.currentRoute === '/') {
     if (isLoggedIn) {
-      controller.handleGettingUserInfo();
+      await controller.handleGettingUserInfo();
+      controller.handleSettingNavBar();
       controller.handleSettingMainPage();
       controller.handleEventsOverTime();
     }
-  } else if (controller.router.currentRoute === 'profile') {
+  } else if (controller.router.currentRoute === '/profile') {
+    await controller.handleGettingUserInfo();
     controller.handleSettingNavBar();
+    controller.handleSettingProfilePage();
+    controller.handleEventsOverTime();
   } else if (controller.router.currentRoute === '/login') {
     document
       .querySelector('button')

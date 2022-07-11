@@ -48,6 +48,11 @@ class GameState {
     this.profileDescription = profileDescription;
   }
 
+  setProfile(profileName, profileDescription) {
+    this.profileName = profileName;
+    this.profileDescription = profileDescription;
+  }
+
   setStatesByTime() {
     if (
       (this.growth === GROWTH[1] || this.growth === GROWTH[2]) &&
@@ -61,8 +66,13 @@ class GameState {
         this.hunger += 1;
       }
 
-      if (this.fun > 5 && this.hunger < 5 && this.tiredness < 7) {
+      if (this.fun > 5 && this.hunger < 5 && this.tiredness < 5) {
         this.exp += 5;
+        this.happiness += 10;
+      }
+
+      if (this.fun < 5 && this.hunger > 5 && this.tiredness < 5) {
+        this.happiness -= 10;
       }
 
       this.tiredness += 0.5;
@@ -81,8 +91,9 @@ class GameState {
       this.growth = GROWTH[1];
       this.fun = 5;
       this.hunger = 5;
-      this.tiredness = 9;
+      this.tiredness = 5;
       this.exp = 0;
+      this.happiness = 0;
       this.state = IDLING;
       return;
     }

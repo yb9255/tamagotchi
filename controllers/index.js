@@ -4,7 +4,8 @@ import UserState from '../models/UserState.js';
 import EggView from '../views/EggView.js';
 import ChildView from '../views/ChildView.js';
 import StateView from '../views/StateView.js';
-import ModalView from '../views/ModalView.js';
+import MainModalView from '../views/MainModalView.js';
+import ProfileModalView from '../views/ProfileModalView.js';
 import FrameView from '../views/FrameView.js';
 import MenuView from '../views/MenuView.js';
 import Router from '../routes/router.js';
@@ -22,10 +23,12 @@ import {
   logout,
   getUserInformation,
   patchUserInformation,
+  patchProfile,
 } from '../utils/api.js';
 
 import mainStyles from '../css/main.css';
 import navbarStyles from '../css/navbar.css';
+import profileStyles from '../css/profile.css';
 
 class Controller {
   constructor() {
@@ -37,7 +40,8 @@ class Controller {
     this.eggView = new EggView();
     this.childView = new ChildView();
     this.stateView = new StateView();
-    this.modalView = new ModalView();
+    this.mainModalView = new MainModalView();
+    this.profileModalView = new ProfileModalView();
     this.menuView = new MenuView();
     this.currentMainView = null;
 
@@ -57,6 +61,10 @@ class Controller {
         if (this.gameState.state === IDLING) {
           currenTime++;
         }
+
+        if (this.gameState.growth !== this.buttonState.state) {
+          this.#handleChangingPetPhases();
+        }
       }
 
       if (this.gameState.tiredness >= 10) {
@@ -65,10 +73,6 @@ class Controller {
         this.childView.cancelAnimation();
 
         await this.#handleFallingAsleep();
-      }
-
-      if (this.gameState.growth !== this.buttonState.state) {
-        this.#handleChangingPetPhases();
       }
 
       if (currenTime >= nextTimeforEvent) {
@@ -169,9 +173,7 @@ class Controller {
     this.eggView.setContext(tablet);
     this.childView.setContext(tablet);
     this.stateView.setContext(tablet);
-    this.modalView.setModalElement(modal);
-
-    this.handleSettingNavBar();
+    this.mainModalView.setModalElement(modal);
 
     this.frameView.draw();
     this.#handleChangingPetPhases();
@@ -180,6 +182,86 @@ class Controller {
   handleSettingNavBar() {
     const logoutLink = document.querySelector(`.${navbarStyles.logout}`);
     logoutLink.addEventListener('click', this.handleUserLogout.bind(this));
+  }
+
+  async handleSettingProfilePage() {
+    const profileModal = document.querySelector(
+      `.${profileStyles['profile-modal']}`,
+    );
+    const updateModal = document.querySelector(
+      `.${profileStyles['update-modal']}`,
+    );
+    const backdrop = document.querySelector(`.${profileStyles.backdrop}`);
+
+    const profileBtn = document.querySelector(
+      `.${profileStyles['see-my-profile']}`,
+    );
+
+    const updateBtn = document.querySelector(
+      `.${profileStyles['edit-my-profile']}`,
+    );
+
+    this.profileModalView.setModals(profileModal, updateModal, backdrop);
+    this.profileModalView.drawProfileModal(this.gameState);
+
+    const xBtns = document.querySelectorAll(`.${profileStyles['x-btn']}`);
+
+    xBtns.forEach((xBtn) => {
+      xBtn.addEventListener('click', () => {
+        this.profileModalView.closeUpdateModal();
+        this.profileModalView.closeProfileModal();
+      });
+    });
+
+    backdrop.addEventListener('click', () => {
+      this.profileModalView.closeUpdateModal();
+      this.profileModalView.closeProfileModal();
+    });
+
+    profileBtn.addEventListener('click', () => {
+      this.profileModalView.openProfileModal();
+    });
+
+    updateBtn.addEventListener('click', () => {
+      this.profileModalView.openUpdateModal();
+    });
+
+    updateModal
+      .querySelector('form')
+      .addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const newName = event.target.querySelector(
+          `.${profileStyles['name-input']}`,
+        ).value;
+
+        const newDescription = event.target.querySelector(
+          `.${profileStyles['description-input']}`,
+        ).value;
+
+        if (newName.trim() === '' && newDescription.trim() === '') {
+          return;
+        }
+
+        await patchProfile({
+          profileName: newName,
+          profileDescription: newDescription,
+        });
+
+        this.gameState.setProfile(newName, newDescription);
+
+        this.profileModalView.drawProfileModal(this.gameState, () => {
+          this.profileModalView.closeUpdateModal();
+          this.profileModalView.closeProfileModal();
+        });
+
+        this.profileModalView.closeUpdateModal();
+      });
+  }
+
+  async handlePatchingProfileInfo(newProfile) {
+    this.gameState.setProfile(...newProfile);
+    await patchProfile(newProfile);
   }
 
   async handlePatchingUserInfo() {
@@ -250,6 +332,14 @@ class Controller {
   }
 
   async #initEggPhase() {
+    await this.handlePatchingUserInfo();
+
+    if (this.currentMainView) {
+      this.currentMainView.cancelAnimation();
+    }
+
+    this.currentMainView = this.eggView;
+
     const callback = async () => {
       if (this.gameState.birthCount > 0) {
         await this.eggView.drawShakedEgg();
@@ -270,7 +360,18 @@ class Controller {
   }
 
   async #initChildPhase() {
-    this.modalView.hiddenModal();
+    await this.handlePatchingUserInfo();
+
+    if (this.currentMainView) {
+      this.currentMainView.cancelAnimation();
+    }
+
+    this.currentMainView = this.childView;
+
+    if (this.router.currentRoute === '/') {
+      this.mainModalView.hiddenModal();
+    }
+
     this.buttonState.state = this.gameState.growth;
     this.buttonState.removeListeners();
 
