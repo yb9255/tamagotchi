@@ -1,0 +1,105 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: #f3aaf3;
+  position: relative;
+  font-family: 'VT323';
+}
+
+.room-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 1fr;
+  width: 100vw;
+  height: 95vh;
+}
+
+/* LEFT */
+
+.room-container .room-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+}
+
+.room-container .room-left .host-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  width: 15vw;
+  height: 10vh;
+}
+
+.room-container .room-left .host-info img {
+  width: 3rem;
+  height: 3rem;
+}
+
+.room-container .room-left .host-pet-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 25vw;
+  height: 60vh;
+  background-color: #fff;
+  border-radius: 30px;
+}
+
+.room-container .room-left .host-pet-card img {
+  width: 15vw;
+  height: 15vw;
+}
+
+.room-container .room-left .host-pet-card .host-pet-profile {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  font-size: 3rem;
+}
+
+/* RIGHT */
+
+.room-container .room-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5vh;
+}
+
+.room-container .room-right .chat-log {
+  width: 25vw;
+  height: 40vh;
+  background-color: #fff;
+  overflow: auto;
+}
+
+.room-container .room-right .chat-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  width: 20vw;
+  height: 10vh;
+}
+
+.room-container .room-right .chat-text-area {
+  width: 20vw;
+  height: 10vh;
+  padding: 0.3rem;
+  resize: none;
+  outline: none;
+}
+
+.room-container .room-right .chat-btn {
+  width: 5vw;
+  height: 5vh;
+}

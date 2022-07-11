@@ -38,9 +38,9 @@ class ProfilePage extends Page {
           <div class="${profileStyles['profile-heading']}">
             <h1>Show Your Tamagotchi!</h1>
             <div class="${profileStyles['heading-btn-container']}">
-              <button class="${profileStyles['see-my-profile']}">See Tamagotchi's Profile</button>
-              <button class="${profileStyles['edit-my-profile']}">Edit Tamagotchi's Profile</button>
-              <button class="${profileStyles['make-profile-room']}">Show My Tamagotchi</button>
+              <button class="${profileStyles['see-my-profile']}">See the Profile</button>
+              <button class="${profileStyles['edit-my-profile']}">Edit the Profile</button>
+              <button class="${profileStyles['make-profile-room']}">Show the Profile</button>
             </div>
           </div>
           <div class="profile-rooms"></div>
