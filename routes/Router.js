@@ -29,7 +29,9 @@ class Router {
   }
 
   pathToRegex(path) {
-    return new RegExp(path.replace(/\//g, '\\/').replace(/:\w+/g, '(.+)'));
+    return new RegExp(
+      '^' + path.replace(/\//g, '\\/').replace(/:\w+/g, '(.+)') + '$',
+    );
   }
 
   getParams(match) {
