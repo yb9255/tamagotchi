@@ -16,7 +16,7 @@ module.exports = merge(common, {
     },
     compress: true,
     port: 3000,
-    historyApiFallback: { index: 'index.html' },
+    historyApiFallback: true,
   },
   module: {
     rules: [
