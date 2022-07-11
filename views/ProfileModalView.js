@@ -22,7 +22,7 @@ class ProfileModalView extends View {
     this.#backdrop = backdrop;
   }
 
-  drawProfileModal(gameState, closeModal) {
+  drawProfileModal(gameState, closeModal = null) {
     this.#profileModal.innerHTML = '';
     this.#profileModal.insertAdjacentHTML(
       'afterbegin',
@@ -54,9 +54,11 @@ class ProfileModalView extends View {
         `,
       );
 
-    this.#profileModal
-      .querySelector(`.${profileStyles['x-btn']}`)
-      .addEventListener('click', closeModal);
+    if (closeModal) {
+      this.#profileModal
+        .querySelector(`.${profileStyles['x-btn']}`)
+        .addEventListener('click', closeModal);
+    }
   }
 
   openProfileModal() {
