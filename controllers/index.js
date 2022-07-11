@@ -8,7 +8,7 @@ import MainModalView from '../views/MainModalView.js';
 import ProfileModalView from '../views/ProfileModalView.js';
 import FrameView from '../views/FrameView.js';
 import MenuView from '../views/MenuView.js';
-import Router from '../routes/router.js';
+import Router from '../routes/Router.js';
 
 import { INIT, GROWTH, TICK_SECONDS, IDLING } from '../constants/gameState.js';
 
