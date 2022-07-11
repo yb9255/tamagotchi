@@ -52,10 +52,6 @@ class Controller {
     let currenTime = 0;
     let nextTimeforEvent = TICK_SECONDS;
 
-    if (this.router.currentRoute === '/') {
-      this.handleSettingMainPage();
-    }
-
     const handleEventsOnTick = async () => {
       if (this.router.currentRoute === '/') {
         if (this.gameState.state === IDLING) {
@@ -146,7 +142,7 @@ class Controller {
       exp,
       profileName,
       profileDescription,
-    } = response;
+    } = response.userInformation;
 
     this.userState.setUserState({ email, picture });
     this.gameState.setGameState({
@@ -328,10 +324,8 @@ class Controller {
         rightCallback: callback,
       });
     } else if (this.gameState.growth === GROWTH[0]) {
-      this.currentMainView = this.eggView;
       this.#initEggPhase();
     } else if (this.gameState.growth === GROWTH[1]) {
-      this.currentMainView = this.childView;
       this.#initChildPhase();
     } else if (this.gameState.growth === GROWTH[2]) {
       this.buttonState.state = this.gameState.growth;

@@ -16,6 +16,9 @@ module.exports = {
       path: '.env',
     }),
   ],
+  output: {
+    publicPath: '/',
+  },
   module: {
     rules: [
       {

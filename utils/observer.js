@@ -1,4 +1,5 @@
 import mainStyles from '../css/main.css';
+import loginStyles from '../css/login.css';
 
 export function observeRoot(controller) {
   const observer = new MutationObserver(async (entries) => {
@@ -15,7 +16,12 @@ export function observeRoot(controller) {
     if (controller.router.currentRoute === '/') {
       controller.handleSettingMainPage();
       controller.handleSettingNavBar();
-      await controller.handleGettingUserInfo();
+
+      if (
+        entries[0].removedNodes[1].classList.contains(loginStyles.container)
+      ) {
+        controller.handleEventsOverTime();
+      }
     } else if (controller.router.currentRoute === '/profile') {
       controller.handleSettingNavBar();
       controller.handleSettingProfilePage();
