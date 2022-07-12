@@ -25,6 +25,9 @@ export function observeRoot(controller) {
     } else if (controller.router.currentRoute === '/profile') {
       controller.handleSettingNavBar();
       controller.handleSettingProfilePage();
+    } else if (controller.router.currentRoute === '/profile/:userId') {
+      controller.handleSettingNavBar();
+      controller.handleSettingProfileRoomPage();
     } else if (controller.router.currentRoute === '/login') {
       document
         .querySelector('button')
