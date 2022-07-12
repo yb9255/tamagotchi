@@ -7,20 +7,21 @@ async function init() {
   const controller = new Controller();
   observeRoot(controller);
 
-  document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'hidden') {
-      const userInformation = JSON.stringify({
-        ...controller.userState.getProperties(),
-        ...controller.gameState.getProperties(),
-      });
+  window.addEventListener('beforeunload', (event) => {
+    event.preventDefault();
 
-      postUserInfoWithClose(userInformation);
-    }
+    const userInformation = {
+      ...controller.userState.getProperties(),
+      ...controller.gameState.getProperties(),
+    };
+
+    postUserInfoWithClose(userInformation);
   });
 
   if (controller.router.currentRoute === '/') {
+    await controller.handleGettingUserInfo();
+
     if (isLoggedIn) {
-      await controller.handleGettingUserInfo();
       controller.handleSettingNavBar();
       controller.handleSettingMainPage();
       controller.handleEventsOverTime();

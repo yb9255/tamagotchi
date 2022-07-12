@@ -12,8 +12,8 @@ async function getToken() {
 }
 
 export function logout() {
-  document.cookie = `server_token=''; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
   localStorage.removeItem('isLoggedIn');
+  document.cookie = `server_token=''; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
   auth.signOut();
 }
 
@@ -82,7 +82,7 @@ export async function patchUserInformation(newInformation) {
 export function postUserInfoWithClose(newInformation) {
   navigator.sendBeacon(
     `${API_URL}/users/new-information/beacon`,
-    JSON.stringify(newInformation),
+    JSON.stringify({ newInformation }),
   );
 }
 
