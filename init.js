@@ -1,16 +1,20 @@
 import Controller from './controllers/index.js';
 import { observeRoot } from './utils/observer.js';
+import { postUserInfoWithClose } from './utils/api.js';
 
 async function init() {
   const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
   const controller = new Controller();
   observeRoot(controller);
 
-  window.addEventListener('beforeunload', async (event) => {
-    if (controller.router.currentRoute !== '/login') {
-      await controller.handlePatchingUserInfo();
-      event.preventDefault();
-      event.returnValue = false;
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') {
+      const userInformation = JSON.stringify({
+        ...controller.userState.getProperties(),
+        ...controller.gameState.getProperties(),
+      });
+
+      postUserInfoWithClose(userInformation);
     }
   });
 

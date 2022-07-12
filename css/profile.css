@@ -27,18 +27,7 @@
   gap: 2rem;
 }
 
-.profile-heading h1 {
-  font-size: 5rem;
-}
-
-.heading-btn-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-}
-
-.heading-btn-container button {
+.profile-heading button {
   width: 15vw;
   border: none;
   font-family: inherit;
@@ -58,13 +47,7 @@
   border: none;
 }
 
-.heading-btn-container .see-my-profile {
-}
-
 .heading-btn-container .edit-my-profile {
-}
-
-.heading-btn-container .make-profile-room {
 }
 
 /* MODAL */
@@ -155,27 +138,55 @@
 .update-modal {
 }
 
-.profile-modal {
-}
+/* PROFILE */
 
-.profile-modal img {
-  width: 300px;
-  height: 300px;
-}
-
-.profile-detail {
+.profile-card {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+}
+
+.profile-card .host-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   gap: 1rem;
+  width: 15vw;
+  height: 10vh;
 }
 
-.profile-detail .profile-name {
+.profile-card .host-info img {
+  width: 4vw;
+  height: 4vw;
 }
 
-.profile-detail .profile-description {
+.profile-card .host-info span {
+  font-size: 3vw;
 }
 
-.profile-detail .profile-happiness {
+.profile-card .host-pet-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 25vw;
+  height: 60vh;
+  background-color: #fff;
+  border-radius: 30px;
+}
+
+.profile-card .host-pet-card img {
+  width: 15vw;
+  height: 15vw;
+}
+
+.profile-card .host-pet-card .host-pet-profile {
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+  font-size: 3vw;
 }
 
 /* ETC */

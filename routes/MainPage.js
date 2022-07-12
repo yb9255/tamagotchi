@@ -18,7 +18,7 @@ class MainPage extends Page {
           <div class="${navbarStyles['navbar-links']}">
             <a href="/" data-link>main</a>
             <a href="/profile" data-link>profile</a>
-            <a href="/login" class="${navbarStyles.logout}" data-link>logout</a>
+            <a href="/" class="${navbarStyles.logout}" data-link>logout</a>
           </div>
         </nav>
         <div class="${styles['tamagotchi-container']}">
