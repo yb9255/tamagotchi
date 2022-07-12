@@ -6,6 +6,7 @@ import ChildView from '../views/ChildView.js';
 import StateView from '../views/StateView.js';
 import MainModalView from '../views/MainModalView.js';
 import ProfileModalView from '../views/ProfileModalView.js';
+import ProfileRoomView from '../views/ProfileRoomView.js';
 import FrameView from '../views/FrameView.js';
 import MenuView from '../views/MenuView.js';
 import Router from '../routes/Router.js';
@@ -29,6 +30,7 @@ import {
 import mainStyles from '../css/main.css';
 import navbarStyles from '../css/navbar.css';
 import profileStyles from '../css/profile.css';
+import profileRoomStyles from '../css/profile-room.css';
 
 class Controller {
   constructor() {
@@ -42,6 +44,7 @@ class Controller {
     this.stateView = new StateView();
     this.mainModalView = new MainModalView();
     this.profileModalView = new ProfileModalView();
+    this.profileRoomView = new ProfileRoomView();
     this.menuView = new MenuView();
     this.currentMainView = null;
 
@@ -269,6 +272,18 @@ class Controller {
 
         this.profileModalView.closeUpdateModal();
       });
+  }
+
+  async handleSettingProfileRoomPage() {
+    const roomLeft = document.querySelector(
+      `.${profileRoomStyles['room-left']}`,
+    );
+
+    this.profileRoomView.setProfileRoomElements(roomLeft);
+    this.profileRoomView.drawProfileRoom(
+      this.userState.picture,
+      this.gameState,
+    );
   }
 
   async handlePatchingProfileInfo(newProfile) {

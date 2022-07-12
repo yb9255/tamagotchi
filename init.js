@@ -26,6 +26,10 @@ async function init() {
     controller.handleSettingNavBar();
     controller.handleSettingProfilePage();
     controller.handleEventsOverTime();
+  } else if (controller.router.currentRoute === '/profile/:userId') {
+    await controller.handleGettingUserInfo();
+    controller.router.navigateTo('/');
+    return;
   } else if (controller.router.currentRoute === '/login') {
     document
       .querySelector('button')

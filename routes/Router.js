@@ -74,6 +74,7 @@ class Router {
     }
 
     this.currentRoute = match.route.path;
+    console.log(this.currentRoute);
 
     const view = new match.route.view(this.getParams(match));
     const root = document.querySelector('#root');

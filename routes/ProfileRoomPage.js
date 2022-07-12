@@ -2,10 +2,7 @@ import Page from './Page.js';
 import profileRoomStyles from '../css/profile-room.css';
 import navbarStyles from '../css/navbar.css';
 
-import {
-  CHILD_STAND_IMAGE_PATH,
-  LOGO_IMAGE_PATH,
-} from '../constants/imagePath.js';
+import { LOGO_IMAGE_PATH } from '../constants/imagePath.js';
 
 class ProfileRoomPage extends Page {
   constructor(params) {
@@ -28,16 +25,10 @@ class ProfileRoomPage extends Page {
         <div class="${profileRoomStyles['room-container']}">
           <div class="${profileRoomStyles['room-left']}">
             <div class="${profileRoomStyles['host-info']}">
-              <img src="https://lh3.googleusercontent.com/a/AItbvmktChZQniyEYfd_RWGfoHMtzKHvCUQLWmcGKftP=s96-c" alt="user profile picture" />
               <h1>${this.userId}</h1>
             </div>
             <div class="${profileRoomStyles['host-pet-card']}">
-              <img src=".${CHILD_STAND_IMAGE_PATH}" alt="pet stand" />
-              <div class="${profileRoomStyles['host-pet-profile']}">
-                <span>Name: yoobin</span>
-                <span>Description: hi</span>
-                <span>Happiness: 20</span>
-              </div>
+              <div class="${profileRoomStyles['host-pet-profile']}"></div>
             </div>
           </div>
           <div class="${profileRoomStyles['room-right']}">
