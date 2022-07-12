@@ -116,6 +116,7 @@ class Controller {
   }
 
   async handleUserLogout() {
+    // await this.handlePatchingUserInfo();
     this.gameState.reset();
     this.buttonState.reset();
     logout();
@@ -318,8 +319,6 @@ class Controller {
   }
 
   async #initEggPhase() {
-    await this.handlePatchingUserInfo();
-
     if (this.currentMainView) {
       this.currentMainView.cancelAnimation();
     }
@@ -346,8 +345,6 @@ class Controller {
   }
 
   async #initChildPhase() {
-    await this.handlePatchingUserInfo();
-
     if (this.currentMainView) {
       this.currentMainView.cancelAnimation();
     }

@@ -1,17 +1,14 @@
-import mainStyles from '../css/main.css';
+import debounce from 'lodash.debounce';
 import loginStyles from '../css/login.css';
 
 export function observeRoot(controller) {
   const observer = new MutationObserver(async (entries) => {
-    if (entries[0].removedNodes[1].classList.contains(mainStyles.container)) {
-      if (controller.router.currentRoute === '/') {
-        controller.handleSettingMainPage();
-        controller.handleSettingNavBar();
-        return;
-      } else {
-        controller.handlePatchingUserInfo();
-      }
-    }
+    const debouncedPatching = debounce(
+      controller.handlePatchingUserInfo.bind(controller),
+      3000,
+    );
+
+    debouncedPatching();
 
     if (controller.router.currentRoute === '/') {
       controller.handleSettingMainPage();
@@ -25,9 +22,6 @@ export function observeRoot(controller) {
     } else if (controller.router.currentRoute === '/profile') {
       controller.handleSettingNavBar();
       controller.handleSettingProfilePage();
-    } else if (controller.router.currentRoute === '/profile/:userId') {
-      controller.handleSettingNavBar();
-      controller.handleSettingProfileRoomPage();
     } else if (controller.router.currentRoute === '/login') {
       document
         .querySelector('button')
