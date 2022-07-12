@@ -5,8 +5,7 @@ import EggView from '../views/EggView.js';
 import ChildView from '../views/ChildView.js';
 import StateView from '../views/StateView.js';
 import MainModalView from '../views/MainModalView.js';
-import ProfileModalView from '../views/ProfileModalView.js';
-import ProfileRoomView from '../views/ProfileRoomView.js';
+import ProfileView from '../views/ProfileView.js';
 import FrameView from '../views/FrameView.js';
 import MenuView from '../views/MenuView.js';
 import Router from '../routes/Router.js';
@@ -30,7 +29,6 @@ import {
 import mainStyles from '../css/main.css';
 import navbarStyles from '../css/navbar.css';
 import profileStyles from '../css/profile.css';
-import profileRoomStyles from '../css/profile-room.css';
 
 class Controller {
   constructor() {
@@ -43,8 +41,7 @@ class Controller {
     this.childView = new ChildView();
     this.stateView = new StateView();
     this.mainModalView = new MainModalView();
-    this.profileModalView = new ProfileModalView();
-    this.profileRoomView = new ProfileRoomView();
+    this.profileView = new ProfileView();
     this.menuView = new MenuView();
     this.currentMainView = null;
 
@@ -118,7 +115,7 @@ class Controller {
     this.router.navigateTo('/');
   }
 
-  handleUserLogout() {
+  async handleUserLogout() {
     this.gameState.reset();
     this.buttonState.reset();
     logout();
@@ -191,55 +188,36 @@ class Controller {
   }
 
   async handleSettingProfilePage() {
-    const profileModal = document.querySelector(
-      `.${profileStyles['profile-modal']}`,
+    const profileCard = document.querySelector(
+      `.${profileStyles['profile-card']}`,
     );
+
     const updateModal = document.querySelector(
       `.${profileStyles['update-modal']}`,
     );
+
     const backdrop = document.querySelector(`.${profileStyles.backdrop}`);
 
-    const profileBtn = document.querySelector(
-      `.${profileStyles['see-my-profile']}`,
-    );
-
-    const updateBtn = document.querySelector(
+    const updateModalBtn = document.querySelector(
       `.${profileStyles['edit-my-profile']}`,
     );
 
-    const roomBtn = document.querySelector(
-      `.${profileStyles['make-profile-room']}`,
+    this.profileView.setProfileElements(profileCard);
+    this.profileView.setModals(updateModal, backdrop);
+
+    const xBtn = document.querySelector(`.${profileStyles['x-btn']}`);
+
+    updateModalBtn.addEventListener('click', () => {
+      this.profileView.openUpdateModal();
+    });
+
+    [xBtn, backdrop].forEach((element) =>
+      element.addEventListener('click', () => {
+        this.profileView.closeUpdateModal();
+      }),
     );
 
-    this.profileModalView.setModals(profileModal, updateModal, backdrop);
-    this.profileModalView.drawProfileModal(this.gameState);
-
-    const xBtns = document.querySelectorAll(`.${profileStyles['x-btn']}`);
-
-    xBtns.forEach((xBtn) => {
-      xBtn.addEventListener('click', () => {
-        this.profileModalView.closeUpdateModal();
-        this.profileModalView.closeProfileModal();
-      });
-    });
-
-    backdrop.addEventListener('click', () => {
-      this.profileModalView.closeUpdateModal();
-      this.profileModalView.closeProfileModal();
-    });
-
-    profileBtn.addEventListener('click', () => {
-      this.profileModalView.openProfileModal();
-    });
-
-    updateBtn.addEventListener('click', () => {
-      this.profileModalView.openUpdateModal();
-    });
-
-    roomBtn.addEventListener('click', () => {
-      const username = this.userState.email.split('@')[0];
-      this.router.navigateTo(`/profile/${username}`);
-    });
+    this.profileView.drawProfile(this.userState, this.gameState);
 
     updateModal
       .querySelector('form')
@@ -264,26 +242,9 @@ class Controller {
         });
 
         this.gameState.setProfile(newName, newDescription);
-
-        this.profileModalView.drawProfileModal(this.gameState, () => {
-          this.profileModalView.closeUpdateModal();
-          this.profileModalView.closeProfileModal();
-        });
-
-        this.profileModalView.closeUpdateModal();
+        this.profileView.drawProfile(this.userState, this.gameState);
+        this.profileView.closeUpdateModal();
       });
-  }
-
-  async handleSettingProfileRoomPage() {
-    const roomLeft = document.querySelector(
-      `.${profileRoomStyles['room-left']}`,
-    );
-
-    this.profileRoomView.setProfileRoomElements(roomLeft);
-    this.profileRoomView.drawProfileRoom(
-      this.userState.picture,
-      this.gameState,
-    );
   }
 
   async handlePatchingProfileInfo(newProfile) {

@@ -1,7 +1,6 @@
 import MainPage from './MainPage.js';
 import LoginPage from './LoginPage.js';
 import ProfilePage from './ProfilePage.js';
-import ProfileRoomPage from './ProfileRoomPage.js';
 
 class Router {
   #routes = null;
@@ -20,10 +19,6 @@ class Router {
       {
         path: '/profile',
         view: ProfilePage,
-      },
-      {
-        path: '/profile/:userId',
-        view: ProfileRoomPage,
       },
     ];
   }
@@ -74,7 +69,6 @@ class Router {
     }
 
     this.currentRoute = match.route.path;
-    console.log(this.currentRoute);
 
     const view = new match.route.view(this.getParams(match));
     const root = document.querySelector('#root');

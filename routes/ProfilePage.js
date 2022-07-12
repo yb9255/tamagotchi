@@ -36,14 +36,17 @@ class ProfilePage extends Page {
         </nav>
         <div class="${profileStyles['profile-container']}">
           <div class="${profileStyles['profile-heading']}">
-            <h1>Show Your Tamagotchi!</h1>
+            <div class="${profileStyles['profile-card']}">
+              <div class="${profileStyles['host-info']}"></div>
+              <div class="${profileStyles['host-pet-card']}">
+                <div class="${profileStyles['host-pet-profile']}"></div>
+              </div>
+            </div>
             <div class="${profileStyles['heading-btn-container']}">
-              <button class="${profileStyles['see-my-profile']}">See the Profile</button>
               <button class="${profileStyles['edit-my-profile']}">Edit the Profile</button>
-              <button class="${profileStyles['make-profile-room']}">Show the Profile</button>
             </div>
           </div>
-          <div class="profile-rooms"></div>
+          </div>
         </div>
       </div>
     `;

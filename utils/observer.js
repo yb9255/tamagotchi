@@ -8,9 +8,9 @@ export function observeRoot(controller) {
         controller.handleSettingMainPage();
         controller.handleSettingNavBar();
         return;
+      } else {
+        controller.handlePatchingUserInfo();
       }
-
-      controller.handlePatchingUserInfo();
     }
 
     if (controller.router.currentRoute === '/') {
