@@ -13,4 +13,6 @@ export const ADULT_PLAY_IMAGE_PATH = './images/adult-play.png';
 export const ADULT_DENY_IMAGE_PATH = './images/adult-deny.png';
 export const ADULT_SLEEPING_IMAGE_PATH = './images/adult-sleeping.png';
 export const ADULT_STAND_IMAGE_PATH = './images/adult-stand.png';
+export const MOOD_HEART_IMAGE_PATH = './images/mood-heart.png';
+export const MOOD_ANGRY_IMAGE_PATH = './images/mood-angry.png';
 export const STATE_POINT_IMAGE_PATH = './images/state-point.png';

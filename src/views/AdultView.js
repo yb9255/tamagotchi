@@ -13,7 +13,7 @@ import {
   PLAY_TIME,
   DENY_TIME,
   SLEEP_TIME,
-} from '../constants/child.js';
+} from '../constants/adult.js';
 
 class AdultView extends View {
   #dx = 55;

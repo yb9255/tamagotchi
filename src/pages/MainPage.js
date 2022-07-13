@@ -36,6 +36,7 @@ class MainPage extends Page {
             <div class="${styles['menu-item']}">STATE</div>
             <div class="${styles['menu-item']}">SLEEP</div>
           </div>
+          <img class="${styles['mood-img']} ${styles.hidden}" />
         </div>
       </div>
     `;

@@ -24,17 +24,17 @@ async function init() {
     if (isLoggedIn) {
       controller.handleSettingNavBar();
       controller.handleSettingMainPage();
+      controller.gameState.setIdlingState();
       controller.handleEventsOverTime();
     }
   } else if (controller.router.currentRoute === '/profile') {
     await controller.handleGettingUserInfo();
-    controller.handleSettingNavBar();
-    controller.handleSettingProfilePage();
-    controller.handleEventsOverTime();
-  } else if (controller.router.currentRoute === '/profile/:userId') {
-    await controller.handleGettingUserInfo();
-    controller.router.navigateTo('/');
-    return;
+
+    if (isLoggedIn) {
+      controller.handleSettingNavBar();
+      controller.handleSettingProfilePage();
+      controller.handleEventsOverTime();
+    }
   } else if (controller.router.currentRoute === '/login') {
     document
       .querySelector('button')

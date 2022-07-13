@@ -115,6 +115,14 @@
   height: 50px;
 }
 
+/* MOOD */
+
+.mood-img {
+  position: absolute;
+  top: 250px;
+  right: 250px;
+}
+
 /* ETC */
 
 .hidden {

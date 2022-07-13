@@ -1,6 +1,6 @@
-import MainPage from './MainPage.js';
-import LoginPage from './LoginPage.js';
-import ProfilePage from './ProfilePage.js';
+import MainPage from '../pages/MainPage.js';
+import LoginPage from '../pages/LoginPage.js';
+import ProfilePage from '../pages/ProfilePage.js';
 
 class Router {
   #routes = null;

@@ -9,7 +9,8 @@ import MainModalView from '../views/MainModalView.js';
 import ProfileView from '../views/ProfileView.js';
 import FrameView from '../views/FrameView.js';
 import MenuView from '../views/MenuView.js';
-import Router from '../routes/Router.js';
+import MoodView from '../views/MoodView.js';
+import Router from './Router.js';
 
 import { INIT, GROWTH, TICK_SECONDS, IDLING } from '../constants/gameState.js';
 
@@ -48,19 +49,22 @@ class Controller {
     this.mainModalView = new MainModalView();
     this.profileView = new ProfileView();
     this.menuView = new MenuView();
+    this.moodView = new MoodView();
     this.currentMainView = null;
 
     this.router.init();
   }
 
   handleEventsOverTime() {
-    let currenTime = 0;
+    let currentTime = 0;
     let nextTimeforEvent = TICK_SECONDS;
+
+    this.handleMoodImage();
 
     const handleEventsOnTick = async () => {
       if (this.router.currentRoute === '/') {
         if (this.gameState.state === IDLING) {
-          currenTime++;
+          currentTime++;
         }
 
         if (this.gameState.growth !== this.buttonState.state) {
@@ -73,9 +77,9 @@ class Controller {
         this.gameState.resetFunState();
         this.childView.cancelAnimation();
 
-        if (this.gameState.growth === GROWTH[0]) {
+        if (this.gameState.growth === GROWTH[1]) {
           await this.#handleFallingAsleepChild();
-        } else {
+        } else if (this.gameState.growth === GROWTH[2]) {
           await this.#handleFallingAsleepAdult();
         }
       }
@@ -87,9 +91,10 @@ class Controller {
         });
       }
 
-      if (currenTime >= nextTimeforEvent) {
+      if (currentTime >= nextTimeforEvent) {
         this.gameState.setStatesByTime();
-        nextTimeforEvent = currenTime + TICK_SECONDS;
+        this.handleMoodImage();
+        nextTimeforEvent = currentTime + TICK_SECONDS;
       }
 
       requestAnimationFrame(handleEventsOnTick);
@@ -181,6 +186,10 @@ class Controller {
       this.currentMainView.cancelAnimation();
     }
 
+    const tamagotchiContainer = document.querySelector(
+      `.${mainStyles['tamagotchi-container']}`,
+    );
+
     const leftBtn = document.querySelector(`.${mainStyles['btn--1']}`);
     const middleBtn = document.querySelector(`.${mainStyles['btn--2']}`);
     const rightBtn = document.querySelector(`.${mainStyles['btn--3']}`);
@@ -193,6 +202,8 @@ class Controller {
     this.eggView.setContext(tablet);
     this.childView.setContext(tablet);
     this.adultView.setContext(tablet);
+    this.moodView.setContext(tablet);
+    this.moodView.setContainer(tamagotchiContainer);
     this.stateView.setContext(tablet);
     this.mainModalView.setModalElement(modal);
 
@@ -281,12 +292,32 @@ class Controller {
     });
   }
 
+  handleMoodImage() {
+    if (
+      this.gameState.fun > 5 &&
+      this.gameState.hunger < 5 &&
+      this.gameState.tiredness < 5
+    ) {
+      this.moodView.appendHeart();
+    } else if (
+      this.gameState.fun < 3 &&
+      this.gameState.hunger > 7 &&
+      this.gameState.tiredness > 5
+    ) {
+      this.moodView.appendAngryEmoji();
+    } else {
+      this.moodView.clearMoodImage();
+    }
+  }
+
   async #handleFallingAsleepChild() {
+    this.currentMainView.cancelAnimation();
     this.buttonState.removeListeners();
 
     const leftCallback = () => {
       this.menuView.drawMenu();
       this.gameState.setMenuState();
+      this.moodView.clearMoodImage();
     };
 
     const middleCallback = () => {
@@ -306,6 +337,7 @@ class Controller {
       this.gameState.setIdlingState();
 
       this.childView.drawIdlingChild();
+      this.handleMoodImage();
     };
 
     await this.childView.drawSleepingChild();
@@ -320,11 +352,13 @@ class Controller {
   }
 
   async #handleFallingAsleepAdult() {
+    this.currentMainView.cancelAnimation();
     this.buttonState.removeListeners();
 
     const leftCallback = () => {
       this.menuView.drawMenu();
       this.gameState.setMenuState();
+      this.moodView.clearMoodImage();
     };
 
     const middleCallback = () => {
@@ -344,6 +378,7 @@ class Controller {
       this.gameState.setIdlingState();
 
       this.adultView.drawIdlingAdult();
+      this.handleMoodImage();
     };
 
     await this.adultView.drawSleepingAdult();
@@ -425,6 +460,7 @@ class Controller {
     const leftCallback = () => {
       this.menuView.drawMenu();
       this.gameState.setMenuState();
+      this.moodView.clearMoodImage();
     };
 
     const middleCallback = () => {
@@ -444,6 +480,7 @@ class Controller {
       this.menuView.removeMenu();
       this.gameState.setIdlingState();
       this.childView.drawIdlingChild();
+      this.handleMoodImage();
     };
 
     this.buttonState.addListeners({
@@ -480,6 +517,7 @@ class Controller {
     const leftCallback = () => {
       this.menuView.drawMenu();
       this.gameState.setMenuState();
+      this.moodView.clearMoodImage();
     };
 
     const middleCallback = () => {
@@ -499,6 +537,7 @@ class Controller {
       this.menuView.removeMenu();
       this.gameState.setIdlingState();
       this.adultView.drawIdlingAdult();
+      this.handleMoodImage();
     };
 
     this.buttonState.addListeners({

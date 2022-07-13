@@ -15,6 +15,7 @@ export function observeRoot(controller) {
     if (controller.router.currentRoute === '/') {
       controller.handleSettingMainPage();
       controller.handleSettingNavBar();
+      controller.handleMoodImage();
 
       if (
         entries[0].removedNodes[1].classList.contains(loginStyles.container)
