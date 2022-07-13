@@ -29,12 +29,15 @@ class ProfileView {
 
   setProfileElements(profileCard) {
     this.#profileCard = profileCard;
+
     this.#hostInfo = this.#profileCard.querySelector(
       `.${profileStyles['host-info']}`,
     );
+
     this.#hostPetCard = this.#profileCard.querySelector(
       `.${profileStyles['host-pet-card']}`,
     );
+
     this.#hostPetProfile = this.#profileCard.querySelector(
       `.${profileStyles['host-pet-profile']}`,
     );

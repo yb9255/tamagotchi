@@ -15,8 +15,8 @@ class ProfilePage extends Page {
       <div class="${profileStyles.container}">
         <div class="${profileStyles.modal} ${profileStyles['update-modal']} ${profileStyles.hidden}">
           <form>
-            <input class="${profileStyles['name-input']}" placeholder="Pet Name" minlength="5" maxlength="10"/>
-            <input class="${profileStyles['description-input']}" placeholder="Description" />
+            <input class="${profileStyles['name-input']}" placeholder="Pet Name" maxlength="10"/>
+            <input class="${profileStyles['description-input']}" placeholder="Description" maxlength="10" />
             <button>Submit New Profile!</button>
           </form>
           <div class="${profileStyles['x-btn']}">&#10005;</div>

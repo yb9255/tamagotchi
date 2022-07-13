@@ -6,7 +6,7 @@ module.exports = {
   entry: './init.js',
   plugins: [
     new CopyPlugin({
-      patterns: [{ from: 'images', to: 'images' }],
+      patterns: [{ from: './src/images', to: 'images' }],
     }),
     new HtmlWebpackPlugin({
       template: './index.html',
