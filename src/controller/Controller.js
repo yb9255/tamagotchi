@@ -10,6 +10,7 @@ import ProfileView from '../views/ProfileView.js';
 import FrameView from '../views/FrameView.js';
 import MenuView from '../views/MenuView.js';
 import MoodView from '../views/MoodView.js';
+import NavbarView from '../views/NavbarView.js';
 import Router from './Router.js';
 
 import { INIT, GROWTH, TICK_SECONDS, IDLING } from '../constants/gameState.js';
@@ -50,7 +51,9 @@ class Controller {
     this.profileView = new ProfileView();
     this.menuView = new MenuView();
     this.moodView = new MoodView();
+    this.navbarView = new NavbarView();
     this.currentMainView = null;
+    this.currentAnimationFrame = null;
 
     this.router.init();
   }
@@ -97,7 +100,7 @@ class Controller {
         nextTimeforEvent = currentTime + TICK_SECONDS;
       }
 
-      requestAnimationFrame(handleEventsOnTick);
+      this.currentAnimationFrame = requestAnimationFrame(handleEventsOnTick);
     };
 
     handleEventsOnTick();
@@ -196,6 +199,7 @@ class Controller {
     const frame = document.querySelector(`#${mainStyles.frame}`);
     const tablet = document.querySelector(`#${mainStyles.tablet}`);
     const modal = document.querySelector(`.${mainStyles.modal}`);
+    const navbar = document.querySelector('nav');
 
     this.buttonState.setButtonElements(leftBtn, middleBtn, rightBtn);
     this.frameView.setContext(frame);
@@ -206,6 +210,7 @@ class Controller {
     this.moodView.setContainer(tamagotchiContainer);
     this.stateView.setContext(tablet);
     this.mainModalView.setModalElement(modal);
+    this.navbarView.setNavbar(navbar);
 
     this.frameView.draw();
     this.#handleChangingPetPhases();
@@ -444,6 +449,8 @@ class Controller {
 
     this.currentMainView = this.childView;
 
+    this.navbarView.showProfileLink();
+
     if (this.router.currentRoute === '/') {
       this.mainModalView.hiddenModal();
     }
@@ -500,6 +507,7 @@ class Controller {
     }
 
     this.currentMainView = this.adultView;
+    this.navbarView.showProfileLink();
 
     if (this.router.currentRoute === '/') {
       this.mainModalView.hiddenModal();
