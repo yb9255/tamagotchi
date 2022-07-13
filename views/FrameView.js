@@ -3,6 +3,8 @@ import View from './View.js';
 class FrameView extends View {
   constructor() {
     super();
+
+    this.draw = this.draw.bind(this);
   }
 
   draw() {

@@ -7,6 +7,8 @@ class MenuView {
   #currentItemIndex = 0;
 
   constructor() {
+    this.setCurrentMainView = this.setCurrentMainView.bind(this);
+    this.setMenuElements = this.setMenuElements.bind(this);
     this.drawMenu = this.drawMenu.bind(this);
     this.removeMenu = this.removeMenu.bind(this);
     this.selectMenu = this.selectMenu.bind(this);

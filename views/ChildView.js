@@ -6,6 +6,7 @@ import {
   CHILD_PLAY_IMAGE_PATH,
   CHILD_DENY_IMAGE_PATH,
   CHILD_SLEEPING_IMAGE_PATH,
+  CHILD_GROWING_UP_IMAGE_PATH,
 } from '../constants/imagePath.js';
 
 import {
@@ -31,6 +32,7 @@ class ChildView extends View {
     this.drawPlayingChild = this.drawPlayingChild.bind(this);
     this.drawDenyingChild = this.drawDenyingChild.bind(this);
     this.drawSleepingChild = this.drawSleepingChild.bind(this);
+    this.drawGrowingUp = this.drawGrowingUp.bind(this);
   }
 
   async drawIdlingChild() {
@@ -55,6 +57,11 @@ class ChildView extends View {
   async drawSleepingChild() {
     await this.loadImage(this.image, CHILD_SLEEPING_IMAGE_PATH);
     return this.#sleep();
+  }
+
+  async drawGrowingUp() {
+    await this.loadImage(this.image, CHILD_GROWING_UP_IMAGE_PATH);
+    return this.#growup();
   }
 
   #bounceUp() {
@@ -288,6 +295,35 @@ class ChildView extends View {
         return true;
       }
     }, SLEEP_TIME);
+  }
+
+  #growup() {
+    this.#dx = 55;
+    this.#dy = 55;
+
+    const frameCount = 9;
+    let currentFrame = 0;
+
+    return this.animate((resolve) => {
+      this.context.drawImage(
+        this.image,
+        this.#frameWidth * (currentFrame % 2),
+        0,
+        300,
+        300,
+        this.#dx,
+        this.#dy,
+        300,
+        300,
+      );
+
+      currentFrame++;
+
+      if (currentFrame > frameCount) {
+        resolve();
+        return true;
+      }
+    }, 300);
   }
 }
 

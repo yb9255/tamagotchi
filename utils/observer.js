@@ -17,6 +17,7 @@ export function observeRoot(controller) {
       if (
         entries[0].removedNodes[1].classList.contains(loginStyles.container)
       ) {
+        controller.gameState.setIdlingState();
         controller.handleEventsOverTime();
       }
     } else if (controller.router.currentRoute === '/profile') {

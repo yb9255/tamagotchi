@@ -13,14 +13,20 @@ class GameState {
     this.profileName = null;
     this.profileDescription = null;
 
+    this.setGameState = this.setGameState.bind(this);
+    this.setProfile = this.setProfile.bind(this);
     this.setStatesByTime = this.setStatesByTime.bind(this);
     this.startGame = this.startGame.bind(this);
     this.subtractBirthCount = this.subtractBirthCount.bind(this);
+    this.growup = this.growup.bind(this);
     this.setMenuState = this.setMenuState.bind(this);
     this.setIdlingState = this.setIdlingState.bind(this);
     this.reduceHunger = this.reduceHunger.bind(this);
+    this.makePetFun = this.makePetFun.bind(this);
     this.resetFunState = this.resetFunState.bind(this);
     this.resetTirednessState = this.resetTirednessState.bind(this);
+    this.reset = this.reset.bind(this);
+    this.getProperties = this.getProperties.bind(this);
   }
 
   setGameState({
@@ -105,6 +111,12 @@ class GameState {
     if (this.birthCount) {
       this.birthCount--;
     }
+  }
+
+  async growup(blink) {
+    await blink();
+    this.growth = GROWTH[2];
+    return;
   }
 
   setMenuState() {

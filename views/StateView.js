@@ -9,6 +9,8 @@ class StateView extends View {
 
   constructor() {
     super();
+
+    this.drawStateView = this.drawStateView.bind(this);
   }
 
   async drawStateView(fun, hunger, tireness) {
