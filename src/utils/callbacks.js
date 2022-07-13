@@ -4,6 +4,7 @@ export async function feedChildCallback(controller) {
 
     controller.gameState.setIdlingState();
     controller.childView.drawIdlingChild();
+    controller.handleMoodImage();
 
     return;
   }
@@ -13,6 +14,7 @@ export async function feedChildCallback(controller) {
   controller.gameState.reduceHunger();
   controller.gameState.setIdlingState();
   controller.childView.drawIdlingChild();
+  controller.handleMoodImage();
 }
 
 export async function feedAdultCallback(controller) {
@@ -21,6 +23,7 @@ export async function feedAdultCallback(controller) {
 
     controller.gameState.setIdlingState();
     controller.adultView.drawIdlingAdult();
+    controller.handleMoodImage();
 
     return;
   }
@@ -30,6 +33,7 @@ export async function feedAdultCallback(controller) {
   controller.gameState.reduceHunger();
   controller.gameState.setIdlingState();
   controller.adultView.drawIdlingAdult();
+  controller.handleMoodImage();
 }
 
 export async function playChildCallback(controller) {
@@ -38,6 +42,7 @@ export async function playChildCallback(controller) {
 
     controller.gameState.setIdlingState();
     controller.childView.drawIdlingChild();
+    controller.handleMoodImage();
 
     return;
   }
@@ -47,6 +52,7 @@ export async function playChildCallback(controller) {
   controller.gameState.makePetFun();
   controller.gameState.setIdlingState();
   controller.childView.drawIdlingChild();
+  controller.handleMoodImage();
 }
 
 export async function playAdultCallback(controller) {
@@ -55,6 +61,7 @@ export async function playAdultCallback(controller) {
 
     controller.gameState.setIdlingState();
     controller.adultView.drawIdlingAdult();
+    controller.handleMoodImage();
 
     return;
   }
@@ -64,6 +71,7 @@ export async function playAdultCallback(controller) {
   controller.gameState.makePetFun();
   controller.gameState.setIdlingState();
   controller.adultView.drawIdlingAdult();
+  controller.handleMoodImage();
 }
 
 export function stateCallback(controller) {
@@ -82,6 +90,7 @@ export async function sleepChildCallback(controller) {
 
     controller.gameState.setIdlingState();
     controller.childView.drawIdlingChild();
+    controller.handleMoodImage();
 
     return;
   }
@@ -89,6 +98,7 @@ export async function sleepChildCallback(controller) {
   controller.gameState.resetTirednessState();
   await controller.childView.drawSleepingChild();
   controller.childView.drawIdlingChild();
+  controller.handleMoodImage();
 }
 
 export async function sleepAdultCallback(controller) {
@@ -97,6 +107,7 @@ export async function sleepAdultCallback(controller) {
 
     controller.gameState.setIdlingState();
     controller.adultView.drawIdlingAdult();
+    controller.handleMoodImage();
 
     return;
   }
@@ -104,4 +115,5 @@ export async function sleepAdultCallback(controller) {
   controller.gameState.resetTirednessState();
   await controller.adultView.drawSleepingAdult();
   controller.adultView.drawIdlingAdult();
+  controller.handleMoodImage();
 }

@@ -17,6 +17,7 @@ import {
   PLAY_TIME,
   DENY_TIME,
   SLEEP_TIME,
+  GROW_UP_TIME,
 } from '../constants/child.js';
 
 class ChildView extends View {
@@ -323,7 +324,7 @@ class ChildView extends View {
         resolve();
         return true;
       }
-    }, 300);
+    }, GROW_UP_TIME);
   }
 }
 
