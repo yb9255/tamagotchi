@@ -3,12 +3,14 @@ import loginStyles from '../css/login.css';
 
 export function observeRoot(controller) {
   const observer = new MutationObserver(async (entries) => {
-    const debouncedPatching = debounce(
-      controller.handlePatchingUserInfo.bind(controller),
-      3000,
-    );
+    if (controller.router.currentRoute !== '/login') {
+      const debouncedPatching = debounce(
+        controller.handlePatchingUserInfo.bind(controller),
+        3000,
+      );
 
-    debouncedPatching();
+      debouncedPatching();
+    }
 
     if (controller.router.currentRoute === '/') {
       controller.handleSettingMainPage();
