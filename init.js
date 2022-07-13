@@ -20,11 +20,11 @@ async function init() {
   });
 
   if (controller.router.currentRoute === '/') {
+    await controller.handleGettingUserInfo();
+
     if (controller.currentAnimationFrame) {
       cancelAnimationFrame(controller.currentAnimationFrame);
     }
-
-    await controller.handleGettingUserInfo();
 
     if (isLoggedIn) {
       controller.handleSettingNavBar();
