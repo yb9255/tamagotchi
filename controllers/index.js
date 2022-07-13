@@ -202,6 +202,7 @@ class Controller {
 
   handleSettingNavBar() {
     const logoutLink = document.querySelector(`.${navbarStyles.logout}`);
+
     logoutLink.addEventListener('click', () => {
       localStorage.removeItem('isLoggedIn');
       this.handleUserLogout();
