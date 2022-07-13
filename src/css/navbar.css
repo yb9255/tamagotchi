@@ -34,3 +34,7 @@ nav a {
 .logout {
   display: block;
 }
+
+.hidden {
+  display: none;
+}

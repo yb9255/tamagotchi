@@ -17,7 +17,7 @@ class MainPage extends Page {
           <img src="${LOGO_IMAGE_PATH}" alt="logo" />
           <div class="${navbarStyles['navbar-links']}">
             <a href="/" data-link>main</a>
-            <a href="/profile" data-link>profile</a>
+            <a href="/profile" class="${navbarStyles.hidden}" data-link>profile</a>
             <a href="/" class="${navbarStyles.logout}" data-link>logout</a>
           </div>
         </nav>

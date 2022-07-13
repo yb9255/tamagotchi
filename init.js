@@ -1,6 +1,7 @@
 import Controller from './src/controller/Controller.js';
 import { observeRoot } from './src/utils/observer.js';
 import { postUserInfoWithClose } from './src/utils/api.js';
+import { GROWTH } from './src/constants/gameState.js';
 
 async function init() {
   const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
@@ -19,6 +20,10 @@ async function init() {
   });
 
   if (controller.router.currentRoute === '/') {
+    if (controller.currentAnimationFrame) {
+      cancelAnimationFrame(controller.currentAnimationFrame);
+    }
+
     await controller.handleGettingUserInfo();
 
     if (isLoggedIn) {
@@ -28,6 +33,14 @@ async function init() {
       controller.handleEventsOverTime();
     }
   } else if (controller.router.currentRoute === '/profile') {
+    if (
+      controller.gameState.growth !== GROWTH[1] &&
+      controller.gameState.growth !== GROWTH[2]
+    ) {
+      controller.router.navigateTo('/');
+      return;
+    }
+
     await controller.handleGettingUserInfo();
 
     if (isLoggedIn) {
