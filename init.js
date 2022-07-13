@@ -1,7 +1,6 @@
-import Controller from './controllers/index.js';
-import { observeRoot } from './utils/observer.js';
-import { postUserInfoWithClose } from './utils/api.js';
-import { signOut } from 'firebase/auth';
+import Controller from './src/controller/Controller.js';
+import { observeRoot } from './src/utils/observer.js';
+import { postUserInfoWithClose } from './src/utils/api.js';
 
 async function init() {
   const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
@@ -17,9 +16,6 @@ async function init() {
     };
 
     postUserInfoWithClose(userInformation);
-
-    localStorage.removeItem('isLoggedIn');
-    signOut();
   });
 
   if (controller.router.currentRoute === '/') {
