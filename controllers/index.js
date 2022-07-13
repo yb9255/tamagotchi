@@ -132,7 +132,7 @@ class Controller {
   }
 
   async handleUserLogout() {
-    // await this.handlePatchingUserInfo();
+    await this.handlePatchingUserInfo();
     this.gameState.reset();
     this.buttonState.reset();
     logout();
@@ -202,7 +202,11 @@ class Controller {
 
   handleSettingNavBar() {
     const logoutLink = document.querySelector(`.${navbarStyles.logout}`);
-    logoutLink.addEventListener('click', this.handleUserLogout.bind(this));
+
+    logoutLink.addEventListener('click', () => {
+      localStorage.removeItem('isLoggedIn');
+      this.handleUserLogout();
+    });
   }
 
   async handleSettingProfilePage() {
