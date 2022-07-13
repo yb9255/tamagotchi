@@ -7,8 +7,11 @@ class ButtonState {
     this.leftBtn = null;
     this.middleBtn = null;
     this.rightBtn = null;
+
+    this.setButtonElements = this.setButtonElements.bind(this);
     this.addListeners = this.addListeners.bind(this);
     this.removeListeners = this.removeListeners.bind(this);
+    this.reset = this.reset.bind(this);
   }
 
   get state() {

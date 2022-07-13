@@ -3,6 +3,7 @@ import ButtonState from '../models/ButtonState.js';
 import UserState from '../models/UserState.js';
 import EggView from '../views/EggView.js';
 import ChildView from '../views/ChildView.js';
+import AdultView from '../views/AdultView.js';
 import StateView from '../views/StateView.js';
 import MainModalView from '../views/MainModalView.js';
 import ProfileView from '../views/ProfileView.js';
@@ -13,9 +14,12 @@ import Router from '../routes/Router.js';
 import { INIT, GROWTH, TICK_SECONDS, IDLING } from '../constants/gameState.js';
 
 import {
-  feedCallback,
-  playCallback,
-  sleepCallback,
+  feedChildCallback,
+  feedAdultCallback,
+  playChildCallback,
+  playAdultCallback,
+  sleepChildCallback,
+  sleepAdultCallback,
   stateCallback,
 } from '../utils/callbacks.js';
 import {
@@ -39,6 +43,7 @@ class Controller {
     this.frameView = new FrameView();
     this.eggView = new EggView();
     this.childView = new ChildView();
+    this.adultView = new AdultView();
     this.stateView = new StateView();
     this.mainModalView = new MainModalView();
     this.profileView = new ProfileView();
@@ -68,7 +73,18 @@ class Controller {
         this.gameState.resetFunState();
         this.childView.cancelAnimation();
 
-        await this.#handleFallingAsleep();
+        if (this.gameState.growth === GROWTH[0]) {
+          await this.#handleFallingAsleepChild();
+        } else {
+          await this.#handleFallingAsleepAdult();
+        }
+      }
+
+      if (this.gameState.growth === GROWTH[1] && this.gameState.exp >= 100) {
+        await this.gameState.growup(async () => {
+          this.childView.cancelAnimation();
+          await this.childView.drawGrowingUp();
+        });
       }
 
       if (currenTime >= nextTimeforEvent) {
@@ -176,6 +192,7 @@ class Controller {
     this.frameView.setContext(frame);
     this.eggView.setContext(tablet);
     this.childView.setContext(tablet);
+    this.adultView.setContext(tablet);
     this.stateView.setContext(tablet);
     this.mainModalView.setModalElement(modal);
 
@@ -260,43 +277,80 @@ class Controller {
     });
   }
 
-  async #handleFallingAsleep() {
+  async #handleFallingAsleepChild() {
     this.buttonState.removeListeners();
 
-    if (this.gameState.growth === GROWTH[1]) {
-      const leftCallback = () => {
-        this.menuView.drawMenu();
-        this.gameState.setMenuState();
-      };
+    const leftCallback = () => {
+      this.menuView.drawMenu();
+      this.gameState.setMenuState();
+    };
 
-      const middleCallback = () => {
-        const callbacks = this.#createMenuCallbacks(
-          this,
-          leftCallback,
-          middleCallback,
-          rightCallback,
-        );
-        this.menuView.selectMenu(callbacks, this.gameState);
-      };
-
-      const rightCallback = async () => {
-        if (this.gameState.state === IDLING) return;
-
-        this.menuView.removeMenu();
-        this.gameState.setIdlingState();
-        this.childView.drawIdlingChild();
-      };
-
-      await this.childView.drawSleepingChild();
-      this.gameState.setIdlingState();
-      this.childView.drawIdlingChild();
-
-      this.buttonState.addListeners({
+    const middleCallback = () => {
+      const callbacks = this.#createChildMenuCallbacks(
+        this,
         leftCallback,
         middleCallback,
         rightCallback,
-      });
-    }
+      );
+      this.menuView.selectMenu(callbacks, this.gameState);
+    };
+
+    const rightCallback = async () => {
+      if (this.gameState.state === IDLING) return;
+
+      this.menuView.removeMenu();
+      this.gameState.setIdlingState();
+
+      this.childView.drawIdlingChild();
+    };
+
+    await this.childView.drawSleepingChild();
+    this.gameState.setIdlingState();
+    this.childView.drawIdlingChild();
+
+    this.buttonState.addListeners({
+      leftCallback,
+      middleCallback,
+      rightCallback,
+    });
+  }
+
+  async #handleFallingAsleepAdult() {
+    this.buttonState.removeListeners();
+
+    const leftCallback = () => {
+      this.menuView.drawMenu();
+      this.gameState.setMenuState();
+    };
+
+    const middleCallback = () => {
+      const callbacks = this.#createAdultMenuCallbacks(
+        this,
+        leftCallback,
+        middleCallback,
+        rightCallback,
+      );
+      this.menuView.selectMenu(callbacks, this.gameState);
+    };
+
+    const rightCallback = async () => {
+      if (this.gameState.state === IDLING) return;
+
+      this.menuView.removeMenu();
+      this.gameState.setIdlingState();
+
+      this.adultView.drawIdlingAdult();
+    };
+
+    await this.adultView.drawSleepingAdult();
+    this.gameState.setIdlingState();
+    this.adultView.drawIdlingAdult();
+
+    this.buttonState.addListeners({
+      leftCallback,
+      middleCallback,
+      rightCallback,
+    });
   }
 
   #handleChangingPetPhases() {
@@ -314,7 +368,7 @@ class Controller {
     } else if (this.gameState.growth === GROWTH[1]) {
       this.#initChildPhase();
     } else if (this.gameState.growth === GROWTH[2]) {
-      this.buttonState.state = this.gameState.growth;
+      this.#initAdultPhase();
     }
   }
 
@@ -370,7 +424,7 @@ class Controller {
     };
 
     const middleCallback = () => {
-      const callbacks = this.#createMenuCallbacks(
+      const callbacks = this.#createChildMenuCallbacks(
         this,
         leftCallback,
         middleCallback,
@@ -397,7 +451,62 @@ class Controller {
     this.childView.drawIdlingChild();
   }
 
-  #createMenuCallbacks(
+  async #initAdultPhase() {
+    this.buttonState.state = this.gameState.growth;
+
+    if (this.currentMainView) {
+      this.currentMainView.cancelAnimation();
+    }
+
+    this.currentMainView = this.adultView;
+
+    if (this.router.currentRoute === '/') {
+      this.mainModalView.hiddenModal();
+    }
+
+    this.buttonState.state = this.gameState.growth;
+    this.buttonState.removeListeners();
+
+    const menu = document.querySelector(`.${mainStyles.menu}`);
+    const menuItems = menu.querySelectorAll(`.${mainStyles['menu-item']}`);
+
+    this.menuView.setCurrentMainView(this.currentMainView);
+    this.menuView.setMenuElements(menu, menuItems);
+
+    const leftCallback = () => {
+      this.menuView.drawMenu();
+      this.gameState.setMenuState();
+    };
+
+    const middleCallback = () => {
+      const callbacks = this.#createAdultMenuCallbacks(
+        this,
+        leftCallback,
+        middleCallback,
+        rightCallback,
+      );
+
+      this.menuView.selectMenu(callbacks, this.gameState);
+    };
+
+    const rightCallback = async () => {
+      if (this.gameState.state === IDLING) return;
+
+      this.menuView.removeMenu();
+      this.gameState.setIdlingState();
+      this.adultView.drawIdlingAdult();
+    };
+
+    this.buttonState.addListeners({
+      leftCallback,
+      middleCallback,
+      rightCallback,
+    });
+
+    this.adultView.drawIdlingAdult();
+  }
+
+  #createChildMenuCallbacks(
     controller,
     leftCallback,
     middleCallback,
@@ -406,7 +515,7 @@ class Controller {
     return {
       async triggerFeedCallback() {
         controller.buttonState.removeListeners();
-        await feedCallback(controller);
+        await feedChildCallback(controller);
 
         controller.buttonState.addListeners({
           leftCallback,
@@ -416,7 +525,7 @@ class Controller {
       },
       async triggerPlayCallback() {
         controller.buttonState.removeListeners();
-        await playCallback(controller);
+        await playChildCallback(controller);
 
         controller.buttonState.addListeners({
           leftCallback,
@@ -430,7 +539,51 @@ class Controller {
       async triggerSleepCallback() {
         controller.buttonState.removeListeners();
 
-        await sleepCallback(controller);
+        await sleepChildCallback(controller);
+
+        controller.buttonState.addListeners({
+          leftCallback,
+          middleCallback,
+          rightCallback,
+        });
+      },
+    };
+  }
+
+  #createAdultMenuCallbacks(
+    controller,
+    leftCallback,
+    middleCallback,
+    rightCallback,
+  ) {
+    return {
+      async triggerFeedCallback() {
+        controller.buttonState.removeListeners();
+        await feedAdultCallback(controller);
+
+        controller.buttonState.addListeners({
+          leftCallback,
+          middleCallback,
+          rightCallback,
+        });
+      },
+      async triggerPlayCallback() {
+        controller.buttonState.removeListeners();
+        await playAdultCallback(controller);
+
+        controller.buttonState.addListeners({
+          leftCallback,
+          middleCallback,
+          rightCallback,
+        });
+      },
+      triggerStateCallback() {
+        stateCallback(controller);
+      },
+      async triggerSleepCallback() {
+        controller.buttonState.removeListeners();
+
+        await sleepAdultCallback(controller);
 
         controller.buttonState.addListeners({
           leftCallback,

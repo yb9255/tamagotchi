@@ -14,6 +14,7 @@ class EggView extends View {
 
   constructor() {
     super();
+
     this.drawStandingEgg = this.drawStandingEgg.bind(this);
     this.drawShakedEgg = this.drawShakedEgg.bind(this);
     this.drawBreakingEgg = this.drawBreakingEgg.bind(this);

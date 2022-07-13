@@ -4,6 +4,11 @@ class View {
     this.context = null;
     this.image = new Image();
     this.timer = null;
+
+    this.setContext = this.setContext.bind(this);
+    this.animate = this.animate.bind(this);
+    this.cancelAnimation = this.cancelAnimation.bind(this);
+    this.clear = this.clear.bind(this);
   }
 
   animate(draw, ms) {
@@ -42,12 +47,6 @@ class View {
   clear() {
     const context = this.context;
     context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-  }
-
-  delay(ms) {
-    return new Promise((resolve) => {
-      setTimeout(resolve, ms);
-    });
   }
 }
 

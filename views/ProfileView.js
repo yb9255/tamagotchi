@@ -14,6 +14,14 @@ class ProfileView {
   #hostPetCard = null;
   #hostPetProfile = null;
 
+  constructor() {
+    this.setModals = this.setModals.bind(this);
+    this.setProfileElements = this.setProfileElements.bind(this);
+    this.drawProfile = this.drawProfile.bind(this);
+    this.openUpdateModal = this.openUpdateModal.bind(this);
+    this.closeUpdateModal = this.closeUpdateModal.bind(this);
+  }
+
   setModals(updateModal, backdrop) {
     this.#updateModal = updateModal;
     this.#backdrop = backdrop;

@@ -1,4 +1,4 @@
-export async function feedCallback(controller) {
+export async function feedChildCallback(controller) {
   if (controller.gameState.hunger < 2) {
     await controller.childView.drawDenyingChild();
 
@@ -15,7 +15,24 @@ export async function feedCallback(controller) {
   controller.childView.drawIdlingChild();
 }
 
-export async function playCallback(controller) {
+export async function feedAdultCallback(controller) {
+  if (controller.gameState.hunger < 2) {
+    await controller.adultView.drawDenyingAdult();
+
+    controller.gameState.setIdlingState();
+    controller.adultView.drawIdlingAdult();
+
+    return;
+  }
+
+  await controller.adultView.drawEatingAdult();
+
+  controller.gameState.reduceHunger();
+  controller.gameState.setIdlingState();
+  controller.adultView.drawIdlingAdult();
+}
+
+export async function playChildCallback(controller) {
   if (controller.gameState.fun > 8) {
     await controller.childView.drawDenyingChild();
 
@@ -32,6 +49,23 @@ export async function playCallback(controller) {
   controller.childView.drawIdlingChild();
 }
 
+export async function playAdultCallback(controller) {
+  if (controller.gameState.fun > 8) {
+    await controller.adultView.drawDenyingAdult();
+
+    controller.gameState.setIdlingState();
+    controller.adultView.drawIdlingAdult();
+
+    return;
+  }
+
+  await controller.adultView.drawPlayingAdult();
+
+  controller.gameState.makePetFun();
+  controller.gameState.setIdlingState();
+  controller.adultView.drawIdlingAdult();
+}
+
 export function stateCallback(controller) {
   controller.menuView.removeMenu();
 
@@ -42,7 +76,7 @@ export function stateCallback(controller) {
   );
 }
 
-export async function sleepCallback(controller) {
+export async function sleepChildCallback(controller) {
   if (controller.gameState.tiredness < 3) {
     await controller.childView.drawDenyingChild();
 
@@ -55,4 +89,19 @@ export async function sleepCallback(controller) {
   controller.gameState.resetTirednessState();
   await controller.childView.drawSleepingChild();
   controller.childView.drawIdlingChild();
+}
+
+export async function sleepAdultCallback(controller) {
+  if (controller.gameState.tiredness < 3) {
+    await controller.adultView.drawDenyingAdult();
+
+    controller.gameState.setIdlingState();
+    controller.adultView.drawIdlingAdult();
+
+    return;
+  }
+
+  controller.gameState.resetTirednessState();
+  await controller.adultView.drawSleepingAdult();
+  controller.adultView.drawIdlingAdult();
 }
