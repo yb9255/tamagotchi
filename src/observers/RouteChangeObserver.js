@@ -6,7 +6,12 @@ import { GROWTH } from '../constants/gameState';
 class RouteChangeObserver {
   #controller = null;
 
-  constructor(controller) {
+  constructor() {
+    this.setController = this.setController.bind(this);
+    this.observeRoot = this.observeRoot.bind(this);
+  }
+
+  setController(controller) {
     this.#controller = controller;
   }
 
