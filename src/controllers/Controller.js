@@ -216,21 +216,27 @@ class Controller {
   }
 
   async handleSettingProfilePage() {
-    const profileCard = document.querySelector(
-      `.${profileStyles['profile-card']}`,
+    const profileBody = document.querySelector(
+      `.${profileStyles['profile-body']}`,
+    );
+    const profileFooter = document.querySelector(
+      `.${profileStyles['profile-footer']}`,
     );
 
-    const updateModal = document.querySelector(
-      `.${profileStyles['update-modal']}`,
-    );
-
+    const updateModal = document.querySelector(`.${profileStyles.modal}`);
     const backdrop = document.querySelector(`.${profileStyles.backdrop}`);
 
     const updateModalBtn = document.querySelector(
       `.${profileStyles['edit-my-profile']}`,
     );
 
-    this.profileView.setProfileElements(profileCard);
+    const nameInput = document.querySelector(`.${profileStyles['name-input']}`);
+
+    const descriptionTextArea = document.querySelector(
+      `.${profileStyles['description-text-area']}`,
+    );
+
+    this.profileView.setProfileElements(profileBody, profileFooter);
     this.profileView.setModals(updateModal, backdrop);
 
     const xBtn = document.querySelector(`.${profileStyles['x-btn']}`);
@@ -242,6 +248,8 @@ class Controller {
     [xBtn, backdrop].forEach((element) =>
       element.addEventListener('click', () => {
         this.profileView.closeUpdateModal();
+        nameInput.value = '';
+        descriptionTextArea.value = '';
       }),
     );
 
@@ -252,26 +260,23 @@ class Controller {
       .addEventListener('submit', async (event) => {
         event.preventDefault();
 
-        const newName = event.target.querySelector(
-          `.${profileStyles['name-input']}`,
-        ).value;
-
-        const newDescription = event.target.querySelector(
-          `.${profileStyles['description-input']}`,
-        ).value;
-
-        if (newName.trim() === '' && newDescription.trim() === '') {
+        if (
+          nameInput.value.trim() === '' &&
+          descriptionTextArea.value.trim() === ''
+        ) {
           return;
         }
 
         await patchProfile({
-          profileName: newName,
-          profileDescription: newDescription,
+          profileName: nameInput.value,
+          profileDescription: descriptionTextArea.value,
         });
 
-        this.gameState.setProfile(newName, newDescription);
+        this.gameState.setProfile(nameInput.value, descriptionTextArea.value);
         this.profileView.drawProfile(this.userState, this.gameState);
         this.profileView.closeUpdateModal();
+        nameInput.value = '';
+        descriptionTextArea.value = '';
       });
   }
 

@@ -7,7 +7,6 @@
   height: 100vh;
   background-color: #f3aaf3;
   position: relative;
-  font-family: 'VT323';
 }
 
 /* BODY */
@@ -15,7 +14,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  gap: 3rem;
   width: 80vw;
   height: 80vh;
 }
@@ -23,14 +22,14 @@
 .profile-heading {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 2rem;
+  gap: 3vh;
+  color: #c21dbc;
+  text-align: center;
 }
 
-.profile-heading button {
+.edit-my-profile {
   width: 15vw;
   border: none;
-  font-family: inherit;
   font-size: 1.1rem;
   color: #c21dbc;
   background-color: transparent;
@@ -41,13 +40,72 @@
   transition: background-color 0.3s, color 0.3s;
 }
 
-.heading-btn-container button:hover {
+.edit-my-profile:hover {
   color: #fff;
   background-color: #c21dbc;
-  border: none;
 }
 
-.heading-btn-container .edit-my-profile {
+.edit-my-profile:active {
+  background-color: #f3aaf3;
+}
+
+/* PROFILE */
+
+.profile-body {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 1fr;
+  width: 60vw;
+}
+
+.profile-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 25vw;
+  height: 60vh;
+  background-color: #fff;
+  border-radius: 30px;
+}
+
+.profile-left img {
+  width: 15vw;
+  height: 15vw;
+}
+
+.profile-left span {
+  font-size: 1vw;
+}
+
+.profile-right {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.profile-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+}
+
+.user-profile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  width: 10vw;
+  height: 5vh;
+  background-color: #c21dbc;
+  color: #fff;
+  border-radius: 15px;
+}
+
+.user-profile img {
+  width: 2rem;
+  height: 2rem;
 }
 
 /* MODAL */
@@ -61,7 +119,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   width: 30vw;
-  height: 30vh;
+  height: 50vh;
   background-color: #fff;
   border-radius: 0.5rem;
   z-index: 3;
@@ -91,10 +149,23 @@
   color: transparent;
 }
 
-.modal form .name-input {
+.modal form .description-text-area {
+  width: 20vw;
+  height: 20vh;
+  padding: 1rem;
+  font-family: Arial;
+  border: 1px solid #f3aaf3;
+  border-radius: 5px;
+  outline: none;
+  resize: none;
 }
 
-.modal form .description-input {
+.modal form .description-text-area::placeholder {
+  color: #f3aaf3;
+}
+
+.modal form .description-text-area:focus::placeholder {
+  color: transparent;
 }
 
 .modal form button {
@@ -133,60 +204,6 @@
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.3);
   z-index: 2;
-}
-
-.update-modal {
-}
-
-/* PROFILE */
-
-.profile-card {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 3rem;
-}
-
-.profile-card .host-info {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  width: 15vw;
-  height: 10vh;
-}
-
-.profile-card .host-info img {
-  width: 4vw;
-  height: 4vw;
-}
-
-.profile-card .host-info span {
-  font-size: 3vw;
-}
-
-.profile-card .host-pet-card {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 25vw;
-  height: 60vh;
-  background-color: #fff;
-  border-radius: 30px;
-}
-
-.profile-card .host-pet-card img {
-  width: 15vw;
-  height: 15vw;
-}
-
-.profile-card .host-pet-card .host-pet-profile {
-  display: flex;
-  flex-direction: column;
-  gap: 2vh;
-  font-size: 3vw;
 }
 
 /* ETC */

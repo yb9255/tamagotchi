@@ -13,16 +13,12 @@ class ProfilePage extends Page {
   getHtml() {
     return `
       <div class="${profileStyles.container}">
-        <div class="${profileStyles.modal} ${profileStyles['update-modal']} ${profileStyles.hidden}">
+        <div class="${profileStyles.modal} ${profileStyles.hidden}">
           <form>
             <input class="${profileStyles['name-input']}" placeholder="Pet Name" maxlength="10"/>
-            <input class="${profileStyles['description-input']}" placeholder="Description" maxlength="10" />
+            <textarea class="${profileStyles['description-text-area']}" placeholder="Description" maxlength="60"></textarea>
             <button>Submit New Profile!</button>
           </form>
-          <div class="${profileStyles['x-btn']}">&#10005;</div>
-        </div>
-        <div class="${profileStyles.modal} ${profileStyles['profile-modal']} ${profileStyles.hidden}">
-          <div class="${profileStyles['profile-detail']}"></div>
           <div class="${profileStyles['x-btn']}">&#10005;</div>
         </div>
         <div class="${profileStyles.backdrop} ${profileStyles.hidden}"></div>
@@ -36,16 +32,18 @@ class ProfilePage extends Page {
         </nav>
         <div class="${profileStyles['profile-container']}">
           <div class="${profileStyles['profile-heading']}">
-            <div class="${profileStyles['profile-card']}">
-              <div class="${profileStyles['host-info']}"></div>
-              <div class="${profileStyles['host-pet-card']}">
-                <div class="${profileStyles['host-pet-profile']}"></div>
-              </div>
+            <h1>Tamagotchi Profile</h1>
+            <button class="${profileStyles['edit-my-profile']}">Edit the Profile</button>
+          </div>
+          <div class="${profileStyles['profile-body']}">
+            <div class="${profileStyles['profile-left']}">
             </div>
-            <div class="${profileStyles['heading-btn-container']}">
-              <button class="${profileStyles['edit-my-profile']}">Edit the Profile</button>
+            <div class="${profileStyles['profile-right']}">
+              <h2>Description</h2>
+              <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis maxime quos quaerat quo minima atque blanditiis, ipsum tempore expedita illum adipisci sequi velit suscipit odio in excepturi repellat! Maxime, esse?</span>
             </div>
           </div>
+          <div class="${profileStyles['profile-footer']}">
           </div>
         </div>
       </div>

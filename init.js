@@ -79,6 +79,8 @@ async function init() {
       controller.handleEventsOverTime();
     }
   } else if (controller.router.currentRoute === '/profile') {
+    await controller.handleGettingUserInfo();
+
     if (
       controller.gameState.growth !== GROWTH[1] &&
       controller.gameState.growth !== GROWTH[2]
@@ -86,8 +88,6 @@ async function init() {
       controller.router.navigateTo('/');
       return;
     }
-
-    await controller.handleGettingUserInfo();
 
     if (isLoggedIn) {
       controller.handleSettingNavBar();
