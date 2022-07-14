@@ -13,7 +13,7 @@ import MenuView from './src/views/MenuView.js';
 import MoodView from './src/views/MoodView.js';
 import NavbarView from './src/views/NavbarView.js';
 import Router from './src/controllers/Router.js';
-import AuidoController from './src/controllers/Audio.js';
+import AudioController from './src/controllers/Audio.js';
 import RouteChangeObserver from './src/observers/RouteChangeObserver.js';
 
 import { postUserInfoWithClose } from './src/utils/api.js';
@@ -43,7 +43,7 @@ async function init() {
 
   const subControllers = {
     router: new Router(),
-    audioController: new AuidoController(),
+    audioController: new AudioController(),
   };
 
   const observers = {
