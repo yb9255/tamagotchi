@@ -44,7 +44,7 @@ class RouteChangeObserver {
   #patchInfoByRouteChange() {
     const debouncedPatching = debounce(
       this.#controller.handlePatchingUserInfo.bind(this.#controller),
-      3000,
+      500,
     );
 
     debouncedPatching();
