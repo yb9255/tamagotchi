@@ -1,8 +1,7 @@
 import debounce from 'lodash.debounce';
 import loginStyles from '../css/login.css';
 
-import { GROWTH } from '../constants/gameState.js';
-import { postUserInfoWithClose } from '../utils/api.js';
+import { GROWTH } from '../constants/gameState';
 
 class RouteChangeObserver {
   #controller = null;
@@ -43,7 +42,11 @@ class RouteChangeObserver {
   }
 
   #patchInfoByRouteChange() {
-    const debouncedPatching = debounce(postUserInfoWithClose, 1000);
+    const debouncedPatching = debounce(
+      this.#controller.handlePatchingUserInfo.bind(this.#controller),
+      500,
+    );
+
     debouncedPatching();
   }
 
