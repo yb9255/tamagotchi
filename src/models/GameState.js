@@ -77,11 +77,11 @@ class GameState {
         this.happiness += 10;
       }
 
-      if (this.fun <= 3 && this.hunger >= 7 && this.tiredness <= 7) {
+      if (this.fun <= 3 && this.hunger >= 7 && this.tiredness >= 5) {
         if (!this.happiness) {
           this.happiness = 0;
         } else {
-          this.happiness -= 10;
+          this.happiness -= 5;
         }
       }
 
@@ -152,6 +152,10 @@ class GameState {
 
   resetTirednessState() {
     this.tiredness = 0;
+  }
+
+  setTirednessToSix() {
+    this.tiredness = 6;
   }
 
   reset() {

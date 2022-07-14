@@ -65,7 +65,7 @@ class Controller {
       }
 
       if (this.gameState.tiredness >= 10) {
-        this.gameState.resetTirednessState();
+        this.gameState.setTirednessToSix();
         this.gameState.resetFunState();
         this.childView.cancelAnimation();
 
@@ -295,9 +295,9 @@ class Controller {
     ) {
       this.moodView.drawHeart();
     } else if (
-      this.gameState.fun < 3 &&
-      this.gameState.hunger > 7 &&
-      this.gameState.tiredness > 5
+      this.gameState.fun <= 3 &&
+      this.gameState.hunger >= 7 &&
+      this.gameState.tiredness >= 5
     ) {
       this.audioController.playAngryAlertSound();
       this.moodView.drawAngryEmoji();
@@ -336,7 +336,7 @@ class Controller {
       this.handleMoodImage();
     };
 
-    this.audioController.playSleepingSound();
+    this.audioController.playSleepSound();
     await this.childView.drawSleepingChild();
     this.gameState.setIdlingState();
     this.childView.drawIdlingChild();
@@ -378,7 +378,7 @@ class Controller {
       this.handleMoodImage();
     };
 
-    this.audioController.playSleepingSound();
+    this.audioController.playSleepSound();
     await this.adultView.drawSleepingAdult();
     this.gameState.setIdlingState();
     this.adultView.drawIdlingAdult();
