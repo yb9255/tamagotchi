@@ -13,8 +13,8 @@ class MoodView extends View {
   constructor() {
     super();
 
-    this.appendHeart = this.appendHeart.bind(this);
-    this.appendAngryEmoji = this.appendAngryEmoji.bind(this);
+    this.drawHeart = this.drawHeart.bind(this);
+    this.drawAngryEmoji = this.drawAngryEmoji.bind(this);
     this.clearMoodImage = this.clearMoodImage.bind(this);
   }
 
@@ -25,13 +25,13 @@ class MoodView extends View {
     );
   }
 
-  async appendHeart() {
+  async drawHeart() {
     await this.loadImage(this.#imageElement, MOOD_HEART_IMAGE_PATH);
     this.#imageElement.alt = 'mood heart';
     this.#imageElement.classList.remove(`${mainStyles.hidden}`);
   }
 
-  async appendAngryEmoji() {
+  async drawAngryEmoji() {
     await this.loadImage(this.#imageElement, MOOD_ANGRY_IMAGE_PATH);
     this.#imageElement.alt = 'mood angry';
     this.#imageElement.classList.remove(`${mainStyles.hidden}`);

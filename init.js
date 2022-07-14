@@ -1,10 +1,56 @@
-import Controller from './src/controller/Controller.js';
+import Controller from './src/controllers/Controller.js';
+import GameState from './src/models/GameState.js';
+import ButtonState from './src/models/ButtonState.js';
+import UserState from './src/models/UserState.js';
+import EggView from './src/views/EggView.js';
+import ChildView from './src/views/ChildView.js';
+import AdultView from './src/views/AdultView.js';
+import StateView from './src/views/StateView.js';
+import MainModalView from './src/views/MainModalView.js';
+import ProfileView from './src/views/ProfileView.js';
+import FrameView from './src/views/FrameView.js';
+import MenuView from './src/views/MenuView.js';
+import MoodView from './src/views/MoodView.js';
+import NavbarView from './src/views/NavbarView.js';
+import Router from './src/controllers/Router.js';
+import AuidoController from './src/controllers/Audio.js';
+import RouteChangeObserver from './src/observers/RouteChangeObserver.js';
+
 import { postUserInfoWithClose } from './src/utils/api.js';
 import { GROWTH } from './src/constants/gameState.js';
 
 async function init() {
   const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-  const controller = new Controller();
+
+  const states = {
+    gameState: new GameState(),
+    buttonState: new ButtonState(),
+    userState: new UserState(),
+  };
+
+  const views = {
+    eggView: new EggView(),
+    childView: new ChildView(),
+    adultView: new AdultView(),
+    stateView: new StateView(),
+    mainModalView: new MainModalView(),
+    profileView: new ProfileView(),
+    frameView: new FrameView(),
+    menuView: new MenuView(),
+    moodView: new MoodView(),
+    navbarView: new NavbarView(),
+  };
+
+  const subControllers = {
+    router: new Router(),
+    audioController: new AuidoController(),
+  };
+
+  const observers = {
+    mutationObserver: new RouteChangeObserver(),
+  };
+
+  const controller = new Controller(states, views, subControllers, observers);
 
   window.addEventListener('beforeunload', (event) => {
     event.preventDefault();

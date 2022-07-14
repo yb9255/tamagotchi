@@ -1,19 +1,3 @@
-import GameState from '../models/GameState.js';
-import ButtonState from '../models/ButtonState.js';
-import UserState from '../models/UserState.js';
-import EggView from '../views/EggView.js';
-import ChildView from '../views/ChildView.js';
-import AdultView from '../views/AdultView.js';
-import StateView from '../views/StateView.js';
-import MainModalView from '../views/MainModalView.js';
-import ProfileView from '../views/ProfileView.js';
-import FrameView from '../views/FrameView.js';
-import MenuView from '../views/MenuView.js';
-import MoodView from '../views/MoodView.js';
-import NavbarView from '../views/NavbarView.js';
-import RouteChangeObserver from '../utils/RouteChangeObserver.js';
-import Router from './Router.js';
-
 import { INIT, GROWTH, TICK_SECONDS, IDLING } from '../constants/gameState.js';
 
 import {
@@ -38,26 +22,28 @@ import navbarStyles from '../css/navbar.css';
 import profileStyles from '../css/profile.css';
 
 class Controller {
-  constructor() {
-    this.router = new Router();
-    this.gameState = new GameState();
-    this.buttonState = new ButtonState();
-    this.userState = new UserState();
-    this.frameView = new FrameView();
-    this.eggView = new EggView();
-    this.childView = new ChildView();
-    this.adultView = new AdultView();
-    this.stateView = new StateView();
-    this.mainModalView = new MainModalView();
-    this.profileView = new ProfileView();
-    this.menuView = new MenuView();
-    this.moodView = new MoodView();
-    this.navbarView = new NavbarView();
-    this.routeChangeObserver = new RouteChangeObserver(this);
+  constructor(states, views, subControllers, observers) {
+    this.router = subControllers.router;
+    this.audioController = subControllers.audioController;
+    this.gameState = states.gameState;
+    this.buttonState = states.buttonState;
+    this.userState = states.userState;
+    this.frameView = views.frameView;
+    this.eggView = views.eggView;
+    this.childView = views.childView;
+    this.adultView = views.adultView;
+    this.stateView = views.stateView;
+    this.mainModalView = views.mainModalView;
+    this.profileView = views.profileView;
+    this.menuView = views.menuView;
+    this.moodView = views.moodView;
+    this.navbarView = views.navbarView;
+    this.routeChangeObserver = observers.mutationObserver;
     this.currentMainView = null;
     this.currentAnimationFrame = null;
 
     this.router.init();
+    this.routeChangeObserver.setController(this);
     this.routeChangeObserver.observeRoot();
   }
 
@@ -93,6 +79,7 @@ class Controller {
       if (this.gameState.growth === GROWTH[1] && this.gameState.exp >= 100) {
         await this.gameState.growup(async () => {
           this.childView.cancelAnimation();
+          this.audioController.playGrowupSound();
           await this.childView.drawGrowingUp();
         });
       }
@@ -306,13 +293,14 @@ class Controller {
       this.gameState.hunger < 5 &&
       this.gameState.tiredness < 5
     ) {
-      this.moodView.appendHeart();
+      this.moodView.drawHeart();
     } else if (
       this.gameState.fun < 3 &&
       this.gameState.hunger > 7 &&
       this.gameState.tiredness > 5
     ) {
-      this.moodView.appendAngryEmoji();
+      this.audioController.playAngryAlertSound();
+      this.moodView.drawAngryEmoji();
     } else {
       this.moodView.clearMoodImage();
     }
@@ -348,6 +336,7 @@ class Controller {
       this.handleMoodImage();
     };
 
+    this.audioController.playSleepingSound();
     await this.childView.drawSleepingChild();
     this.gameState.setIdlingState();
     this.childView.drawIdlingChild();
@@ -389,6 +378,7 @@ class Controller {
       this.handleMoodImage();
     };
 
+    this.audioController.playSleepingSound();
     await this.adultView.drawSleepingAdult();
     this.gameState.setIdlingState();
     this.adultView.drawIdlingAdult();
@@ -403,7 +393,10 @@ class Controller {
   #handleChangingPetPhases() {
     if (this.gameState.growth === INIT) {
       this.buttonState.state = this.gameState.growth;
-      const callback = this.gameState.startGame;
+      const callback = () => {
+        this.gameState.startGame();
+        this.audioController.playStartGameSound();
+      };
 
       this.buttonState.addListeners({
         leftCallback: callback,
@@ -429,7 +422,13 @@ class Controller {
     const callback = async () => {
       if (this.gameState.birthCount > 0) {
         await this.eggView.drawShakedEgg();
-        this.gameState.subtractBirthCount(this.eggView.drawBreakingEgg);
+
+        this.gameState.subtractBirthCount(
+          this.eggView.drawBreakingEgg,
+          this.audioController.playGrowupSound,
+        );
+
+        this.audioController.playShakeEggSound();
       }
     };
 
@@ -471,6 +470,7 @@ class Controller {
       this.menuView.drawMenu();
       this.gameState.setMenuState();
       this.moodView.clearMoodImage();
+      this.audioController.playSelectMenuSound();
     };
 
     const middleCallback = () => {
@@ -491,6 +491,7 @@ class Controller {
       this.gameState.setIdlingState();
       this.childView.drawIdlingChild();
       this.handleMoodImage();
+      this.audioController.playCancelMenuSound();
     };
 
     this.buttonState.addListeners({
@@ -529,6 +530,7 @@ class Controller {
       this.menuView.drawMenu();
       this.gameState.setMenuState();
       this.moodView.clearMoodImage();
+      this.audioController.playSelectMenuSound();
     };
 
     const middleCallback = () => {
@@ -549,6 +551,7 @@ class Controller {
       this.gameState.setIdlingState();
       this.adultView.drawIdlingAdult();
       this.handleMoodImage();
+      this.audioController.playCancelMenuSound();
     };
 
     this.buttonState.addListeners({

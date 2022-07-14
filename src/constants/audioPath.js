@@ -1,0 +1,10 @@
+export const START_GAME_AUDIO_PATH = './sounds/start-game.wav';
+export const MENU_NAVIGATE_AUDIO_PATH = './sounds/menu-navigate.wav';
+export const SHAKE_EGG_AUDIO_PATH = './sounds/shake-egg.wav';
+export const CANCEL_AUDIO_PATH = './sounds/cancel.flac';
+export const EAT_AUDIO_PATH = './sounds/eat.wav';
+export const HANGOUT_AUDIO_PATH = './sounds/hangout.mp3';
+export const SLEEP_AUDIO_PATH = './sounds/sleep.wav';
+export const DENY_AUDIO_PATH = './sounds/deny.wav';
+export const GROW_UP_AUDIO_PATH = './sounds/growup.wav';
+export const ANGRY_ALERT_AUDIO_PATH = './sounds/angry-alert.wav';

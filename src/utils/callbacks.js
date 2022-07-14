@@ -1,5 +1,6 @@
 export async function feedChildCallback(controller) {
   if (controller.gameState.hunger < 2) {
+    controller.audioController.playDenySound();
     await controller.childView.drawDenyingChild();
 
     controller.gameState.setIdlingState();
@@ -9,6 +10,7 @@ export async function feedChildCallback(controller) {
     return;
   }
 
+  controller.audioController.playEatSound();
   await controller.childView.drawEatingChild();
 
   controller.gameState.reduceHunger();
@@ -19,6 +21,7 @@ export async function feedChildCallback(controller) {
 
 export async function feedAdultCallback(controller) {
   if (controller.gameState.hunger < 2) {
+    controller.audioController.playDenySound();
     await controller.adultView.drawDenyingAdult();
 
     controller.gameState.setIdlingState();
@@ -28,6 +31,7 @@ export async function feedAdultCallback(controller) {
     return;
   }
 
+  controller.audioController.playEatSound();
   await controller.adultView.drawEatingAdult();
 
   controller.gameState.reduceHunger();
@@ -38,6 +42,7 @@ export async function feedAdultCallback(controller) {
 
 export async function playChildCallback(controller) {
   if (controller.gameState.fun > 8) {
+    controller.audioController.playDenySound();
     await controller.childView.drawDenyingChild();
 
     controller.gameState.setIdlingState();
@@ -47,6 +52,7 @@ export async function playChildCallback(controller) {
     return;
   }
 
+  controller.audioController.playHangoutSound();
   await controller.childView.drawPlayingChild();
 
   controller.gameState.makePetFun();
@@ -57,6 +63,7 @@ export async function playChildCallback(controller) {
 
 export async function playAdultCallback(controller) {
   if (controller.gameState.fun > 8) {
+    controller.audioController.playDenySound();
     await controller.adultView.drawDenyingAdult();
 
     controller.gameState.setIdlingState();
@@ -66,6 +73,7 @@ export async function playAdultCallback(controller) {
     return;
   }
 
+  controller.audioController.playHangoutSound();
   await controller.adultView.drawPlayingAdult();
 
   controller.gameState.makePetFun();
@@ -76,6 +84,7 @@ export async function playAdultCallback(controller) {
 
 export function stateCallback(controller) {
   controller.menuView.removeMenu();
+  controller.audioController.playSelectMenuSound();
 
   controller.stateView.drawStateView(
     controller.gameState.fun,
@@ -86,6 +95,7 @@ export function stateCallback(controller) {
 
 export async function sleepChildCallback(controller) {
   if (controller.gameState.tiredness < 3) {
+    controller.audioController.playDenySound();
     await controller.childView.drawDenyingChild();
 
     controller.gameState.setIdlingState();
@@ -95,6 +105,7 @@ export async function sleepChildCallback(controller) {
     return;
   }
 
+  controller.audioController.playSleepSound();
   controller.gameState.resetTirednessState();
   await controller.childView.drawSleepingChild();
   controller.childView.drawIdlingChild();
@@ -103,6 +114,7 @@ export async function sleepChildCallback(controller) {
 
 export async function sleepAdultCallback(controller) {
   if (controller.gameState.tiredness < 3) {
+    controller.audioController.playDenySound();
     await controller.adultView.drawDenyingAdult();
 
     controller.gameState.setIdlingState();
@@ -112,6 +124,7 @@ export async function sleepAdultCallback(controller) {
     return;
   }
 
+  controller.audioController.playSleepSound();
   controller.gameState.resetTirednessState();
   await controller.adultView.drawSleepingAdult();
   controller.adultView.drawIdlingAdult();
