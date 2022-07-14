@@ -154,6 +154,10 @@ class GameState {
     this.tiredness = 0;
   }
 
+  setTirednessToSix() {
+    this.tiredness = 6;
+  }
+
   reset() {
     this.state = INIT;
     this.growth = INIT;
