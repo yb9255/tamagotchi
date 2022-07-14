@@ -1,22 +1,22 @@
 import Controller from './src/controller/Controller.js';
-import { observeRoot } from './src/utils/observer.js';
 import { postUserInfoWithClose } from './src/utils/api.js';
 import { GROWTH } from './src/constants/gameState.js';
 
 async function init() {
   const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
   const controller = new Controller();
-  observeRoot(controller);
 
   window.addEventListener('beforeunload', (event) => {
     event.preventDefault();
 
-    const userInformation = {
-      ...controller.userState.getProperties(),
-      ...controller.gameState.getProperties(),
-    };
+    if (location.pathname !== '/login') {
+      const userInformation = {
+        ...controller.userState.getProperties(),
+        ...controller.gameState.getProperties(),
+      };
 
-    postUserInfoWithClose(userInformation);
+      postUserInfoWithClose(userInformation);
+    }
   });
 
   if (controller.router.currentRoute === '/') {

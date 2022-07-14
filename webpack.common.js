@@ -8,6 +8,9 @@ module.exports = {
     new CopyPlugin({
       patterns: [{ from: './src/images', to: 'images' }],
     }),
+    new CopyPlugin({
+      patterns: [{ from: './src/sounds', to: 'sounds' }],
+    }),
     new HtmlWebpackPlugin({
       template: './index.html',
       filename: './index.html',

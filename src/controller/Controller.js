@@ -11,6 +11,7 @@ import FrameView from '../views/FrameView.js';
 import MenuView from '../views/MenuView.js';
 import MoodView from '../views/MoodView.js';
 import NavbarView from '../views/NavbarView.js';
+import RouteChangeObserver from '../utils/RouteChangeObserver.js';
 import Router from './Router.js';
 
 import { INIT, GROWTH, TICK_SECONDS, IDLING } from '../constants/gameState.js';
@@ -52,10 +53,12 @@ class Controller {
     this.menuView = new MenuView();
     this.moodView = new MoodView();
     this.navbarView = new NavbarView();
+    this.routeChangeObserver = new RouteChangeObserver(this);
     this.currentMainView = null;
     this.currentAnimationFrame = null;
 
     this.router.init();
+    this.routeChangeObserver.observeRoot();
   }
 
   handleEventsOverTime() {
