@@ -3,16 +3,13 @@ import { GROWTH } from '../constants/gameState.js';
 import {
   CHILD_STAND_IMAGE_PATH,
   ADULT_STAND_IMAGE_PATH,
-  EGG_IMAGE_PATH,
 } from '../constants/imagePath.js';
 
 class ProfileView {
   #updateModal = null;
   #backdrop = null;
-  #profileCard = null;
-  #hostInfo = null;
-  #hostPetCard = null;
-  #hostPetProfile = null;
+  #profileBody = null;
+  #profileFooter = null;
 
   constructor() {
     this.setModals = this.setModals.bind(this);
@@ -27,60 +24,61 @@ class ProfileView {
     this.#backdrop = backdrop;
   }
 
-  setProfileElements(profileCard) {
-    this.#profileCard = profileCard;
-
-    this.#hostInfo = this.#profileCard.querySelector(
-      `.${profileStyles['host-info']}`,
-    );
-
-    this.#hostPetCard = this.#profileCard.querySelector(
-      `.${profileStyles['host-pet-card']}`,
-    );
-
-    this.#hostPetProfile = this.#profileCard.querySelector(
-      `.${profileStyles['host-pet-profile']}`,
-    );
+  setProfileElements(profileBody, profileFooter) {
+    this.#profileBody = profileBody;
+    this.#profileFooter = profileFooter;
   }
 
   drawProfile(userState, gameState) {
-    if (this.#hostInfo.children.length) {
-      this.#hostInfo.innerHTML = '';
-      this.#hostPetCard.querySelector('img').remove();
-      this.#hostPetProfile.innerHTML = '';
+    const profileLeft = this.#profileBody.querySelector(
+      `.${profileStyles['profile-left']}`,
+    );
+
+    const profileRight = this.#profileBody.querySelector(
+      `.${profileStyles['profile-right']}`,
+    );
+
+    if (profileLeft.children) {
+      profileLeft.innerHTML = '';
+      profileRight.querySelector('span').remove();
+      this.#profileFooter.innerHTML = '';
     }
 
-    if (gameState.growth === GROWTH[0]) {
-      this.#hostPetCard.insertAdjacentHTML(
-        'afterbegin',
-        `<img src=".${EGG_IMAGE_PATH}" alt="egg stand" />`,
-      );
-    } else if (gameState.growth === GROWTH[1]) {
-      this.#hostPetCard.insertAdjacentHTML(
+    if (gameState.growth === GROWTH[1]) {
+      profileLeft.insertAdjacentHTML(
         'afterbegin',
         `<img src=".${CHILD_STAND_IMAGE_PATH}" alt="child stand" />`,
       );
     } else if (gameState.growth === GROWTH[2]) {
-      this.#hostPetCard.insertAdjacentHTML(
+      profileLeft.insertAdjacentHTML(
         'afterbegin',
         `<img src=".${ADULT_STAND_IMAGE_PATH}" alt="adult stand" />`,
       );
     }
 
-    this.#hostInfo.insertAdjacentHTML(
-      'afterbegin',
+    profileLeft.insertAdjacentHTML(
+      'beforeend',
       `
-        <img src="${userState.picture}" alt="profile" />
-        <span>${userState.email.split('@')[0]}</span>
+        <span>Name: ${gameState.profileName}</span>
+        <span>Happiness: ${gameState.happiness}</span>
       `,
     );
 
-    this.#hostPetProfile.insertAdjacentHTML(
-      'afterbegin',
+    profileRight.insertAdjacentHTML(
+      'beforeend',
       `
-        <span>Name: ${gameState.profileName}</span>
-        <span>Description: ${gameState.profileDescription}</span>
-        <span>Happiness: ${gameState.happiness}</span>
+        <span>${gameState.profileDescription}</span>
+      `,
+    );
+
+    this.#profileFooter.insertAdjacentHTML(
+      'beforeend',
+      `
+        <h4>Owner</h4>
+        <div class="${profileStyles['user-profile']}">
+          <img src=${userState.picture} alt="user profile" />
+          <span>${userState.email.split('@')[0]}</span>
+        </div>
       `,
     );
   }
