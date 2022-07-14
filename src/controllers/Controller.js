@@ -295,9 +295,9 @@ class Controller {
     ) {
       this.moodView.drawHeart();
     } else if (
-      this.gameState.fun < 3 &&
-      this.gameState.hunger > 7 &&
-      this.gameState.tiredness > 5
+      this.gameState.fun <= 3 &&
+      this.gameState.hunger >= 7 &&
+      this.gameState.tiredness >= 5
     ) {
       this.audioController.playAngryAlertSound();
       this.moodView.drawAngryEmoji();
