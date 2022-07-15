@@ -3,24 +3,23 @@ import LoginPage from '../pages/LoginPage.js';
 import ProfilePage from '../pages/ProfilePage.js';
 
 class Router {
-  #routes = null;
+  #routes = [
+    {
+      path: '/',
+      view: MainPage,
+    },
+    {
+      path: '/login',
+      view: LoginPage,
+    },
+    {
+      path: '/profile',
+      view: ProfilePage,
+    },
+  ];
 
   constructor() {
     this.currentRoute = null;
-    this.#routes = [
-      {
-        path: '/',
-        view: MainPage,
-      },
-      {
-        path: '/login',
-        view: LoginPage,
-      },
-      {
-        path: '/profile',
-        view: ProfilePage,
-      },
-    ];
   }
 
   pathToRegex(path) {
