@@ -62,7 +62,9 @@ class Router {
     if (!isLoggedIn && (location.pathname !== '/login' || !match)) {
       this.navigateTo('/login');
       return;
-    } else if (isLoggedIn && (location.pathname === '/login' || !match)) {
+    }
+
+    if (isLoggedIn && (location.pathname === '/login' || !match)) {
       this.navigateTo('/');
       return;
     }

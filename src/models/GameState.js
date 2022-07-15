@@ -1,9 +1,9 @@
-import { INIT, GROWTH, IDLING, MENU } from '../constants/gameState.js';
+import { STATE, GROWTH } from '../constants/gameState.js';
 
 class GameState {
   constructor() {
-    this.state = INIT;
-    this.growth = INIT;
+    this.state = STATE[0];
+    this.growth = STATE[0];
     this.fun = -1;
     this.hunger = -1;
     this.birthCount = -1;
@@ -62,7 +62,7 @@ class GameState {
   setStatesByTime() {
     if (
       (this.growth === GROWTH[1] || this.growth === GROWTH[2]) &&
-      this.state === IDLING
+      this.state === STATE[2]
     ) {
       if (this.fun) {
         this.fun -= 1;
@@ -80,9 +80,10 @@ class GameState {
       if (this.fun <= 3 && this.hunger >= 7 && this.tiredness >= 5) {
         if (!this.happiness) {
           this.happiness = 0;
-        } else {
-          this.happiness -= 5;
+          return;
         }
+
+        this.happiness -= 5;
       }
 
       this.tiredness += 1;
@@ -106,7 +107,7 @@ class GameState {
       this.tiredness = 5;
       this.exp = 0;
       this.happiness = 0;
-      this.state = IDLING;
+      this.state = STATE[2];
       return;
     }
 
@@ -122,11 +123,11 @@ class GameState {
   }
 
   setMenuState() {
-    this.state = MENU;
+    this.state = STATE[1];
   }
 
   setIdlingState() {
-    this.state = IDLING;
+    this.state = STATE[2];
   }
 
   reduceHunger() {
@@ -159,8 +160,8 @@ class GameState {
   }
 
   reset() {
-    this.state = INIT;
-    this.growth = INIT;
+    this.state = STATE[0];
+    this.growth = STATE[0];
     this.fun = -1;
     this.hunger = -1;
     this.birthCount = -1;
