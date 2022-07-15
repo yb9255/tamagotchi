@@ -4,14 +4,15 @@
 
 ![LOGO](https://i.pinimg.com/originals/7e/c0/39/7ec0399de0e72dc73388e9306d7c4745.png)
 
+
 ### Introduction
 
 웹에서 플레이할 수 있는 다마고치입니다. 데스크탑 플레이를 기준으로 만들어졌습니다.
 
 ---
 
-### Motivation
 
+### Motivation
 
 - **Vanilla JS 프로젝트를 기획한 이유**
 
@@ -34,11 +35,9 @@
   다마고치 프로젝트의 경우 프로필 페이지로 이동하는 것 정도를 제외하면 잦은 화면 리렌더링이 발생하지 않습니다. 또한 프로젝트의 목적 중 하나가 리액트 코드가 어떤 원리로 동작하는지 이해하는 것이 목적이었기 때문에, 리액트에 의존하지 않고 모든 상태 변화와 페이지 전환을 관리해 보는 것이 좋다고 생각해서 바닐라 자바스크립트로 프로젝트를 진행했습니다.
 
 
-
 - **Node.js / Express / MongoDB**
 
   이번 프로젝트에서 서버사이드 작업은 사용자의 다마고치 데이터를 보관하는 역할만 담당합니다. 데이터 구조나 서버에서의 작업이 복잡하지 않은데 반면에 실시간 업데이트는 자주 발생합니다. 이런 잦은 IO 처리에 node.js와 NoSQL을 쓰는게 적합하다고 여겨서 express와 MongoDB를 사용했습니다. 배포에는 AWS Elastic Beanstalk를 사용했습니다.
-
 
 
 - **firebase, firebase-admin**
@@ -53,7 +52,6 @@
 ---
 
 ### Links
-
 
 - **메인 페이지(Netlify)** : https://yb-web-tamagotchi.netlify.app
 - **Github Repo(Frontend)** : https://github.com/yb9255/tamagotchi
@@ -108,4 +106,3 @@
 ---
 
 ### Summary
-

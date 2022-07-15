@@ -1,4 +1,4 @@
-import { auth, provider } from '../firebase/firebase-config';
+import { auth, provider } from '../firebase/firebaseInit.js';
 import { signInWithPopup } from 'firebase/auth';
 
 const API_URL =
