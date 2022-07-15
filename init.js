@@ -78,7 +78,11 @@ async function init() {
       controller.gameState.setIdlingState();
       controller.handleEventsOverTime();
     }
-  } else if (controller.router.currentRoute === '/profile') {
+
+    return;
+  }
+
+  if (controller.router.currentRoute === '/profile') {
     await controller.handleGettingUserInfo();
 
     if (
@@ -94,7 +98,11 @@ async function init() {
       controller.handleSettingProfilePage();
       controller.handleEventsOverTime();
     }
-  } else if (controller.router.currentRoute === '/login') {
+
+    return;
+  }
+
+  if (controller.router.currentRoute === '/login') {
     document
       .querySelector('button')
       .addEventListener('click', controller.handleUserLogin.bind(controller));

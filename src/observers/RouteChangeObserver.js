@@ -29,10 +29,17 @@ class RouteChangeObserver {
 
       if (this.#controller.router.currentRoute === '/') {
         this.#setMainRoute();
-      } else if (this.#controller.router.currentRoute === '/profile') {
+        return;
+      }
+
+      if (this.#controller.router.currentRoute === '/profile') {
         this.#setProfileRoute();
-      } else if (this.#controller.router.currentRoute === '/login') {
+        return;
+      }
+
+      if (this.#controller.router.currentRoute === '/login') {
         this.#setLoginRoute();
+        return;
       }
     });
 

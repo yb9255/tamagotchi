@@ -1,4 +1,4 @@
-import { INIT, GROWTH, TICK_SECONDS, IDLING } from '../constants/gameState.js';
+import { STATE, GROWTH, TICK_SECONDS } from '../constants/gameState.js';
 
 import {
   feedChildCallback,
@@ -55,7 +55,7 @@ class Controller {
 
     const handleEventsOnTick = async () => {
       if (this.router.currentRoute === '/') {
-        if (this.gameState.state === IDLING) {
+        if (this.gameState.state === STATE[2]) {
           currentTime++;
         }
 
@@ -299,16 +299,21 @@ class Controller {
       this.gameState.tiredness < 5
     ) {
       this.moodView.drawHeart();
-    } else if (
+      return;
+    }
+
+    if (
       this.gameState.fun <= 3 &&
       this.gameState.hunger >= 7 &&
       this.gameState.tiredness >= 5
     ) {
       this.audioController.playAngryAlertSound();
       this.moodView.drawAngryEmoji();
-    } else {
-      this.moodView.clearMoodImage();
+      return;
     }
+
+    this.moodView.clearMoodImage();
+    return;
   }
 
   async #handleFallingAsleepChild() {
@@ -333,7 +338,7 @@ class Controller {
     };
 
     const rightCallback = async () => {
-      if (this.gameState.state === IDLING) return;
+      if (this.gameState.state === STATE[2]) return;
 
       this.menuView.removeMenu();
       this.gameState.setIdlingState();
@@ -377,7 +382,7 @@ class Controller {
     };
 
     const rightCallback = async () => {
-      if (this.gameState.state === IDLING) return;
+      if (this.gameState.state === STATE[2]) return;
 
       this.menuView.removeMenu();
       this.gameState.setIdlingState();
@@ -400,7 +405,7 @@ class Controller {
   }
 
   #handleChangingPetPhases() {
-    if (this.gameState.growth === INIT) {
+    if (this.gameState.growth === STATE[0]) {
       this.buttonState.state = this.gameState.growth;
       const callback = () => {
         this.gameState.startGame();
@@ -412,12 +417,23 @@ class Controller {
         middleCallback: callback,
         rightCallback: callback,
       });
-    } else if (this.gameState.growth === GROWTH[0]) {
+
+      return;
+    }
+
+    if (this.gameState.growth === GROWTH[0]) {
       this.#initEggPhase();
-    } else if (this.gameState.growth === GROWTH[1]) {
+      return;
+    }
+
+    if (this.gameState.growth === GROWTH[1]) {
       this.#initChildPhase();
-    } else if (this.gameState.growth === GROWTH[2]) {
+      return;
+    }
+
+    if (this.gameState.growth === GROWTH[2]) {
       this.#initAdultPhase();
+      return;
     }
   }
 
@@ -494,7 +510,7 @@ class Controller {
     };
 
     const rightCallback = async () => {
-      if (this.gameState.state === IDLING) return;
+      if (this.gameState.state === STATE[2]) return;
 
       this.menuView.removeMenu();
       this.gameState.setIdlingState();
@@ -554,7 +570,7 @@ class Controller {
     };
 
     const rightCallback = async () => {
-      if (this.gameState.state === IDLING) return;
+      if (this.gameState.state === STATE[2]) return;
 
       this.menuView.removeMenu();
       this.gameState.setIdlingState();

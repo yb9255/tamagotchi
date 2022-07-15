@@ -4,10 +4,15 @@ import {
   STANDUP_TIME,
   SHAKED_TIME,
   BREAKUP_TIME,
+  S_WIDTH,
+  S_HEIGHT,
+  D_WIDTH,
+  D_HEIGHT,
 } from '../constants/egg.js';
 import { EGG_IMAGE_PATH } from '../constants/imagePath.js';
 
 class EggView extends View {
+  #sy = 0;
   #frameWidth = 180;
   #dx = 110;
   #dy = 120;
@@ -43,13 +48,13 @@ class EggView extends View {
       this.context.drawImage(
         this.image,
         this.#frameWidth * currentFrame,
-        0,
-        200,
-        200,
+        this.#sy,
+        S_WIDTH,
+        S_HEIGHT,
         this.#dx,
         this.#dy,
-        200,
-        200,
+        D_WIDTH,
+        D_HEIGHT,
       );
       currentFrame++;
 
@@ -69,13 +74,13 @@ class EggView extends View {
         this.context.drawImage(
           this.image,
           standFrame,
-          0,
-          200,
-          200,
+          this.#sy,
+          S_WIDTH,
+          S_HEIGHT,
           this.#dx - DX_OFFSET,
           this.#dy,
-          200,
-          200,
+          D_WIDTH,
+          D_HEIGHT,
         );
       }
 
@@ -83,13 +88,13 @@ class EggView extends View {
         this.context.drawImage(
           this.image,
           standFrame,
-          0,
-          200,
-          200,
+          this.#sy,
+          S_WIDTH,
+          S_HEIGHT,
           this.#dx + DX_OFFSET,
           this.#dy,
-          200,
-          200,
+          D_WIDTH,
+          D_HEIGHT,
         );
       }
 
@@ -97,13 +102,13 @@ class EggView extends View {
         this.context.drawImage(
           this.image,
           standFrame,
-          0,
-          200,
-          200,
+          this.#sy,
+          S_WIDTH,
+          S_HEIGHT,
           this.#dx,
           this.#dy,
-          200,
-          200,
+          D_WIDTH,
+          D_HEIGHT,
         );
       }
 
@@ -124,13 +129,13 @@ class EggView extends View {
       this.context.drawImage(
         this.image,
         this.#frameWidth * currentFrame,
-        0,
-        200,
-        200,
+        this.#sy,
+        S_WIDTH,
+        S_HEIGHT,
         this.#dx,
         this.#dy,
-        200,
-        200,
+        D_WIDTH,
+        D_HEIGHT,
       );
       currentFrame++;
 

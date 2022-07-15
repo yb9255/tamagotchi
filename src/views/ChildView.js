@@ -18,9 +18,15 @@ import {
   DENY_TIME,
   SLEEP_TIME,
   GROW_UP_TIME,
+  S_WIDTH,
+  S_HEIGHT,
+  D_WIDTH,
+  D_HEIGHT,
 } from '../constants/child.js';
 
 class ChildView extends View {
+  #sx = 0;
+  #sy = 0;
   #dx = 55;
   #dy = 55;
   #frameWidth = 300;
@@ -73,13 +79,13 @@ class ChildView extends View {
       this.context.drawImage(
         this.image,
         this.#frameWidth * currentFrame,
-        0,
-        300,
-        300,
+        this.#sy,
+        S_WIDTH,
+        S_HEIGHT,
         this.#dx,
         this.#dy,
-        300,
-        300,
+        D_WIDTH,
+        D_HEIGHT,
       );
       currentFrame++;
 
@@ -97,13 +103,13 @@ class ChildView extends View {
       this.context.drawImage(
         this.image,
         this.#frameWidth * currentFrame,
-        0,
-        300,
-        300,
+        this.#sy,
+        S_WIDTH,
+        S_HEIGHT,
         this.#dx,
         this.#dy,
-        300,
-        300,
+        D_WIDTH,
+        D_HEIGHT,
       );
       currentFrame--;
 
@@ -121,14 +127,14 @@ class ChildView extends View {
     return this.animate((resolve) => {
       this.context.drawImage(
         this.image,
-        0,
-        0,
-        300,
-        300,
+        this.#sx,
+        this.#sy,
+        S_WIDTH,
+        S_HEIGHT,
         this.#dx,
         this.#dy,
-        300,
-        300,
+        D_WIDTH,
+        D_HEIGHT,
       );
       this.#dx -= DX_OFFSET;
       moveCount--;
@@ -147,14 +153,14 @@ class ChildView extends View {
     return this.animate((resolve) => {
       this.context.drawImage(
         this.image,
-        0,
-        0,
-        300,
-        300,
+        this.#sx,
+        this.#sy,
+        S_WIDTH,
+        S_HEIGHT,
         this.#dx,
         this.#dy,
-        300,
-        300,
+        D_WIDTH,
+        D_HEIGHT,
       );
       this.#dx += DX_OFFSET;
       moveCount++;
@@ -196,13 +202,13 @@ class ChildView extends View {
       this.context.drawImage(
         this.image,
         this.#frameWidth * currentFrame,
-        0,
-        300,
-        300,
+        this.#sy,
+        S_WIDTH,
+        S_HEIGHT,
         this.#dx,
         this.#dy,
-        300,
-        300,
+        D_WIDTH,
+        D_HEIGHT,
       );
 
       currentFrame++;
@@ -224,13 +230,13 @@ class ChildView extends View {
       this.context.drawImage(
         this.image,
         this.#frameWidth * (currentFrame % 2),
-        0,
-        300,
-        300,
+        this.#sy,
+        S_WIDTH,
+        S_HEIGHT,
         this.#dx,
         this.#dy,
-        300,
-        300,
+        D_WIDTH,
+        D_HEIGHT,
       );
 
       currentFrame++;
@@ -252,13 +258,13 @@ class ChildView extends View {
       this.context.drawImage(
         this.image,
         this.#frameWidth * (currentFrame % 2),
-        0,
-        300,
-        300,
+        this.#sy,
+        S_WIDTH,
+        S_HEIGHT,
         this.#dx,
         this.#dy,
-        300,
-        300,
+        D_WIDTH,
+        D_HEIGHT,
       );
 
       currentFrame++;
@@ -280,13 +286,13 @@ class ChildView extends View {
       this.context.drawImage(
         this.image,
         this.#frameWidth * (currentFrame % 3),
-        0,
-        300,
-        300,
+        this.#sy,
+        S_WIDTH,
+        S_HEIGHT,
         this.#dx,
         this.#dy,
-        300,
-        300,
+        D_WIDTH,
+        D_HEIGHT,
       );
 
       currentFrame++;
@@ -309,13 +315,13 @@ class ChildView extends View {
       this.context.drawImage(
         this.image,
         this.#frameWidth * (currentFrame % 2),
-        0,
-        300,
-        300,
+        this.#sy,
+        S_WIDTH,
+        S_HEIGHT,
         this.#dx,
         this.#dy,
-        300,
-        300,
+        D_WIDTH,
+        D_HEIGHT,
       );
 
       currentFrame++;

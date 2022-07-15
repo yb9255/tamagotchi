@@ -1,7 +1,15 @@
 import View from './View.js';
 import { STATE_POINT_IMAGE_PATH } from '../constants/imagePath.js';
 
+import {
+  S_WIDTH,
+  S_HEIGHT,
+  D_WIDTH,
+  D_HEIGHT,
+} from '../constants/stateScreen.js';
+
 class StateView extends View {
+  #sy = 0;
   #frameWidth = 200;
   #funStateImage = new Image();
   #hungerStateImage = new Image();
@@ -37,13 +45,13 @@ class StateView extends View {
     this.context.drawImage(
       this.#funStateImage,
       this.#frameWidth * fun,
-      0,
-      200,
-      50,
+      this.#sy,
+      S_WIDTH,
+      S_HEIGHT,
       dx,
       dy,
-      300,
-      75,
+      D_WIDTH,
+      D_HEIGHT,
     );
   }
 
@@ -56,13 +64,13 @@ class StateView extends View {
     this.context.drawImage(
       this.#hungerStateImage,
       this.#frameWidth * hunger,
-      0,
-      200,
-      50,
+      this.#sy,
+      S_WIDTH,
+      S_HEIGHT,
       dx,
       dy,
-      300,
-      75,
+      D_WIDTH,
+      D_HEIGHT,
     );
   }
 
@@ -75,13 +83,13 @@ class StateView extends View {
     this.context.drawImage(
       this.#tirednessStateImage,
       this.#frameWidth * Math.floor(tiredness),
-      0,
-      200,
-      50,
+      this.#sy,
+      S_WIDTH,
+      S_HEIGHT,
       dx,
       dy,
-      300,
-      75,
+      D_WIDTH,
+      D_HEIGHT,
     );
   }
 }

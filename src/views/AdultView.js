@@ -13,9 +13,14 @@ import {
   PLAY_TIME,
   DENY_TIME,
   SLEEP_TIME,
+  S_WIDTH,
+  S_HEIGHT,
+  D_WIDTH,
+  D_HEIGHT,
 } from '../constants/adult.js';
 
 class AdultView extends View {
+  #sy = 0;
   #dx = 55;
   #dy = 55;
   #frameWidth = 300;
@@ -65,13 +70,13 @@ class AdultView extends View {
       this.context.drawImage(
         this.image,
         this.#frameWidth * (currentFrame % 2),
-        0,
-        300,
-        300,
+        this.#sy,
+        S_WIDTH,
+        S_HEIGHT,
         this.#dx,
         this.#dy,
-        300,
-        300,
+        D_WIDTH,
+        D_HEIGHT,
       );
 
       currentFrame++;
@@ -95,13 +100,13 @@ class AdultView extends View {
       this.context.drawImage(
         this.image,
         this.#frameWidth * currentFrame,
-        0,
-        300,
-        300,
+        this.#sy,
+        S_WIDTH,
+        S_HEIGHT,
         this.#dx,
         this.#dy,
-        300,
-        300,
+        D_WIDTH,
+        D_HEIGHT,
       );
 
       currentFrame++;
@@ -123,13 +128,13 @@ class AdultView extends View {
       this.context.drawImage(
         this.image,
         this.#frameWidth * (currentFrame % 2),
-        0,
-        300,
-        300,
+        this.#sy,
+        S_WIDTH,
+        S_HEIGHT,
         this.#dx,
         this.#dy,
-        300,
-        300,
+        D_WIDTH,
+        D_HEIGHT,
       );
 
       currentFrame++;
@@ -151,13 +156,13 @@ class AdultView extends View {
       this.context.drawImage(
         this.image,
         this.#frameWidth * (currentFrame % 2),
-        0,
-        300,
-        300,
+        this.#sy,
+        S_WIDTH,
+        S_HEIGHT,
         this.#dx,
         this.#dy,
-        300,
-        300,
+        D_WIDTH,
+        D_HEIGHT,
       );
 
       currentFrame++;
@@ -179,13 +184,13 @@ class AdultView extends View {
       this.context.drawImage(
         this.image,
         this.#frameWidth * (currentFrame % 3),
-        0,
-        300,
-        300,
+        this.#sy,
+        S_WIDTH,
+        S_HEIGHT,
         this.#dx,
         this.#dy,
-        300,
-        300,
+        D_WIDTH,
+        D_HEIGHT,
       );
 
       currentFrame++;
