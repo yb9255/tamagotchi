@@ -319,6 +319,7 @@ class Controller {
       this.menuView.drawMenu();
       this.gameState.setMenuState();
       this.moodView.clearMoodImage();
+      this.audioController.playSelectMenuSound();
     };
 
     const middleCallback = () => {
@@ -339,6 +340,7 @@ class Controller {
 
       this.childView.drawIdlingChild();
       this.handleMoodImage();
+      this.audioController.playCancelMenuSound();
     };
 
     this.audioController.playSleepSound();
@@ -361,6 +363,7 @@ class Controller {
       this.menuView.drawMenu();
       this.gameState.setMenuState();
       this.moodView.clearMoodImage();
+      this.audioController.playSelectMenuSound();
     };
 
     const middleCallback = () => {
@@ -381,6 +384,7 @@ class Controller {
 
       this.adultView.drawIdlingAdult();
       this.handleMoodImage();
+      this.audioController.playCancelMenuSound();
     };
 
     this.audioController.playSleepSound();
