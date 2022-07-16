@@ -7,7 +7,7 @@ import {
   CHILD_DENY_IMAGE_PATH,
   CHILD_SLEEPING_IMAGE_PATH,
   CHILD_GROWING_UP_IMAGE_PATH,
-} from '../constants/imagePath.js';
+} from '../../constants/imagePath.js';
 
 import {
   DX_OFFSET,
@@ -22,7 +22,7 @@ import {
   S_HEIGHT,
   D_WIDTH,
   D_HEIGHT,
-} from '../constants/child.js';
+} from '../../constants/child.js';
 
 class ChildView extends View {
   #sx = 0;

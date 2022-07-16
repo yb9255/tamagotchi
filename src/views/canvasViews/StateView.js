@@ -1,12 +1,12 @@
 import View from './View.js';
-import { STATE_POINT_IMAGE_PATH } from '../constants/imagePath.js';
+import { STATE_POINT_IMAGE_PATH } from '../../constants/imagePath.js';
 
 import {
   S_WIDTH,
   S_HEIGHT,
   D_WIDTH,
   D_HEIGHT,
-} from '../constants/stateScreen.js';
+} from '../../constants/stateScreen.js';
 
 class StateView extends View {
   #sy = 0;

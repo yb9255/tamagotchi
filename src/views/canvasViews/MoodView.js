@@ -1,10 +1,10 @@
 import View from './View.js';
-import mainStyles from '../css/main.css';
+import mainStyles from '../../css/main.css';
 
 import {
   MOOD_HEART_IMAGE_PATH,
   MOOD_ANGRY_IMAGE_PATH,
-} from '../constants/imagePath.js';
+} from '../../constants/imagePath.js';
 
 class MoodView extends View {
   #container = null;
