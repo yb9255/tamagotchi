@@ -6,7 +6,7 @@ import {
   ADULT_PLAY_IMAGE_PATH,
   ADULT_DENY_IMAGE_PATH,
   ADULT_SLEEPING_IMAGE_PATH,
-} from '../constants/imagePath.js';
+} from '../../constants/imagePath.js';
 
 import {
   FEED_TIME,
@@ -17,7 +17,7 @@ import {
   S_HEIGHT,
   D_WIDTH,
   D_HEIGHT,
-} from '../constants/adult.js';
+} from '../../constants/adult.js';
 
 class AdultView extends View {
   #sy = 0;

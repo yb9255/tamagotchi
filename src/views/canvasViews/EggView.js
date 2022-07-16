@@ -8,8 +8,8 @@ import {
   S_HEIGHT,
   D_WIDTH,
   D_HEIGHT,
-} from '../constants/egg.js';
-import { EGG_IMAGE_PATH } from '../constants/imagePath.js';
+} from '../../constants/egg.js';
+import { EGG_IMAGE_PATH } from '../../constants/imagePath.js';
 
 class EggView extends View {
   #sy = 0;

@@ -108,6 +108,7 @@ export async function sleepChildCallback(controller) {
   controller.audioController.playSleepSound();
   controller.gameState.resetTirednessState();
   await controller.childView.drawSleepingChild();
+  controller.gameState.setIdlingState();
   controller.childView.drawIdlingChild();
   controller.handleMoodImage();
 }
@@ -127,6 +128,7 @@ export async function sleepAdultCallback(controller) {
   controller.audioController.playSleepSound();
   controller.gameState.resetTirednessState();
   await controller.adultView.drawSleepingAdult();
+  controller.gameState.setIdlingState();
   controller.adultView.drawIdlingAdult();
   controller.handleMoodImage();
 }
