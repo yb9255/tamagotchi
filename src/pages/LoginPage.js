@@ -1,6 +1,5 @@
 import Page from './Page.js';
-import styles from '../css/login.css';
-import { LOGO_IMAGE_PATH } from '../constants/imagePath';
+import { loginMarkup } from '../constants/markups';
 
 class LoginPage extends Page {
   constructor(params) {
@@ -9,12 +8,7 @@ class LoginPage extends Page {
   }
 
   getHtml() {
-    return `
-      <div class="${styles.container}">
-        <img src="${LOGO_IMAGE_PATH}" alt="logo" />
-        <button class=${styles['login-btn']}>Sign in with Google</button>
-      </div>
-    `;
+    return loginMarkup;
   }
 }
 
