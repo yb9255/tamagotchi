@@ -379,21 +379,21 @@
 
    - 문제 1 : DOM Tree가 사라질 때마다 완전히 새로운 DOM이 생성됩니다.
      - 클라이언트 사이드 렌더링은 이전의 DOM Tree를 지우고 새로운 DOM Tree를 넣는 작업을 반복합니다. 이 과정에서 이전에 달았던 리스너는 사라지게 됩니다. 또한 클래스 내부에 document.querySelector 등으로 DOM Element를 잡으면 클래스가 생성된 시점의 DOM을 클로저로 기억하기 때문에, 다시 그려진 DOM Element가 같은 클래스나 속성을 이전 DOM에서 업데이트 되지 않았습니다.
-     - 문제 해결: handleSetting-으로 시작하는 메소드들을 사용해서 사용자가 URL을 입력해서 들어오거나 새 DOM Tree가 렌더링 될 때 DOM Elements들을 다시 추적해서 클래스의 프로퍼티에 담고 리스너를 달아줍니다. 이후 프로퍼티에 담긴 값을 DOM 조작에 사용하는 구조를 만들었습니다.
+     - 문제 해결: handleSetting-으로 시작하는 메소드들을 사용해서 사용자가 URL을 입력해서 들어오거나 새 DOM Tree가 렌더링 될 때 DOM Elements들을 다시 추적해서 클래스의 프로퍼티에 담고 리스너를 달아주는 식으로 리스너를 복구했습니다.
 
 
    - 문제 2: DOM Tree의 Mount, Unmount 순간을 캐치하기가 어려웠습니다.
-     - 리액트의 경우 useEffect, componentDidMount, componentWillUnmount 등 DOM의 라이프사이클을 추적하는 작업을 지원하는 훅, 메소드들이 많이 있었습니다만 Vanilla JS에서는 간단한 방법이 존재하지 않았습니다. 가장 큰 문제가 innerHTML, insertAdjacentHTML 등의 HTML DOM을 생성하는 메소드들은 동기적으로 작동하지만 그것이 렌더링까지 동기적으로 실행되는 점을 보장해주지 않는다는 것이었습니다. 그래서 렌더링이 끝나기 전에 다음 코드들이 실행되서 리스너를 아직 렌더링되지 않은 DOM element에 달려고 시도하다가 에러가 나는 등 여러 문제가 발생했습니다. 
-     - 또한 DOM Tree가 unmount 되는 순간이나 브라우저가 종료되는 순간 API를 보내고 싶은 경우에도 문제가 있었습니다. SPA이기 때문에 이벤트 리스너에 있는 beforeunload같은 이벤트들이 잘 추적이 되지 않아고, MDN에서 추천하는 visibilitychange의 경우 다마고치가 움직일때마다 지속적으로 콜백이 발동된다는 문제 때문에 제 프로젝트에 사용할 수 없었습니다.
+     - 리액트의 경우 useEffect, componentDidMount, componentWillUnmount 등 DOM의 라이프사이클을 추적하는 작업을 지원하는 훅, 메소드들이 많이 있었습니다. 하지만 Vanilla JS에서는 간단한 방법이 존재하지 않았습니다. 가장 큰 문제가 innerHTML, insertAdjacentHTML 등의 HTML DOM을 생성하는 메소드들은 동기적으로 작동하지만 렌더링은 비동기적이라는 점이었습니다. 그래서 렌더링이 끝나기 전에 다음 코드들이 실행되서 리스너를 아직 렌더링되지 않은 DOM element에 달려고 시도하다가 에러가 나는 등 여러 문제가 발생했습니다. 
+     - 또한 DOM Tree가 unmount 되는 순간이나 브라우저가 종료되는 순간 API를 보내고 싶은 경우에도 문제가 있었습니다. SPA이기 때문에 이벤트 리스너에 있는 beforeunload같은 이벤트들이 잘 추적이 되지 않았고, MDN에서 추천하는 visibilitychange의 경우 다마고치가 움직일때마다 지속적으로 콜백이 발동된다는 문제 때문에 제 프로젝트에 사용할 수 없었습니다.
      - 문제 해결: MutationObserver, Beacon API
-       - 리서치 결과 과거에는 `setTimeout(callback, 0);` 같은 방법이나 DomAttrModified Event 사용했다고 하지만 더 좋은 방법이 없나 찾아보다가 [Mutation Observer](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver)를 발견했습니다. Mutation Observer는 옵저빙하는 대상의 DOM에 변화가 감지되면 콜백 함수를 실행하며, entries와 observer 두 개의 인자를 가집니다. entries에서는 removedNode와 addedNode를 추적할 수 있는데, 이 점을 활용해서 componentWillUnmount와 componentDidMount를 구현할 수 있게 되었습니다. 삭제된 노드에 특정 DOM이 있다면 그 DOM을 가진 페이지가 언마운트 될 때 발동되야 하는 함수가 발동되고, 추가된 NODE에 특정 DOM이 있다면 그 DOM이 추가된 이후에 발동되야 하는 함수가 발동되도록 설정했습니다.
-       - 브라우저를 종료하면서 데이터를 업데이트 하는 API를 보내는 로직은 [Beacon API](https://developer.mozilla.org/en-US/docs/Web/API/Beacon_API)를 사용했습니다. Beacon API는   response를 필요로 하지 않고 웹페이지가 종료 되기 이전에 POST HTTP Request를 서버로 보내는 것을 보장해주는 API입니다. 기존의 beforeunload, unload 이벤트만 사용했을 때는 비동기 API를 보내도 response 관련 문제로 인해서 제대로 동작하지 않았었는데, beacon api를 사용함으로써 브라우저를 종료하는 시점에서도 안전하게 데이터를 업데이트 할 수 있게 되었습니다.
+       - 리서치 결과 과거에는 `setTimeout(callback, 0);` 같은 방법이나 `DomAttrModified Event` 사용했다는 것을 찾을 수 있었습니다. 이후 더 좋은 방법이 없나 찾아보다가 [Mutation Observer](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver)를 발견했습니다. Mutation Observer는 옵저빙하는 대상의 DOM에 변화가 감지되면 콜백 함수를 실행하며, entries와 observer 두 개의 인자를 가집니다. entries에서는 removedNode와 addedNode의 값을 담고 있습니다. 이 점을 활용해서 componentWillUnmount와 componentDidMount를 구현할 수 있게 되었습니다. 현재 코드에서는 entries를 쓰지 않는 방법이 더 좋은 것 같아서 entries를 사용하고 있지 않지만, React에서 어떤 방식으로 component lifecycle을 추적하는지 알게 된 좋은 경험이었습니다.
+       - 브라우저를 종료하면서 데이터를 업데이트 하는 API를 보내는 로직은 [Beacon API](https://developer.mozilla.org/en-US/docs/Web/API/Beacon_API)를 사용했습니다. Beacon API는 웹페이지가 종료 되기 이전에 POST HTTP Request를 서버로 보내는 것을 보장해주는 API입니다. 기존의 beforeunload, unload 이벤트만 사용했을 때는 비동기 API를 보내도 response 관련 문제로 인해서 제대로 동작하지 않았습니다. 하지만 beacon api는 response를 필요로 하지 않습니다. 그래서 beacon api를 사용함으로써 브라우저를 종료하는 시점에서도 확실하게 데이터를 업데이트 할 수 있게 되었습니다.
 
 3. 실시간 State 업데이트
    
-   - 오리지널 다마고치는 실제 시간의 흐름에 따라 다마고치의 상태가 변합니다. 이 프로젝트에서는 실제 시간과 완전히 일치시키는 기능을 구현하지는 않았지만 다마고치의 메인 화면이 켜져 있는 동안에는 시간의 흐름에 따라 상태가 변하도록 했어야 했습니다. 처음에는 setInterval을 사용하려고 했지만 setInterval을 실행하는 시간, 다른 동기적 흐름의 코드들의 실행을 기다리는 시간 등이 setInterval의 실행 타이밍을 목표 시간보다 지연시킬 수 있다는 문제점이 있었습니다.
+   - 오리지널 다마고치는 실제 시간의 흐름에 따라 다마고치의 상태가 변합니다. 이 프로젝트에서는 일시 정지 기능을 넣고 싶어서 실제 시간과 일치하는 기능을 구현하지 않았습니다. 대신 다마고치가 움직이는 동안에는 시간의 흐름에 따라 상태가 변화시킬 필요가 있었습니다. 처음에는 setInterval을 사용하려고 했지만 setInterval은 다른 코드들의 상태에 따라 실행 타이밍을 목표 시간보다 지연될 수 있다는 문제점이 있었습니다.
 
-   - 그래서 리서치를 더 하다보니 requestAnimationframe(RAF) 함수라는 것이 있었습니다. RAF는 현재 사용하고 있는 출력기기가 표현할 수 있는 최대 FPS에 맞춰서 인자로 받은 콜백을 반복실행 시키는 함수입니다. (현재 모니터가 1초에 60프레임만큼 출력할 수 있다면 RAF는 대략 16ms에 한번 실행이 됩니다) 그리고 그 반복실행 될때 화면에 변경사항이 있다면 그 변경사항은 반영해서 리렌더링을 실행합니다. 이를 활용해서 특정 시간마다 state를 변경하는 메소드를 추가하였고, 그 메소드의 state에 기반해서 페이지 화면 스타일이 변동되도록 설정을 해서 업데이트된 값을 화면에 반영시켰습니다.
+   - 그래서 리서치를 더 하다보니 requestAnimationframe(RAF) 함수를 발견했습니다. RAF는 현재 사용하고 있는 출력기기가 표현할 수 있는 최대 FPS에 맞춰서 인자로 받은 콜백을 반복실행 시키는 함수입니다. (현재 모니터가 1초에 60프레임만큼 출력할 수 있다면 RAF는 대략 16ms에 한번 실행이 됩니다) 그리고 그 반복실행 될때 화면에 변경사항이 있다면 그 변경사항을 반영해서 리페인팅을 실행합니다. 이를 활용해서 특정 시간마다 state를 변경하는 메소드를 추가하였고, 그 메소드의 state에 기반해서 페이지 화면을 리페인팅 하도록 설정해서 업데이트된 값을 화면에 반영시켰습니다. RAF도 시간의 흐름을 완벽하게 추적하지는 못하지만, setInterval보다는 안정적으로 state를 변화시킬 수 있었습니다.
 ---
 
 ### Key takeaways
