@@ -61,7 +61,7 @@
 
 ### Feature
 
-- <summary>**Login Page**</summary>
+<summary>Login Page</summary>
 - **Game Start**
 - **Egg Phase**
 - **Child Phase**
