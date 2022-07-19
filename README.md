@@ -61,10 +61,29 @@
 
 ### Feature
 
+
+#### Basic Rule
+
+- 다마고치가 배고프면 먹이를 주고, 심심해 하면 놀아주고, 피곤하면 재워주다 보면 성장합니다. 다마고치를 성장시키고 행복도를 증가시키는게 목표인 게임입니다.
+- 간단한 프로필도 작성이 가능합니다.
+- 사용자가 로그아웃이나 화면을 끈 후 다시 로그인 한다면, 이전의 수치가 그대로 유지 
+- 상세 설명은 아래 토글에서 GIF 파일과 함께 확인이 가능합니다.
+
+
+#### Details
+
 <details>
 <summary>Login Page</summary>
 <div markdown="1">
-  hello
+  <br />
+  
+  ![Recording 2022-07-19 at 22 21 06](https://user-images.githubusercontent.com/92532339/179760530-29e8ef2c-e39f-494e-8601-ab59ebb4c9e8.gif)
+
+  <br />
+    
+  - 로그인을 하지 않았을 때 나오는 화면입니다.
+  - 로그인을 하지 않았을 경우, 다른 url을 입력해도 로그인 페이지로 돌아옵니다.
+  - 가운데 구글 소셜 로그인 버튼이 있습니다.
 
 </div>
 </details>
@@ -72,24 +91,252 @@
 <details>
 <summary>Game Start</summary>
 <div markdown="1">
-  hi
+  <br />
+  
+  ![Recording 2022-07-19 at 22 31 22](https://user-images.githubusercontent.com/92532339/179762707-f00f3ec5-da7b-4d7f-8f26-a20a510f34d0.gif)
+
+  
+  <br />
+  
+  - 사용자가 맨 처음 게임을 시작할 때 화면입니다. 
+  - 프로필 페이지가 없으며, 직접 프로필 라우트를 입력해도 해당 화면으로 돌아옵니다.
 
 </div>
 </details>
 
-- 
-- **Game Start**
-- **Egg Phase**
-- **Child Phase**
-- **Adult Phase**
-- **State Screen**
-- **Menu Screen**
-- **Eating Animation**
-- **Playing Animation**
-- **Denying Animation**
-- **Growing up Animation**
-- **Mood Emoji**
-- **Profile Page**
+<details>
+<summary>Egg Phase</summary>
+<div markdown="1">
+  <br />
+  
+  ![Recording 2022-07-19 at 22 35 21](https://user-images.githubusercontent.com/92532339/179763610-48f20e40-0f69-42a7-bae9-787e3aeb3f7b.gif)
+
+  
+  <br />
+  
+  - 게임 시작 상황에서 알을 누르면 알이 화면에 출력됩니다. 게임 시작 사운드도 출력됩니다
+  - 아무 버튼이나 누르면 알이 흔들리면서 소리가 나옵니다. 
+  - 일정 횟수 이상 누르면 알이 깨어나는 애니메이션과 함꼐 아이 상태의 다마고치가 나옵니다.
+  
+</div>
+</details>
+
+<details>
+<summary>Child Phase</summary>
+<div markdown="1">
+  <br />
+  
+  ![Recording 2022-07-19 at 22 46 01](https://user-images.githubusercontent.com/92532339/179765842-d141d1ab-5cee-404f-ab45-e4aa0f1a7875.gif)
+
+  
+  <br />
+
+  - 아이 상태가 되면서 메뉴에서 프로필 링크가 활성화됩니다. 
+  - 아이 상태때부터 맨 왼쪽 버튼은 메뉴 키기 / (메뉴가 켜져 있는 상태에서는) 메뉴 변경하기 버튼이 됩니다.
+  - 가운데 버튼은 메뉴 선택하기 버튼이 됩니다.
+  - 오른쪽 버튼은 메뉴 취소 버튼이 됩니다.
+  - 아이일때부터는 게임 페이지에서는 확인할 수 없지만 행복도, 경험치가 상태에 따라서 표시됩니다. 행복도는 프로필 페이지에서 확인할 수 있습니다.
+  - 아이일때부터는 화면 왼쪽에 행복한 상태, 화난 상태가 표시됩니다. 행복한 상태일 때 행복도, 경험치가 올라갑니다.
+
+  <br/>
+</div>
+</details>
+
+
+<details>
+<summary>Adult Phase</summary>
+<div markdown="1">
+   <br />
+  
+  ![스크린샷 2022-07-19 오후 11 21 00](https://user-images.githubusercontent.com/92532339/179773739-49b35945-a5cf-4b65-9303-40ff927e524f.png)
+
+  
+   <br />
+  
+  - 아이 상태에서 행복한 상태가 일정 시간 이상 지속되면 어른으로 진화합니다.
+  - 어른일때의 할 수 있는 행동은 아이와 큰 차이가 없습니다. 
+  - 행복도가 올라가고 내려가는 조건은 아이일 때와 같습니다.
+
+</div>
+</details>
+
+<details>
+<summary>Pet State</summary>
+<div markdown="1">
+  <br />
+  
+  ![스크린샷 2022-07-19 오후 10 57 56](https://user-images.githubusercontent.com/92532339/179768526-16860a8a-94bd-4871-8c3d-3360b1d65f60.png)
+
+  
+  <br />
+
+  - 아이 상태일때부터는 메뉴에서 상태를 확인할 수 있습니다.
+  - 배고픔, 즐거움, 피곤함 수치가 있습니다.
+  - 배고픔, 피곤함 수치는 브라우저가 메인화면을 가리키는 동안 시간이 지나면서 올라가고, 즐거움 수치는 줄어듭니다.
+  - 브라우저가 비활성화, 프로필 보는 상태, 메뉴가 켜진 상태일 때는 이 수치 변화가 일시중지 됩니다.
+  - 이 수치의 변화에 따라 행복함, 화남 등의 상태가 변경됩니다.
+  - 행복함 수치인 상태를 유지시키면서 가만히 놔두면 경험치, 행복도가 올라갑니다.
+
+  <br />
+  
+  ![Recording 2022-07-19 at 23 01 40 (1)](https://user-images.githubusercontent.com/92532339/179769548-420eedde-794d-425f-92d8-4de7d74f3d3d.gif)
+
+  
+  <br />
+
+  - 피곤함 수치가 10이 되면 강제로 수면에 빠집니다. 이런 경우 즐거움 수치가 0으로 리셋되고, 피곤함 수치는 절반만 줄어듭니다.
+
+  <br/>
+</div>
+</details>
+
+
+<details>
+<summary>Eating Animation</summary>
+<div markdown="1">
+  <br />
+  
+  ![Recording 2022-07-19 at 22 53 10](https://user-images.githubusercontent.com/92532339/179767473-92999f25-cba3-4231-a44e-9709a3ee9c3c.gif)
+
+  
+  <br />
+
+  ![Recording 2022-07-19 at 23 24 15](https://user-images.githubusercontent.com/92532339/179774417-c195ced5-249c-4bba-a40e-0f9bb650735b.gif)
+
+  
+  <br />
+  
+  - 식사를 하면 배고픔 수치가 내려갑니다.
+  - 짧은 식사 사운드가 재생됩니다.
+  - 배고픔 수치가 일정 수치 이하이면 식사를 거부합니다.
+  - 행복한 상태가 되기 위해서는 배고픔 수치가 일정 이하여야 합니다.
+
+</div>
+</details>
+
+<details>
+<summary>Playing Animation</summary>
+<div markdown="1">
+  <br />
+  
+  ![Recording 2022-07-19 at 23 07 13](https://user-images.githubusercontent.com/92532339/179770574-c46163fa-ad3b-43aa-b3a1-1c1d2a2da5bd.gif)
+
+  
+  <br />
+  
+  
+  ![Recording 2022-07-19 at 23 25 31](https://user-images.githubusercontent.com/92532339/179774685-ba312113-a44a-4d6a-83c3-cea5a454eac7.gif)
+
+  
+  <br />
+  
+  - 놀이를 하면 즐거움 수치가 올라갑니다.
+  - 짧은 놀이 사운드가 재생됩니다.
+  - 놀이 시 피곤함 수치도 동시에 올라갑니다. 
+  - 즐거움 수치가 높은 경우 놀이를 거부합니다.
+  - 행복한 상태가 되기 위해서는 즐거움 수치가 일정 이하여야 합니다.
+
+
+</div>
+</details>
+
+<details>
+<summary>Sleeping Animation</summary>
+<div markdown="1">
+  <br />
+  
+  ![Recording 2022-07-19 at 23 11 32](https://user-images.githubusercontent.com/92532339/179771516-aa621c2f-557d-4c1d-a31d-3eaca2c9d604.gif)
+
+  
+  <br />
+  
+  ![Recording 2022-07-19 at 23 26 28](https://user-images.githubusercontent.com/92532339/179774899-2edf8e59-977a-4fc6-ba25-06890b90bdcf.gif)
+
+  
+  <br />
+  
+  - 수면 시 피곤함 수치가 0이 됩니다.
+  - 짧은 수면 사운드가 재생됩니다.
+  - 피곤함 수치가 10이 되면 강제 수면에 빠지며, 이 경우 피곤함 수치는 절반만 줄어들고 즐거움 수치가 0이 됩니다.
+  - 피곤함 수치가 낮은 경우 수면을 거부합니다.
+  - 행복한 상태가 되기 위해서는 피곤함 수치가 일정 이하여야 합니다.
+
+</div>
+</details>
+
+
+<details>
+<summary>Growing up Animation</summary>
+<div markdown="1">
+  <br />
+  
+  ![Recording 2022-07-19 at 23 19 11](https://user-images.githubusercontent.com/92532339/179773227-c9953819-1680-4911-b07a-7c326b2a1a3d.gif)
+
+  
+  <br />
+  
+  - 경험치가 일정 수치를 이루면 다마고치가 성장합니다.
+  - 짧은 성장 사운드가 재생됩니다.
+
+</div>
+</details>
+
+<details>
+<summary>Mood Emoji</summary>
+<div markdown="1">
+  <br />
+  
+  ![스크린샷 2022-07-19 오후 11 27 13](https://user-images.githubusercontent.com/92532339/179775633-abaa6cd4-28e7-423e-a628-fe6e154d1e5f.png)
+
+  - 배고픔, 즐거움, 피곤함 수치가 좋다면 행복한 상태가 되고 위와 같이 하트 표시가 표시됩니다. 이 상태에서는 행복도와 경험치가 오릅니다.
+  
+  <br />
+  
+  ![스크린샷 2022-07-19 오후 11 27 18](https://user-images.githubusercontent.com/92532339/179775673-b54158a6-c770-4c4e-a252-7aa33facc346.png)
+
+  
+  - 행복하지도 화가 나지도 않았다면, 아무 표시도 뜨지 않습니다.
+  
+  <br />
+  
+  
+  ![스크린샷 2022-07-19 오후 11 27 36](https://user-images.githubusercontent.com/92532339/179775697-f003bfbe-7d6e-41d2-aef9-2f0013bbdeda.png)
+
+  - 배고픔, 즐거움, 피곤함 수치가 나쁘다면 화난 상태가 되고 위와 같이 화난 이모지가 표시됩니다. 이 상태에서는 행복도와 경험치가 감소합니다.
+  - 또한 현재 상태가 좋지 않음을 나타내는 사운드가 울립니다. 이 사운드는 시간이 흐르고 있을때만 들립니다. 
+  
+</div>
+</details>
+
+<details>
+<summary>Profile Page</summary>
+<div markdown="1">
+  <br />
+  
+  ![스크린샷 2022-07-19 오후 10 33 21](https://user-images.githubusercontent.com/92532339/179776118-0986faec-1a09-439c-8b8d-830a9bd8acf7.png)
+  
+
+  ![스크린샷 2022-07-19 오후 11 31 19](https://user-images.githubusercontent.com/92532339/179776043-614847f5-262b-4037-b392-8e00b3d4adaa.png)
+
+  
+  ![스크린샷 2022-07-19 오후 11 32 23](https://user-images.githubusercontent.com/92532339/179776265-169d5d12-40ce-46b1-8266-bc2fef7f0482.png)
+  
+![스크린샷 2022-07-19 오후 11 32 35](https://user-images.githubusercontent.com/92532339/179776311-1cb36304-2636-4d4e-9890-68301a330cd1.png)
+
+  <br />
+  
+ 
+  - 아이 상태일때부터는 프로필을 편집할 수 있습니다.
+  - 편집 버튼을 눌러서 프로필을 편집할 수 있습니다.
+  - 이름 하단에서 행복도를 확인할 수 있습니다.
+  
+  <br />
+
+</div>
+</details>
+
+
+
 
 ---
 
