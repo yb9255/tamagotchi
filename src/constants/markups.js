@@ -26,9 +26,15 @@ export const mainMarkup = `
       <canvas id="${mainStyles.frame}" width="900" height="900">Frame Canvas</canvas>
       <canvas id="${mainStyles.tablet}" width="400" height="400">Tablet Canvas</canvas>
       <div class="${mainStyles.btns}">
-        <button class="${mainStyles.btn} ${mainStyles['btn--1']}"></button>
-        <button class="${mainStyles.btn} ${mainStyles['btn--2']}"></button>
-        <button class="${mainStyles.btn} ${mainStyles['btn--3']}"></button>
+        <div class="${mainStyles['btn-container']}">
+          <button class="${mainStyles.btn} ${mainStyles['btn--1']}"></button>
+        </div>
+        <div class="${mainStyles['btn-container']}">
+          <button class="${mainStyles.btn} ${mainStyles['btn--2']}"></button>
+        </div>
+        <div class="${mainStyles['btn-container']}">
+          <button class="${mainStyles.btn} ${mainStyles['btn--3']}"></button>
+        </div>
       </div>
       <div class="${mainStyles.modal}"><span>Press Any Button!</span></div>
       <div class="${mainStyles.menu} ${mainStyles.hidden}">
@@ -47,7 +53,7 @@ export const profileMarkup = `
     <div class="${profileStyles.modal} ${profileStyles.hidden}" data-testid="modal">
       <form>
         <input class="${profileStyles['name-input']}" placeholder="Pet Name" maxlength="10"/>
-        <textarea class="${profileStyles['description-text-area']}" placeholder="Description" maxlength="60"></textarea>
+        <textarea class="${profileStyles['description-text-area']}" placeholder="Description" maxlength="200"></textarea>
         <button>Submit New Profile!</button>
       </form>
       <div class="${profileStyles['x-btn']}">&#10005;</div>
@@ -58,23 +64,19 @@ export const profileMarkup = `
       <div class="${navbarStyles['navbar-links']}">
         <a href="/" data-link>main</a>
         <a href="/profile" data-link>profile</a>
-        <a href="/login" class="${navbarStyles.logout}" data-link>logout</a>
+        <a href="/" class="${navbarStyles.logout}" data-link>logout</a>
       </div>
     </nav>
     <div class="${profileStyles['profile-container']}">
-      <div class="${profileStyles['profile-heading']}">
-       <h1>Tamagotchi Profile</h1>
-        <button class="${profileStyles['edit-my-profile']}">Edit the Profile</button>
-      </div>
+      <button class="${profileStyles['edit-my-profile']}">Edit the Profile</button>
       <div class="${profileStyles['profile-body']}">
-        <div class="${profileStyles['profile-left']}">
-        </div>
+        <div class="${profileStyles['profile-heading']}"></div>
+        <div class="${profileStyles['profile-left']}"></div>
         <div class="${profileStyles['profile-right']}">
           <h2>Description</h2>
           <span></span>
         </div>
-      </div>
-      <div class="${profileStyles['profile-footer']}">
+        <img src="${LOGO_IMAGE_PATH}" alt="logo" />
       </div>
     </div>
   </div>

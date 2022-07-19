@@ -1,6 +1,3 @@
-import debounce from 'lodash.debounce';
-import loginStyles from '../css/login.css';
-
 import { GROWTH } from '../constants/gameState';
 
 class RouteChangeObserver {
@@ -16,17 +13,7 @@ class RouteChangeObserver {
   }
 
   observeRoot() {
-    const observer = new MutationObserver(async (entries) => {
-      const fromLoginPage =
-        entries[0].removedNodes[1].classList.value === loginStyles.container;
-
-      if (
-        (location.pathname === '/' || location.pathname === '/profile') &&
-        !fromLoginPage
-      ) {
-        this.#patchInfoByRouteChange();
-      }
-
+    const observer = new MutationObserver(async () => {
       if (this.#controller.router.currentRoute === '/') {
         this.#setMainRoute();
         return;
@@ -46,15 +33,6 @@ class RouteChangeObserver {
     observer.observe(document.querySelector('#root'), {
       childList: true,
     });
-  }
-
-  #patchInfoByRouteChange() {
-    const debouncedPatching = debounce(
-      this.#controller.handlePatchingUserInfo.bind(this.#controller),
-      500,
-    );
-
-    debouncedPatching();
   }
 
   #setMainRoute() {

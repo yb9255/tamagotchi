@@ -105,7 +105,7 @@ describe('Login Page', () => {
       growth: 'ADULT',
       fun: 10,
       hunger: 10,
-      birthCount: 10,
+      birthCount: 0,
       tiredness: 10,
       exp: 10,
       happiness: 10,

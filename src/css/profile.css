@@ -19,17 +19,10 @@
   height: 80vh;
 }
 
-.profile-heading {
-  display: flex;
-  flex-direction: column;
-  gap: 3vh;
-  color: #c21dbc;
-  text-align: center;
-}
-
 .edit-my-profile {
   width: 15vw;
   border: none;
+  font-family: VT323;
   font-size: 1.1rem;
   color: #c21dbc;
   background-color: transparent;
@@ -53,9 +46,44 @@
 
 .profile-body {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: 1fr;
-  width: 60vw;
+  grid-template-columns: repeat(9, 1fr);
+  grid-template-rows: repeat(6, 10vh);
+  row-gap: 1vh;
+  width: 70vw;
+  height: 90vh;
+  background-color: #f07bed;
+  border-radius: 3vw;
+}
+
+.profile-body img {
+  width: 20vw;
+  height: 10vh;
+  grid-column: 6 / 9;
+  grid-row: 5 / 7;
+  justify-self: center;
+  align-self: center;
+}
+
+.profile-heading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3vh;
+  grid-column: 1 / -1;
+  grid-row: 1 / 2;
+  font-family: VT323;
+  color: #fff;
+  text-align: center;
+}
+
+.profile-heading img {
+  width: 3rem;
+  height: 3rem;
+}
+
+.profile-heading span {
+  font-size: 1.5rem;
+  text-transform: capitalize;
 }
 
 .profile-left {
@@ -63,8 +91,9 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 25vw;
-  height: 60vh;
+  gap: 3vh;
+  grid-column: 2 / 5;
+  grid-row: 2 / 7;
   background-color: #fff;
   border-radius: 30px;
 }
@@ -74,38 +103,31 @@
   height: 15vw;
 }
 
+.profile-left .heart {
+  color: #ee2626;
+}
+
 .profile-left span {
-  font-size: 1vw;
+  font-size: 1.5vw;
+  font-family: VT323;
 }
 
 .profile-right {
   display: flex;
   flex-direction: column;
   gap: 3rem;
-}
-
-.profile-footer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 2rem;
-}
-
-.user-profile {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.5rem;
-  width: 10vw;
-  height: 5vh;
+  grid-column: 6 / 9;
+  grid-row: 2 / 5;
+  padding: 2rem;
+  border-radius: 20px;
   background-color: #c21dbc;
+  word-wrap: break-word;
   color: #fff;
-  border-radius: 15px;
 }
 
-.user-profile img {
-  width: 2rem;
-  height: 2rem;
+.profile-right h2 {
+  font-family: VT323;
+  text-transform: uppercase;
 }
 
 /* MODAL */

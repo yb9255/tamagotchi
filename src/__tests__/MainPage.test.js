@@ -16,10 +16,14 @@ import { JSDOM } from 'jsdom';
 import { mainMarkup } from '../constants/markups.js';
 import { server } from '../mocks/server.js';
 
+const API_URL =
+  process.env.ENV === 'development'
+    ? process.env.API_URL_DEV
+    : process.env.API_URL_PROD;
+
 describe('Main Page', () => {
   let dom;
   let container;
-  let userInformation;
 
   const getUserInformation = async () => {
     const response = await fetch(`${API_URL}/users/user-information`);
@@ -103,7 +107,7 @@ describe('Main Page', () => {
       growth: 'ADULT',
       fun: 10,
       hunger: 10,
-      birthCount: 10,
+      birthCount: 0,
       tiredness: 10,
       exp: 10,
       happiness: 10,
