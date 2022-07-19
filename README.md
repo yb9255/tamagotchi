@@ -28,7 +28,7 @@
 
 ### Tech Stack
 
-<br>
+
 
 - **Vanilla JS**
 
@@ -61,7 +61,16 @@
 
 ### Feature
 
-<summary>Login Page</summary>
+<details>
+<summary>토글 접기/펼치기</summary>
+<div markdown="1">
+
+안녕
+
+</div>
+</details>
+
+- **Login Page**
 - **Game Start**
 - **Egg Phase**
 - **Child Phase**
