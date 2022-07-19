@@ -62,17 +62,17 @@
 ### Feature
 
 <details>
-<summary>**Login Page**</summary>
+<summary>Login Page</summary>
 <div markdown="1">
-
+  hello
 
 </div>
 </details>
 
 <details>
-<summary>**Game Start**</summary>
+<summary>Game Start</summary>
 <div markdown="1">
-
+  hi
 
 </div>
 </details>
