@@ -62,15 +62,22 @@
 ### Feature
 
 <details>
-<summary>토글 접기/펼치기</summary>
+<summary>**Login Page**</summary>
 <div markdown="1">
 
-안녕
 
 </div>
 </details>
 
-- **Login Page**
+<details>
+<summary>**Game Start**</summary>
+<div markdown="1">
+
+
+</div>
+</details>
+
+- 
 - **Game Start**
 - **Egg Phase**
 - **Child Phase**
