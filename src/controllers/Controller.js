@@ -219,8 +219,8 @@ class Controller {
     const profileBody = document.querySelector(
       `.${profileStyles['profile-body']}`,
     );
-    const profileFooter = document.querySelector(
-      `.${profileStyles['profile-footer']}`,
+    const profileHeading = document.querySelector(
+      `.${profileStyles['profile-heading']}`,
     );
 
     const updateModal = document.querySelector(`.${profileStyles.modal}`);
@@ -236,7 +236,7 @@ class Controller {
       `.${profileStyles['description-text-area']}`,
     );
 
-    this.profileView.setProfileElements(profileBody, profileFooter);
+    this.profileView.setProfileElements(profileHeading, profileBody);
     this.profileView.setModals(updateModal, backdrop);
 
     const xBtn = document.querySelector(`.${profileStyles['x-btn']}`);

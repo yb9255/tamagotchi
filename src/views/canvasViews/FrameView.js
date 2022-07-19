@@ -26,6 +26,7 @@ class FrameView extends View {
     const context = this.context;
 
     context.fillStyle = 'yellow';
+
     context.beginPath();
     context.moveTo(230, 230);
     context.lineTo(320, 230);
@@ -47,6 +48,7 @@ class FrameView extends View {
     context.lineTo(230, 355);
     context.lineTo(215, 270);
     context.lineTo(230, 230);
+
     context.fill();
   }
 }

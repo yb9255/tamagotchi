@@ -9,7 +9,7 @@ class ProfileView {
   #updateModal = null;
   #backdrop = null;
   #profileBody = null;
-  #profileFooter = null;
+  #profileHeading = null;
 
   constructor() {
     this.setModals = this.setModals.bind(this);
@@ -24,9 +24,9 @@ class ProfileView {
     this.#backdrop = backdrop;
   }
 
-  setProfileElements(profileBody, profileFooter) {
+  setProfileElements(profileHeading, profileBody) {
+    this.#profileHeading = profileHeading;
     this.#profileBody = profileBody;
-    this.#profileFooter = profileFooter;
   }
 
   drawProfile(userState, gameState) {
@@ -41,8 +41,16 @@ class ProfileView {
     if (profileLeft.children) {
       profileLeft.innerHTML = '';
       profileRight.querySelector('span').remove();
-      this.#profileFooter.innerHTML = '';
+      this.#profileHeading.innerHTML = '';
     }
+
+    this.#profileHeading.insertAdjacentHTML(
+      'beforeend',
+      `
+        <img src=${userState.picture} alt="user profile" />
+        <span>${userState.email.split('@')[0]}'s Tamagotchi</span>
+      `,
+    );
 
     if (gameState.growth === GROWTH[1]) {
       profileLeft.insertAdjacentHTML(
@@ -59,8 +67,8 @@ class ProfileView {
     profileLeft.insertAdjacentHTML(
       'beforeend',
       `
-        <span>Name: ${gameState.profileName}</span>
-        <span>Happiness: ${gameState.happiness}</span>
+        <h2>${gameState.profileName}</h2>
+        <span><span class="${profileStyles.heart}">♥️</span> ${gameState.happiness}</span>
       `,
     );
 
@@ -68,17 +76,6 @@ class ProfileView {
       'beforeend',
       `
         <span>${gameState.profileDescription}</span>
-      `,
-    );
-
-    this.#profileFooter.insertAdjacentHTML(
-      'beforeend',
-      `
-        <h4>Owner</h4>
-        <div class="${profileStyles['user-profile']}">
-          <img src=${userState.picture} alt="user profile" />
-          <span>${userState.email.split('@')[0]}</span>
-        </div>
       `,
     );
   }
