@@ -104,7 +104,7 @@ class GameState {
       this.fun = 5;
       this.hunger = 5;
       this.tiredness = 5;
-      this.exp = 0;
+      this.exp = 70;
       this.happiness = 0;
       this.state = STATE[2];
       return;
