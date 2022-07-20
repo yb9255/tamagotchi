@@ -38,7 +38,7 @@
 
 - **Node.js / Express / MongoDB**
 
-  이번 프로젝트에서 서버사이드 작업은 사용자의 다마고치 데이터를 보관하는 역할만 담당합니다. 데이터 구조나 서버에서의 작업이 복잡하지 않은 반면에 실시간 업데이트는 자주 발생합니다. 이런 잦은 IO 처리에 node.js와 NoSQL을 쓰는게 적합하다고 여겨서 express와 MongoDB를 사용했습니다. 배포에는 AWS Elastic Beanstalk를 사용했습니다.
+  이번 프로젝트에서 서버사이드 작업은 사용자의 다마고치 데이터를 보관, 제공하는 단순 CRUD 역할만 담당합니다. 데이터 구조나 서버에서의 작업이 복잡하지 않은 반면에 실시간 업데이트는 자주 발생합니다. 이런 잦은 IO 처리에 node.js와 NoSQL을 쓰는게 적합하다고 여겨서 express와 MongoDB를 사용했습니다. 배포에는 AWS Elastic Beanstalk를 사용했습니다.
 
 
 - **firebase, firebase-admin**
