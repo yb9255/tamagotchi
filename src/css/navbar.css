@@ -40,14 +40,14 @@ nav img {
   transition: all 0.3s;
 }
 
+.navbar-links .hidden {
+  display: none;
+}
+
 .navbar-links a:hover {
   background-color: #ce33c9;
 }
 
 .logout {
   display: block;
-}
-
-.hidden {
-  display: none;
 }
