@@ -53,7 +53,6 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
-    "firebase": "^9.9.0",
-    "lodash.debounce": "^4.0.8"
+    "firebase": "^9.9.0"
   }
 }
