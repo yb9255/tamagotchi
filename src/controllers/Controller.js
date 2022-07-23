@@ -447,13 +447,15 @@ class Controller {
     const callback = async () => {
       if (this.gameState.birthCount > 0) {
         await this.eggView.drawShakedEgg();
-
-        this.gameState.subtractBirthCount(
-          this.eggView.drawBreakingEgg,
-          this.audioController.playGrowupSound,
-        );
-
         this.audioController.playShakeEggSound();
+        this.gameState.subtractBirthCount();
+      }
+
+      if (this.gameState.birthCount <= 0) {
+        this.audioController.playGrowupSound();
+        this.buttonState.removeListeners();
+        await this.eggView.drawBreakingEgg();
+        this.gameState.childToAdult();
       }
     };
 

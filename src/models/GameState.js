@@ -95,24 +95,18 @@ class GameState {
     this.birthCount = 5;
   }
 
-  async subtractBirthCount(breakEgg, growupSound) {
-    if (this.birthCount <= 0) {
-      growupSound();
-      await breakEgg();
+  async subtractBirthCount() {
+    this.birthCount--;
+  }
 
-      this.growth = GROWTH[1];
-      this.fun = 3;
-      this.hunger = 7;
-      this.tiredness = 6;
-      this.exp = 70;
-      this.happiness = 0;
-      this.state = STATE[2];
-      return;
-    }
-
-    if (this.birthCount) {
-      this.birthCount--;
-    }
+  childToAdult() {
+    this.growth = GROWTH[1];
+    this.fun = 3;
+    this.hunger = 7;
+    this.tiredness = 6;
+    this.exp = 70;
+    this.happiness = 0;
+    this.state = STATE[2];
   }
 
   async growup(blink) {
