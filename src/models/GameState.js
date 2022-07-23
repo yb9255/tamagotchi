@@ -101,9 +101,9 @@ class GameState {
       await breakEgg();
 
       this.growth = GROWTH[1];
-      this.fun = 5;
-      this.hunger = 5;
-      this.tiredness = 5;
+      this.fun = 3;
+      this.hunger = 7;
+      this.tiredness = 6;
       this.exp = 70;
       this.happiness = 0;
       this.state = STATE[2];
