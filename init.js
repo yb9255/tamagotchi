@@ -18,6 +18,7 @@ import RouteChangeObserver from './src/observers/RouteChangeObserver.js';
 
 import { postUserInfoWithClose } from './src/utils/api.js';
 import { GROWTH } from './src/constants/gameState.js';
+import HelpModalView from './src/views/HelpModalView.js';
 
 async function init() {
   const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
@@ -34,6 +35,7 @@ async function init() {
     adultView: new AdultView(),
     stateView: new StateView(),
     mainModalView: new MainModalView(),
+    helpModalView: new HelpModalView(),
     profileView: new ProfileView(),
     frameView: new FrameView(),
     menuView: new MenuView(),

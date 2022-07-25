@@ -9,6 +9,7 @@ import {
   sleepAdultCallback,
   stateCallback,
 } from '../utils/callbacks.js';
+
 import {
   postLogin,
   logout,
@@ -34,6 +35,7 @@ class Controller {
     this.adultView = views.adultView;
     this.stateView = views.stateView;
     this.mainModalView = views.mainModalView;
+    this.helpModalView = views.helpModalView;
     this.profileView = views.profileView;
     this.menuView = views.menuView;
     this.moodView = views.moodView;
@@ -190,6 +192,12 @@ class Controller {
     const tablet = document.querySelector(`#${mainStyles.tablet}`);
     const modal = document.querySelector(`.${mainStyles.modal}`);
     const navbar = document.querySelector('nav');
+    const helpModal = document.querySelector(`.${mainStyles['help-modal']}`);
+    const backdrop = document.querySelector(`.${mainStyles.backdrop}`);
+
+    const helpModalBtn = document.querySelector(
+      `.${mainStyles['help-modal-btn']}`,
+    );
 
     this.buttonState.setButtonElements(leftBtn, middleBtn, rightBtn);
     this.frameView.setContext(frame);
@@ -200,6 +208,7 @@ class Controller {
     this.moodView.setContainer(tamagotchiContainer);
     this.stateView.setContext(tablet);
     this.mainModalView.setModalElement(modal);
+    this.helpModalView.setHelpModalElements(helpModal, backdrop, helpModalBtn);
     this.navbarView.setNavbar(navbar);
 
     this.frameView.draw();
@@ -483,6 +492,7 @@ class Controller {
 
     if (this.router.currentRoute === '/') {
       this.mainModalView.hiddenModal();
+      this.helpModalView.showHelpModalBtn();
     }
 
     this.buttonState.state = this.gameState.growth;
@@ -543,6 +553,7 @@ class Controller {
 
     if (this.router.currentRoute === '/') {
       this.mainModalView.hiddenModal();
+      this.helpModalView.showHelpModalBtn();
     }
 
     this.buttonState.state = this.gameState.growth;

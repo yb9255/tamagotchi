@@ -22,6 +22,9 @@ export const mainMarkup = `
         <a href="/" class="${navbarStyles.logout}" data-link>logout</a>
       </div>
     </nav>
+    <div class="${mainStyles['help-modal-btn']} ${mainStyles.hidden}">Help</div> 
+    <div class="${mainStyles['help-modal']}"></div>
+    <div class="${mainStyles.backdrop}"></div>
     <div class="${mainStyles['tamagotchi-container']}">
       <canvas id="${mainStyles.frame}" width="900" height="900">Frame Canvas</canvas>
       <canvas id="${mainStyles.tablet}" width="400" height="400">Tablet Canvas</canvas>
