@@ -36,7 +36,7 @@ export const mainMarkup = `
           <button class="${mainStyles.btn} ${mainStyles['btn--3']}"></button>
         </div>
       </div>
-      <div class="${mainStyles.modal}"><span>Press Any Button!</span></div>
+      <div class="${mainStyles.modal}"><span>파란색 버튼을 클릭해주세요!</span></div>
       <div class="${mainStyles.menu} ${mainStyles.hidden}">
         <div class="${mainStyles['menu-item']}">FEED</div>
         <div class="${mainStyles['menu-item']}">PLAY</div>

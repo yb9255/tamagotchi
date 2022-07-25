@@ -443,6 +443,7 @@ class Controller {
     }
 
     this.currentMainView = this.eggView;
+    this.mainModalView.changeModalText('파란색 버튼을 계속 클릭해주세요!');
 
     const callback = async () => {
       if (this.gameState.birthCount > 0) {
