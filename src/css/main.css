@@ -131,9 +131,45 @@
 }
 
 .help-modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 40vw;
+  height: 40vw;
+  transform: translate(-50%, -50%);
+  padding: 1rem;
+  border-radius: 1rem;
+  background-color: #fff;
+  overflow-y: auto;
+  z-index: 3;
+}
+
+.help-modal-card {
+  width: 90%;
+  background-color: #c21dbc;
+  border-radius: 10px;
+  padding: 1rem;
+  color: #fff;
 }
 
 .backdrop {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.x-btn {
+  font-size: 1.5rem;
+  position: absolute;
+  top: 0.5rem;
+  right: 1rem;
+  cursor: pointer;
 }
 
 /* MENU */

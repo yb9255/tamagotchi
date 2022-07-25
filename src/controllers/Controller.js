@@ -57,7 +57,11 @@ class Controller {
 
     const handleEventsOnTick = async () => {
       if (this.router.currentRoute === '/') {
-        if (this.gameState.state === STATE[2]) {
+        const helpModalIsOpen = !document
+          .querySelector(`.${mainStyles['help-modal']}`)
+          .classList.contains(`${mainStyles.hidden}`);
+
+        if (this.gameState.state === STATE[2] && !helpModalIsOpen) {
           currentTime++;
         }
 
@@ -194,6 +198,7 @@ class Controller {
     const navbar = document.querySelector('nav');
     const helpModal = document.querySelector(`.${mainStyles['help-modal']}`);
     const backdrop = document.querySelector(`.${mainStyles.backdrop}`);
+    const xBtn = document.querySelector(`.${mainStyles['x-btn']}`);
 
     const helpModalBtn = document.querySelector(
       `.${mainStyles['help-modal-btn']}`,
@@ -208,8 +213,18 @@ class Controller {
     this.moodView.setContainer(tamagotchiContainer);
     this.stateView.setContext(tablet);
     this.mainModalView.setModalElement(modal);
-    this.helpModalView.setHelpModalElements(helpModal, backdrop, helpModalBtn);
     this.navbarView.setNavbar(navbar);
+
+    this.helpModalView.setHelpModalElements(
+      helpModal,
+      backdrop,
+      helpModalBtn,
+      xBtn,
+    );
+
+    [xBtn, backdrop, helpModalBtn].forEach((element) => {
+      element.addEventListener('click', this.helpModalView.toggleHelpModal);
+    });
 
     this.frameView.draw();
     this.#handleChangingPetPhases();
