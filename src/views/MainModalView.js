@@ -13,6 +13,11 @@ class MainModalView {
     this.#modal = modal;
   }
 
+  changeModalText(text) {
+    this.#modal.innerHTML = '';
+    this.#modal.insertAdjacentHTML('afterbegin', `<span>${text}</span>`);
+  }
+
   openModal() {
     this.#modal.classList.remove(`${mainStyles.hidden}`);
   }

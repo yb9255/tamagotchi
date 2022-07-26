@@ -78,10 +78,16 @@ class GameState {
       }
 
       if (this.fun <= 3 && this.hunger >= 7 && this.tiredness >= 5) {
-        if (!this.happiness) {
-          this.happiness = 0;
-        } else {
+        if (this.happiness > 0) {
           this.happiness -= 5;
+        } else {
+          this.happiness = 0;
+        }
+
+        if (this.exp > 0) {
+          this.exp -= 5;
+        } else {
+          this.exp = 0;
         }
       }
 

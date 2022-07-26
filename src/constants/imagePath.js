@@ -16,3 +16,5 @@ export const ADULT_STAND_IMAGE_PATH = './images/adult-stand.png';
 export const MOOD_HEART_IMAGE_PATH = './images/mood-heart.png';
 export const MOOD_ANGRY_IMAGE_PATH = './images/mood-angry.png';
 export const STATE_POINT_IMAGE_PATH = './images/state-point.png';
+export const TAMAGOTCHI_BUTTONS_IMAGE_PATH = './images/tamagotchi-buttons.png';
+export const MENU_IMAGE_PATH = './images/menu-image.png';

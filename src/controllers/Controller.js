@@ -9,6 +9,7 @@ import {
   sleepAdultCallback,
   stateCallback,
 } from '../utils/callbacks.js';
+
 import {
   postLogin,
   logout,
@@ -34,6 +35,7 @@ class Controller {
     this.adultView = views.adultView;
     this.stateView = views.stateView;
     this.mainModalView = views.mainModalView;
+    this.helpModalView = views.helpModalView;
     this.profileView = views.profileView;
     this.menuView = views.menuView;
     this.moodView = views.moodView;
@@ -55,7 +57,11 @@ class Controller {
 
     const handleEventsOnTick = async () => {
       if (this.router.currentRoute === '/') {
-        if (this.gameState.state === STATE[2]) {
+        const helpModalIsOpen = !document
+          .querySelector(`.${mainStyles['help-modal']}`)
+          .classList.contains(`${mainStyles.hidden}`);
+
+        if (this.gameState.state === STATE[2] && !helpModalIsOpen) {
           currentTime++;
         }
 
@@ -190,6 +196,13 @@ class Controller {
     const tablet = document.querySelector(`#${mainStyles.tablet}`);
     const modal = document.querySelector(`.${mainStyles.modal}`);
     const navbar = document.querySelector('nav');
+    const helpModal = document.querySelector(`.${mainStyles['help-modal']}`);
+    const backdrop = document.querySelector(`.${mainStyles.backdrop}`);
+    const xBtn = document.querySelector(`.${mainStyles['x-btn']}`);
+
+    const helpModalBtn = document.querySelector(
+      `.${mainStyles['help-modal-btn']}`,
+    );
 
     this.buttonState.setButtonElements(leftBtn, middleBtn, rightBtn);
     this.frameView.setContext(frame);
@@ -201,6 +214,17 @@ class Controller {
     this.stateView.setContext(tablet);
     this.mainModalView.setModalElement(modal);
     this.navbarView.setNavbar(navbar);
+
+    this.helpModalView.setHelpModalElements(
+      helpModal,
+      backdrop,
+      helpModalBtn,
+      xBtn,
+    );
+
+    [xBtn, backdrop, helpModalBtn].forEach((element) => {
+      element.addEventListener('click', this.helpModalView.toggleHelpModal);
+    });
 
     this.frameView.draw();
     this.#handleChangingPetPhases();
@@ -443,6 +467,7 @@ class Controller {
     }
 
     this.currentMainView = this.eggView;
+    this.mainModalView.changeModalText('파란색 버튼을 계속 클릭해주세요!');
 
     const callback = async () => {
       if (this.gameState.birthCount > 0) {
@@ -482,6 +507,7 @@ class Controller {
 
     if (this.router.currentRoute === '/') {
       this.mainModalView.hiddenModal();
+      this.helpModalView.showHelpModalBtn();
     }
 
     this.buttonState.state = this.gameState.growth;
@@ -542,6 +568,7 @@ class Controller {
 
     if (this.router.currentRoute === '/') {
       this.mainModalView.hiddenModal();
+      this.helpModalView.showHelpModalBtn();
     }
 
     this.buttonState.state = this.gameState.growth;
