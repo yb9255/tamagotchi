@@ -1,5 +1,11 @@
+import {
+  MAX_HUNGER_FOR_DENYING,
+  MIN_FUN_FOR_DENYING,
+  MAX_TIREDNESS_FOR_DENYING,
+} from '../constants/gameState';
+
 export async function feedChildCallback(controller) {
-  if (controller.gameState.hunger < 2) {
+  if (controller.gameState.hunger < MAX_HUNGER_FOR_DENYING) {
     controller.audioController.playDenySound();
     await controller.childView.drawDenyingChild();
 
@@ -20,7 +26,7 @@ export async function feedChildCallback(controller) {
 }
 
 export async function feedAdultCallback(controller) {
-  if (controller.gameState.hunger < 2) {
+  if (controller.gameState.hunger < MAX_HUNGER_FOR_DENYING) {
     controller.audioController.playDenySound();
     await controller.adultView.drawDenyingAdult();
 
@@ -41,7 +47,7 @@ export async function feedAdultCallback(controller) {
 }
 
 export async function playChildCallback(controller) {
-  if (controller.gameState.fun > 8) {
+  if (controller.gameState.fun > MIN_FUN_FOR_DENYING) {
     controller.audioController.playDenySound();
     await controller.childView.drawDenyingChild();
 
@@ -62,7 +68,7 @@ export async function playChildCallback(controller) {
 }
 
 export async function playAdultCallback(controller) {
-  if (controller.gameState.fun > 8) {
+  if (controller.gameState.fun > MIN_FUN_FOR_DENYING) {
     controller.audioController.playDenySound();
     await controller.adultView.drawDenyingAdult();
 
@@ -94,7 +100,7 @@ export function stateCallback(controller) {
 }
 
 export async function sleepChildCallback(controller) {
-  if (controller.gameState.tiredness < 3) {
+  if (controller.gameState.tiredness < MAX_TIREDNESS_FOR_DENYING) {
     controller.audioController.playDenySound();
     await controller.childView.drawDenyingChild();
 
@@ -114,7 +120,7 @@ export async function sleepChildCallback(controller) {
 }
 
 export async function sleepAdultCallback(controller) {
-  if (controller.gameState.tiredness < 3) {
+  if (controller.gameState.tiredness < MAX_TIREDNESS_FOR_DENYING) {
     controller.audioController.playDenySound();
     await controller.adultView.drawDenyingAdult();
 
