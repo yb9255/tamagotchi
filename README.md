@@ -124,7 +124,7 @@
 <div markdown="1">
   <br />
   
-  ![Recording 2022-07-19 at 22 35 21](https://user-images.githubusercontent.com/92532339/179763610-48f20e40-0f69-42a7-bae9-787e3aeb3f7b.gif)
+  ![Recording 2022-07-28 at 23 08 41](https://user-images.githubusercontent.com/92532339/181526089-21cd8c78-1c91-4c3b-9b6f-21d950f0c163.gif)
 
   
   <br />
@@ -132,6 +132,7 @@
   - 게임 시작 상황에서 버튼을 누르면 알이 화면에 출력됩니다. 게임 시작 사운드도 출력됩니다.
   - 아무 버튼이나 누르면 알이 흔들리면서 소리가 나옵니다. 
   - 일정 횟수 이상 누르면 알이 깨어나는 애니메이션과 함꼐 아이 상태의 다마고치가 나옵니다.
+  - 아이일 때부터 프로필 페이지 링크, help 메뉴가 화면에 출력됩니다.
   
 </div>
 </details>
@@ -351,6 +352,28 @@
 
 </div>
 </details>
+
+
+<details>
+<summary>추가구현: Help Modal</summary>
+<div markdown="1">
+  <br />
+
+![Recording 2022-07-28 at 23 13 49](https://user-images.githubusercontent.com/92532339/181529442-751424a8-122e-414b-9778-4bfd28bfad75.gif)
+
+
+  <br />
+  
+ 
+  - 스탠드업 시연 중에 사용법을 어려워하시는 사용자 분들이 많아서 사용 설명서 모달을 추가했습니다.
+  - 아이일때부터 활성화되며, 게임 조작법, 하는 방법 등의 내용이 포함되어 있습니다.
+  - 백드랍을 누르거나 상단의 x버튼을 누르면 종료됩니다.
+  
+  <br />
+
+</div>
+</details>
+
 
 
 
