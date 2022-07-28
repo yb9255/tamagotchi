@@ -1,4 +1,10 @@
-import { STATE, GROWTH, TICK_SECONDS } from '../constants/gameState.js';
+import {
+  STATE,
+  GROWTH,
+  TICK_SECONDS,
+  MAX_TIREDNESS,
+  MAX_EXP,
+} from '../constants/gameState.js';
 
 import {
   feedChildCallback,
@@ -70,9 +76,8 @@ class Controller {
         }
       }
 
-      if (this.gameState.tiredness >= 10) {
-        this.gameState.setTirednessToSix();
-        this.gameState.resetFunState();
+      if (this.gameState.tiredness >= MAX_TIREDNESS) {
+        this.gameState.setFallingAsleepState();
         this.childView.cancelAnimation();
 
         if (this.gameState.growth === GROWTH[1]) {
@@ -82,7 +87,10 @@ class Controller {
         }
       }
 
-      if (this.gameState.growth === GROWTH[1] && this.gameState.exp >= 100) {
+      if (
+        this.gameState.growth === GROWTH[1] &&
+        this.gameState.exp >= MAX_EXP
+      ) {
         await this.gameState.growup(async () => {
           this.childView.cancelAnimation();
           this.audioController.playGrowupSound();
@@ -103,33 +111,24 @@ class Controller {
   }
 
   async handleUserLogin() {
-    const {
-      email,
-      picture,
-      state,
-      growth,
-      fun,
-      hunger,
-      birthCount,
-      tiredness,
-      happiness,
-      exp,
-      profileName,
-      profileDescription,
-    } = (await postLogin()).userInformation;
+    const userInformation = (await postLogin()).userInformation;
 
-    this.userState.setUserState({ email, picture });
+    this.userState.setUserState({
+      email: userInformation.email,
+      picture: userInformation.picture,
+    });
+
     this.gameState.setGameState({
-      state,
-      growth,
-      fun,
-      hunger,
-      birthCount,
-      tiredness,
-      exp,
-      happiness,
-      profileName,
-      profileDescription,
+      state: userInformation.state,
+      growth: userInformation.growth,
+      fun: userInformation.fun,
+      hunger: userInformation.hunger,
+      birthCount: userInformation.birthCount,
+      tiredness: userInformation.tiredness,
+      exp: userInformation.exp,
+      happiness: userInformation.happiness,
+      profileName: userInformation.profileName,
+      profileDescription: userInformation.profileDescription,
     });
 
     this.router.navigateTo('/');
@@ -150,33 +149,24 @@ class Controller {
       return;
     }
 
-    const {
-      email,
-      picture,
-      state,
-      growth,
-      fun,
-      hunger,
-      birthCount,
-      tiredness,
-      happiness,
-      exp,
-      profileName,
-      profileDescription,
-    } = response.userInformation;
+    const userInformation = response.userInformation;
 
-    this.userState.setUserState({ email, picture });
+    this.userState.setUserState({
+      email: userInformation.email,
+      picture: userInformation.picture,
+    });
+
     this.gameState.setGameState({
-      state,
-      growth,
-      fun,
-      hunger,
-      birthCount,
-      tiredness,
-      exp,
-      happiness,
-      profileName,
-      profileDescription,
+      state: userInformation.state,
+      growth: userInformation.growth,
+      fun: userInformation.fun,
+      hunger: userInformation.hunger,
+      birthCount: userInformation.birthCount,
+      tiredness: userInformation.tiredness,
+      exp: userInformation.exp,
+      happiness: userInformation.happiness,
+      profileName: userInformation.profileName,
+      profileDescription: userInformation.profileDescription,
     });
   }
 
@@ -480,7 +470,7 @@ class Controller {
         this.audioController.playGrowupSound();
         this.buttonState.removeListeners();
         await this.eggView.drawBreakingEgg();
-        this.gameState.childToAdult();
+        this.gameState.eggToChild();
       }
     };
 

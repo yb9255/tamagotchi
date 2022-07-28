@@ -1,15 +1,47 @@
-import { STATE, GROWTH } from '../constants/gameState.js';
+import {
+  STATE,
+  GROWTH,
+  MAX_HUNGER,
+  MIN_FUN,
+  REDUCED_FUN_POINT_PER_TICK,
+  INCREASED_HUNGER_POINT_PER_TICK,
+  MIN_FUN_FOR_HAPPINESS,
+  MAX_ALLOWED_HUNGER_FOR_HAPPINESS,
+  MAX_ALLOWED_TIRDNESS_FOR_HAPPINESS,
+  EXP_INCREMENT,
+  HAPPINESS_INCREMENT,
+  MAX_ALLOWED_FUN_FOR_ANGRY,
+  MIN_HUNGER_FOR_ANGRY,
+  MIN_TIREDNESS_FOR_ANGRY,
+  MIN_HAPPINESS,
+  EXP_DECREMENT,
+  HAPPINESS_DECREMENT,
+  MIN_EXP,
+  TIREDNESS_INCREMENT,
+  INITIAL_BIRTH_COUNT,
+  MIN_HUNGER,
+  INITIAL_FUN,
+  INITIAL_HUNGER,
+  INITIAL_TIREDNESS,
+  INITIAL_EXP,
+  INITIAL_HAPPINESS,
+  FUN_INCREMENT,
+  MAX_FUN,
+  MIN_TIREDNESS,
+  TIREDNESS_AFTER_FALLING_ASLEEP,
+  HUNGER_DECREMENT,
+} from '../constants/gameState.js';
 
 class GameState {
   constructor() {
     this.state = STATE[0];
     this.growth = STATE[0];
-    this.fun = -1;
-    this.hunger = -1;
-    this.birthCount = -1;
-    this.tiredness = -1;
-    this.exp = -1;
-    this.happiness = -1;
+    this.fun = null;
+    this.hunger = null;
+    this.birthCount = null;
+    this.tiredness = null;
+    this.exp = null;
+    this.happiness = null;
     this.profileName = null;
     this.profileDescription = null;
 
@@ -23,7 +55,6 @@ class GameState {
     this.setIdlingState = this.setIdlingState.bind(this);
     this.reduceHunger = this.reduceHunger.bind(this);
     this.makePetFun = this.makePetFun.bind(this);
-    this.resetFunState = this.resetFunState.bind(this);
     this.resetTirednessState = this.resetTirednessState.bind(this);
     this.reset = this.reset.bind(this);
     this.getProperties = this.getProperties.bind(this);
@@ -64,54 +95,62 @@ class GameState {
       (this.growth === GROWTH[1] || this.growth === GROWTH[2]) &&
       this.state === STATE[2]
     ) {
-      if (this.fun) {
-        this.fun -= 1;
+      if (this.fun > MIN_FUN) {
+        this.fun -= REDUCED_FUN_POINT_PER_TICK;
       }
 
-      if (this.hunger < 10) {
-        this.hunger += 1;
+      if (this.hunger < MAX_HUNGER) {
+        this.hunger += INCREASED_HUNGER_POINT_PER_TICK;
       }
 
-      if (this.fun > 5 && this.hunger < 5 && this.tiredness < 5) {
-        this.exp += 5;
-        this.happiness += 10;
+      if (
+        this.fun > MIN_FUN_FOR_HAPPINESS &&
+        this.hunger < MAX_ALLOWED_HUNGER_FOR_HAPPINESS &&
+        this.tiredness < MAX_ALLOWED_TIRDNESS_FOR_HAPPINESS
+      ) {
+        this.exp += EXP_INCREMENT;
+        this.happiness += HAPPINESS_INCREMENT;
       }
 
-      if (this.fun <= 3 && this.hunger >= 7 && this.tiredness >= 5) {
-        if (this.happiness > 0) {
-          this.happiness -= 5;
+      if (
+        this.fun <= MAX_ALLOWED_FUN_FOR_ANGRY &&
+        this.hunger >= MIN_HUNGER_FOR_ANGRY &&
+        this.tiredness >= MIN_TIREDNESS_FOR_ANGRY
+      ) {
+        if (this.happiness > MIN_HAPPINESS) {
+          this.happiness -= HAPPINESS_DECREMENT;
         } else {
-          this.happiness = 0;
+          this.happiness = MIN_HAPPINESS;
         }
 
-        if (this.exp > 0) {
-          this.exp -= 5;
+        if (this.exp > MIN_EXP) {
+          this.exp -= EXP_DECREMENT;
         } else {
-          this.exp = 0;
+          this.exp = MIN_EXP;
         }
       }
 
-      this.tiredness += 1;
+      this.tiredness += TIREDNESS_INCREMENT;
     }
   }
 
   startGame() {
     this.state = GROWTH[0];
     this.growth = GROWTH[0];
-    this.birthCount = 5;
+    this.birthCount = INITIAL_BIRTH_COUNT;
   }
 
-  async subtractBirthCount() {
+  subtractBirthCount() {
     this.birthCount--;
   }
 
-  childToAdult() {
+  eggToChild() {
     this.growth = GROWTH[1];
-    this.fun = 3;
-    this.hunger = 7;
-    this.tiredness = 6;
-    this.exp = 70;
-    this.happiness = 0;
+    this.fun = INITIAL_FUN;
+    this.hunger = INITIAL_HUNGER;
+    this.tiredness = INITIAL_TIREDNESS;
+    this.exp = INITIAL_EXP;
+    this.happiness = INITIAL_HAPPINESS;
     this.state = STATE[2];
   }
 
@@ -130,43 +169,48 @@ class GameState {
   }
 
   reduceHunger() {
-    this.hunger -= 3;
+    this.hunger -= HUNGER_DECREMENT;
 
-    if (this.hunger < 0) {
-      this.hunger = 0;
+    if (this.hunger < MIN_HUNGER) {
+      this.hunger = MIN_HUNGER;
     }
   }
 
   makePetFun() {
-    this.fun += 3;
-    this.tiredness += 1;
+    this.fun += FUN_INCREMENT;
+    this.tiredness += TIREDNESS_INCREMENT;
 
-    if (this.fun > 10) {
-      this.fun = 10;
+    if (this.fun > MAX_FUN) {
+      this.fun = MAX_FUN;
     }
   }
 
-  resetFunState() {
-    this.fun = 0;
+  #resetFunState() {
+    this.fun = MIN_FUN;
+  }
+
+  #setTirednessAfterFallingAsleep() {
+    this.tiredness = TIREDNESS_AFTER_FALLING_ASLEEP;
+  }
+
+  setFallingAsleepState() {
+    this.#setTirednessAfterFallingAsleep();
+    this.#resetFunState();
   }
 
   resetTirednessState() {
-    this.tiredness = 0;
-  }
-
-  setTirednessToSix() {
-    this.tiredness = 6;
+    this.tiredness = MIN_TIREDNESS;
   }
 
   reset() {
     this.state = STATE[0];
     this.growth = STATE[0];
-    this.fun = -1;
-    this.hunger = -1;
-    this.birthCount = -1;
-    this.tiredness = -1;
-    this.exp = -1;
-    this.happiness = -1;
+    this.fun = null;
+    this.hunger = null;
+    this.birthCount = null;
+    this.tiredness = null;
+    this.exp = null;
+    this.happiness = null;
     this.profileName = null;
     this.profileDescription = null;
   }
