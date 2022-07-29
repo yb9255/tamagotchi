@@ -4,6 +4,13 @@ import {
   TICK_SECONDS,
   MAX_TIREDNESS,
   MAX_EXP,
+  MIN_BIRTH_COUNT,
+  MIN_FUN_FOR_HAPPINESS,
+  MAX_ALLOWED_HUNGER_FOR_HAPPINESS,
+  MAX_ALLOWED_TIRDNESS_FOR_HAPPINESS,
+  MAX_ALLOWED_FUN_FOR_ANGRY,
+  MIN_HUNGER_FOR_ANGRY,
+  MIN_TIREDNESS_FOR_ANGRY,
 } from '../constants/gameState.js';
 
 import {
@@ -308,18 +315,18 @@ class Controller {
 
   handleMoodImage() {
     if (
-      this.gameState.fun > 5 &&
-      this.gameState.hunger < 5 &&
-      this.gameState.tiredness < 5
+      this.gameState.fun > MIN_FUN_FOR_HAPPINESS &&
+      this.gameState.hunger < MAX_ALLOWED_HUNGER_FOR_HAPPINESS &&
+      this.gameState.tiredness < MAX_ALLOWED_TIRDNESS_FOR_HAPPINESS
     ) {
       this.moodView.drawHeart();
       return;
     }
 
     if (
-      this.gameState.fun <= 3 &&
-      this.gameState.hunger >= 7 &&
-      this.gameState.tiredness >= 5
+      this.gameState.fun <= MAX_ALLOWED_FUN_FOR_ANGRY &&
+      this.gameState.hunger >= MIN_HUNGER_FOR_ANGRY &&
+      this.gameState.tiredness >= MIN_TIREDNESS_FOR_ANGRY
     ) {
       this.audioController.playAngryAlertSound();
       this.moodView.drawAngryEmoji();
@@ -460,13 +467,13 @@ class Controller {
     this.mainModalView.changeModalText('파란색 버튼을 계속 클릭해주세요!');
 
     const callback = async () => {
-      if (this.gameState.birthCount > 0) {
+      if (this.gameState.birthCount > MIN_BIRTH_COUNT) {
         await this.eggView.drawShakedEgg();
         this.audioController.playShakeEggSound();
         this.gameState.subtractBirthCount();
       }
 
-      if (this.gameState.birthCount <= 0) {
+      if (this.gameState.birthCount <= MIN_BIRTH_COUNT) {
         this.audioController.playGrowupSound();
         this.buttonState.removeListeners();
         await this.eggView.drawBreakingEgg();

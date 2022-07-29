@@ -10,6 +10,7 @@ export const MIN_HUNGER = 0;
 export const MIN_TIREDNESS = 0;
 export const MIN_EXP = 0;
 export const MIN_HAPPINESS = 0;
+export const MIN_BIRTH_COUNT = 0;
 export const REDUCED_FUN_POINT_PER_TICK = 1;
 export const INCREASED_HUNGER_POINT_PER_TICK = 1;
 export const MIN_FUN_FOR_HAPPINESS = 5;
