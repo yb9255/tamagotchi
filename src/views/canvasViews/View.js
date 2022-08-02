@@ -11,6 +11,11 @@ class View {
     this.clear = this.clear.bind(this);
   }
 
+  setContext(canvas) {
+    this.canvas = canvas;
+    this.context = this.canvas.getContext('2d');
+  }
+
   animate(draw, ms) {
     return new Promise((resolve) => {
       const animation = async () => {
@@ -25,11 +30,6 @@ class View {
 
       animation();
     });
-  }
-
-  setContext(canvas) {
-    this.canvas = canvas;
-    this.context = this.canvas.getContext('2d');
   }
 
   cancelAnimation() {

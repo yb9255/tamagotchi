@@ -5,7 +5,6 @@ class MainModalView {
 
   constructor() {
     this.setModalElement = this.setModalElement.bind(this);
-    this.openModal = this.openModal.bind(this);
     this.hiddenModal = this.hiddenModal.bind(this);
   }
 
@@ -16,10 +15,6 @@ class MainModalView {
   changeModalText(text) {
     this.#modal.innerHTML = '';
     this.#modal.insertAdjacentHTML('afterbegin', `<span>${text}</span>`);
-  }
-
-  openModal() {
-    this.#modal.classList.remove(`${mainStyles.hidden}`);
   }
 
   hiddenModal() {

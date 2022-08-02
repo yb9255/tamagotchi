@@ -175,7 +175,7 @@
 
 .x-btn {
   font-size: 1.5rem;
-  position: absolute;
+  position: fixed;
   top: 0.5rem;
   right: 1rem;
   cursor: pointer;

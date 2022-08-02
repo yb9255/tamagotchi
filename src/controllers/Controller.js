@@ -69,6 +69,9 @@ class Controller {
     this.handleMoodImage();
 
     const handleEventsOnTick = async () => {
+      const hasMaxExp =
+        this.gameState.growth === GROWTH[1] && this.gameState.exp >= MAX_EXP;
+
       if (this.router.currentRoute === '/') {
         const helpModalIsOpen = !document
           .querySelector(`.${mainStyles['help-modal']}`)
@@ -94,10 +97,7 @@ class Controller {
         }
       }
 
-      if (
-        this.gameState.growth === GROWTH[1] &&
-        this.gameState.exp >= MAX_EXP
-      ) {
+      if (hasMaxExp) {
         await this.gameState.growup(async () => {
           this.childView.cancelAnimation();
           this.audioController.playGrowupSound();
@@ -182,6 +182,13 @@ class Controller {
       this.currentMainView.cancelAnimation();
     }
 
+    this.#handleSettingMainPageElementsInClasses();
+
+    this.frameView.draw();
+    this.#handleChangingPetPhases();
+  }
+
+  #handleSettingMainPageElementsInClasses() {
     const tamagotchiContainer = document.querySelector(
       `.${mainStyles['tamagotchi-container']}`,
     );
@@ -222,9 +229,6 @@ class Controller {
     [xBtn, backdrop, helpModalBtn].forEach((element) => {
       element.addEventListener('click', this.helpModalView.toggleHelpModal);
     });
-
-    this.frameView.draw();
-    this.#handleChangingPetPhases();
   }
 
   handleSettingNavBar() {
@@ -237,30 +241,19 @@ class Controller {
   }
 
   async handleSettingProfilePage() {
-    const profileBody = document.querySelector(
-      `.${profileStyles['profile-body']}`,
-    );
-    const profileHeading = document.querySelector(
-      `.${profileStyles['profile-heading']}`,
-    );
-
-    const updateModal = document.querySelector(`.${profileStyles.modal}`);
-    const backdrop = document.querySelector(`.${profileStyles.backdrop}`);
-
-    const updateModalBtn = document.querySelector(
-      `.${profileStyles['edit-my-profile']}`,
-    );
-
-    const nameInput = document.querySelector(`.${profileStyles['name-input']}`);
-
-    const descriptionTextArea = document.querySelector(
-      `.${profileStyles['description-text-area']}`,
-    );
+    const {
+      profileBody,
+      profileHeading,
+      updateModal,
+      backdrop,
+      updateModalBtn,
+      nameInput,
+      descriptionTextArea,
+      xBtn,
+    } = this.#handleSettingProfilePageElementsInClasses();
 
     this.profileView.setProfileElements(profileHeading, profileBody);
     this.profileView.setModals(updateModal, backdrop);
-
-    const xBtn = document.querySelector(`.${profileStyles['x-btn']}`);
 
     updateModalBtn.addEventListener('click', () => {
       this.profileView.openUpdateModal();
@@ -301,6 +294,41 @@ class Controller {
       });
   }
 
+  #handleSettingProfilePageElementsInClasses() {
+    const profileBody = document.querySelector(
+      `.${profileStyles['profile-body']}`,
+    );
+    const profileHeading = document.querySelector(
+      `.${profileStyles['profile-heading']}`,
+    );
+
+    const updateModal = document.querySelector(`.${profileStyles.modal}`);
+    const backdrop = document.querySelector(`.${profileStyles.backdrop}`);
+
+    const updateModalBtn = document.querySelector(
+      `.${profileStyles['edit-my-profile']}`,
+    );
+
+    const nameInput = document.querySelector(`.${profileStyles['name-input']}`);
+
+    const descriptionTextArea = document.querySelector(
+      `.${profileStyles['description-text-area']}`,
+    );
+
+    const xBtn = document.querySelector(`.${profileStyles['x-btn']}`);
+
+    return {
+      profileBody,
+      profileHeading,
+      updateModal,
+      backdrop,
+      updateModalBtn,
+      nameInput,
+      descriptionTextArea,
+      xBtn,
+    };
+  }
+
   async handlePatchingProfileInfo(newProfile) {
     this.gameState.setProfile(...newProfile);
     await patchProfile(newProfile);
@@ -314,20 +342,22 @@ class Controller {
   }
 
   handleMoodImage() {
-    if (
+    const isHappy =
       this.gameState.fun > MIN_FUN_FOR_HAPPINESS &&
       this.gameState.hunger < MAX_ALLOWED_HUNGER_FOR_HAPPINESS &&
-      this.gameState.tiredness < MAX_ALLOWED_TIRDNESS_FOR_HAPPINESS
-    ) {
+      this.gameState.tiredness < MAX_ALLOWED_TIRDNESS_FOR_HAPPINESS;
+
+    const isAngry =
+      this.gameState.fun <= MAX_ALLOWED_FUN_FOR_ANGRY &&
+      this.gameState.hunger >= MIN_HUNGER_FOR_ANGRY &&
+      this.gameState.tiredness >= MIN_TIREDNESS_FOR_ANGRY;
+
+    if (isHappy) {
       this.moodView.drawHeart();
       return;
     }
 
-    if (
-      this.gameState.fun <= MAX_ALLOWED_FUN_FOR_ANGRY &&
-      this.gameState.hunger >= MIN_HUNGER_FOR_ANGRY &&
-      this.gameState.tiredness >= MIN_TIREDNESS_FOR_ANGRY
-    ) {
+    if (isAngry) {
       this.audioController.playAngryAlertSound();
       this.moodView.drawAngryEmoji();
       return;
