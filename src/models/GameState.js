@@ -91,6 +91,16 @@ class GameState {
   }
 
   setStatesByTime() {
+    const isHappy =
+      this.fun > MIN_FUN_FOR_HAPPINESS &&
+      this.hunger < MAX_ALLOWED_HUNGER_FOR_HAPPINESS &&
+      this.tiredness < MAX_ALLOWED_TIRDNESS_FOR_HAPPINESS;
+
+    const isAngry =
+      this.fun <= MAX_ALLOWED_FUN_FOR_ANGRY &&
+      this.hunger >= MIN_HUNGER_FOR_ANGRY &&
+      this.tiredness >= MIN_TIREDNESS_FOR_ANGRY;
+
     if (
       (this.growth === GROWTH[1] || this.growth === GROWTH[2]) &&
       this.state === STATE[2]
@@ -103,31 +113,13 @@ class GameState {
         this.hunger += INCREASED_HUNGER_POINT_PER_TICK;
       }
 
-      if (
-        this.fun > MIN_FUN_FOR_HAPPINESS &&
-        this.hunger < MAX_ALLOWED_HUNGER_FOR_HAPPINESS &&
-        this.tiredness < MAX_ALLOWED_TIRDNESS_FOR_HAPPINESS
-      ) {
+      if (isHappy) {
         this.exp += EXP_INCREMENT;
         this.happiness += HAPPINESS_INCREMENT;
       }
 
-      if (
-        this.fun <= MAX_ALLOWED_FUN_FOR_ANGRY &&
-        this.hunger >= MIN_HUNGER_FOR_ANGRY &&
-        this.tiredness >= MIN_TIREDNESS_FOR_ANGRY
-      ) {
-        if (this.happiness > MIN_HAPPINESS) {
-          this.happiness -= HAPPINESS_DECREMENT;
-        } else {
-          this.happiness = MIN_HAPPINESS;
-        }
-
-        if (this.exp > MIN_EXP) {
-          this.exp -= EXP_DECREMENT;
-        } else {
-          this.exp = MIN_EXP;
-        }
+      if (isAngry) {
+        this.#makeStatesWorse();
       }
 
       this.tiredness += TIREDNESS_INCREMENT;
@@ -228,6 +220,20 @@ class GameState {
       profileName: this.profileName,
       profileDescription: this.profileDescription,
     };
+  }
+
+  #makeStatesWorse() {
+    if (this.happiness > MIN_HAPPINESS) {
+      this.happiness -= HAPPINESS_DECREMENT;
+    } else {
+      this.happiness = MIN_HAPPINESS;
+    }
+
+    if (this.exp > MIN_EXP) {
+      this.exp -= EXP_DECREMENT;
+    } else {
+      this.exp = MIN_EXP;
+    }
   }
 }
 
