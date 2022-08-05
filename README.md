@@ -410,7 +410,7 @@
      - 문제 해결: MutationObserver, Beacon API
        - 리서치 결과 과거에는 `setTimeout(callback, 0);`이나 `DomAttrModified Event`를 사용했다는 것을 찾을 수 있었습니다. 하지만 두 방법 모두 문제점이 있었습니다.
        - 우선 `setTimeout(callback, 0);`의 경우 콜백 함수가 콜백 큐에서 대기하다 실행되기 때문에 렌더링 완료 직후 시점에 콜백이 바로 실행된다는 보장이 없었습니다. 예를 들어, 버튼은 렌더링이 완료되서 화면에 나타나는데, addEventListener가 담긴 함수가 콜백 큐에서 밀려서 실행되지 않고, 이로 인해 버튼이 동작을 하지 않는 등의 문제가 발생할 수 있었습니다.
-       - `DomAttrModified Event`는 타겟 DOM 객체에 변화가 발생하는 것을 감지하는 [Mutation Event](https://developer.mozilla.org/en-US/docs/Web/API/MutationEvent)의 일종입니다. 이 이벤트의 문제는 해당 이벤트가 발생할때마다 DOM에서 바뀐 점이 있는지 확인하기 위해 이벤트 타겟 DOM의 이전 정보를 복사해서 생성하는 구조를 가져 매우 느리다는 점이었습니다. 그래서 [MDN에서도 deprecated 되었다고 소개하고 있었습니다.](https://developer.mozilla.org/en-US/docs/Web/API/MutationEvent#performance)
+       - `DomAttrModified Event`는 타겟 DOM 객체에 변화가 발생하는 것을 감지하는 [Mutation Event](https://developer.mozilla.org/en-US/docs/Web/API/MutationEvent)의 일종입니다. 이 이벤트의 문제는 해당 이벤트가 발생할때마다 DOM에서 바뀐 점이 있는지 확인하기 위해 이벤트 타겟 DOM의 이전 정보를 복사해서 생성하는 구조를 가져 매우 느리다는 점이었습니다. 
        - 이후 더 좋은 방법이 없나 찾아보다가 [Mutation Observer](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver)를 발견했습니다. Mutation Observer는 옵저빙하는 대상의 DOM에 변화가 감지되면, 그 변화가 완료된 이후 콜백 함수를 실행합니다. 이를 사용해서 렌더링이 끝나는 타이밍을 정확하게 캐치할 수 있게 되었습니다. 또한 Mutation Observer의 callback은 entries라는 매개변수를 가지는데, entries에는 removedNode와 addedNode의 값이 담겨져 있습니다. 이 점을 활용해서 componentWillUnmount와 componentDidMount를 구현할 수 있게 되었습니다. 현재 코드에서는 entries를 쓰지 않아도 되서 사용하고 있지 않지만, 특정 DOM 요소들이 mount, unmount되는 순간을 추적해야 한다면 entries를 활용할 수 있겠다는 생각이 들었습니다.
 
 
