@@ -408,16 +408,19 @@
 
 
      - 문제 해결: MutationObserver, Beacon API
-       - 리서치 결과 과거에는 `setTimeout(callback, 0);` 이나 `DomAttrModified Event`를 사용했다는 것을 찾을 수 있었습니다. 이후 더 좋은 방법이 없나 찾아보다가 [Mutation Observer](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver)를 발견했습니다. Mutation Observer는 옵저빙하는 대상의 DOM에 변화가 감지되면, 그 변화가 완료된 이후 콜백 함수를 실행합니다. 이를 사용해서 렌더링이 끝나는 타이밍을 정확하게 캐치할 수 있게 되었습니다. 또한 Mutation Observer의 callback은 entries라는 매개변수를 가지는데, entries에는 removedNode와 addedNode의 값이 담겨져 있습니다. 이 점을 활용해서 componentWillUnmount와 componentDidMount를 구현할 수 있게 되었습니다. 현재 코드에서는 entries를 쓰지 않아도 되서 사용하고 있지 않지만, 특정 DOM 요소들이 mount, unmount되는 순간을 추적해야 한다면 entries를 활용할 수 있겠다는 생각이 들었습니다.
+       - 리서치 결과 과거에는 `setTimeout(callback, 0);`이나 `DomAttrModified Event`를 사용했다는 것을 찾을 수 있었습니다. 하지만 두 방법 모두 문제점이 있었습니다.
+       - 우선 `setTimeout(callback, 0);`의 경우 콜백 함수가 콜백 큐에서 대기하다 실행되기 때문에 렌더링 완료 직후 시점에 콜백이 바로 실행된다는 보장이 없었습니다. 예를 들어, 버튼은 렌더링이 완료되서 화면에 나타나는데, addEventListener가 담긴 함수가 콜백 큐에서 밀려서 실행되지 않고, 이로 인해 버튼이 동작을 하지 않는 등의 문제가 발생할 수 있었습니다.
+       - `DomAttrModified Event`는 타겟 DOM 객체에 변화가 발생하는 것을 감지하는 [Mutation Event](https://developer.mozilla.org/en-US/docs/Web/API/MutationEvent)의 일종입니다. 이 이벤트의 문제는 해당 이벤트가 발생할때마다 DOM에서 바뀐 점이 있는지 확인하기 위해 이벤트 타겟 DOM의 이전 정보를 복사해서 생성하는 구조를 가져 매우 느리다는 점이었습니다. 그래서 [MDN에서도 deprecated 되었다고 소개하고 있었습니다.](https://developer.mozilla.org/en-US/docs/Web/API/MutationEvent#performance)
+       - 이후 더 좋은 방법이 없나 찾아보다가 [Mutation Observer](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver)를 발견했습니다. Mutation Observer는 옵저빙하는 대상의 DOM에 변화가 감지되면, 그 변화가 완료된 이후 콜백 함수를 실행합니다. 이를 사용해서 렌더링이 끝나는 타이밍을 정확하게 캐치할 수 있게 되었습니다. 또한 Mutation Observer의 callback은 entries라는 매개변수를 가지는데, entries에는 removedNode와 addedNode의 값이 담겨져 있습니다. 이 점을 활용해서 componentWillUnmount와 componentDidMount를 구현할 수 있게 되었습니다. 현재 코드에서는 entries를 쓰지 않아도 되서 사용하고 있지 않지만, 특정 DOM 요소들이 mount, unmount되는 순간을 추적해야 한다면 entries를 활용할 수 있겠다는 생각이 들었습니다.
 
 
        - 브라우저를 종료하면서 데이터를 업데이트 하는 API를 보내는 로직은 [Beacon API](https://developer.mozilla.org/en-US/docs/Web/API/Beacon_API)를 사용했습니다. Beacon API는 웹페이지가 종료 되기 이전에 POST HTTP Request를 서버로 보내는 것을 보장해주는 API입니다. 기존의 beforeunload, unload 이벤트만 사용했을 때는 API를 보내면 response 관련 문제로 인해서 제대로 동작하지 않았습니다. 하지만 beacon api는 response를 필요로 하지 않습니다. 그래서 beacon api를 사용함으로써 브라우저를 종료하는 시점에서도 확실하게 API를 보낼 수 있게 되었습니다.
 
 3. 실시간 State 업데이트
    
-   - 오리지널 다마고치는 실제 시간의 흐름에 따라 다마고치의 상태가 변합니다. 이 프로젝트에서는 일시 정지 기능을 넣고 싶어서 실제 시간과 일치하는 기능을 구현하지 않았습니다. 대신 다마고치가 움직이는 동안에는 시간의 흐름에 따라 상태가 변화할 필요가 있었습니다. 처음에는 setInterval을 사용하려고 했지만 setInterval은 다른 코드들의 상태에 따라 콜백의 실행이 목표 시간보다 지연될 수 있다는 문제점이 있었습니다.
-
-   - 그래서 리서치를 더 하다보니 requestAnimationframe(RAF) 함수를 발견했습니다. RAF는 현재 사용하고 있는 출력기기가 표현할 수 있는 최대 FPS에 맞춰서 인자로 받은 콜백을 반복실행 시키는 함수입니다. 그리고 실행될때 화면에 변경사항이 있다면 그 변경사항을 반영해서 리페인팅을 실행합니다. 그래서 state를 변경하는 메소드를 RAF를 사용해서 특정 시간마다 실행하도록 하고, 변경된 state에 기반해서 페이지 화면을 리페인팅 하도록 만들었습니다. RAF도 시간의 흐름을 완벽하게 추적하지는 못하지만, setInterval보다는 안정적으로 state를 변화시킬 수 있었습니다.
+   - 오리지널 다마고치는 실제 시간의 흐름에 따라 다마고치의 상태가 변합니다. 이 프로젝트에서는 일시 정지 기능을 넣고 싶어서 실제 시간과 일치하는 기능을 구현하지 않았습니다. 대신 다마고치가 움직이는 동안에는 시간의 흐름에 따라 상태가 변화할 필요가 있었습니다. 처음에는 setInterval을 사용하려고 했지만 setInterval은 콜백큐의 상황에 따라 콜백의 실행이 목표 시간보다 지연될 수 있다는 문제점이 있었습니다.
+   - 그래서 리서치를 더 하다보니 [requestAnimationframe(rAf)](https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame) 메소드를 발견했습니다. rAf는 현재 사용하고 있는 출력기기가 표현할 수 있는 최대 FPS에 맞춰서 인자로 받은 콜백을 리플로우, 리페인트가 실행되기 이전에 반복실행 시키는 함수입니다. 그리고 실행될때 화면에 변경사항이 있다면 그 변경사항을 반영해서 리페인팅을 실행합니다. 
+   - rAf의 가장 큰 특징은 콜백 큐가 아닌 별도의 애니메이션 프레임 큐에 콜백을 넣고 실행한다는 점입니다. 그렇기 때문에 rAf를 쓰면 setInterval보다 다른 비동기 콜백 함수들로 인한 지연 현상을 크게 줄일 수 있습니다. 그래서 state를 변경하는 메소드를 rAf를 사용해서 특정 시간마다 실행하도록 하고, 변경된 state에 기반해서 페이지 화면을 리페인팅 하도록 만들었습니다. rAf도 시간의 흐름을 완벽하게 추적하지는 못하지만, setInterval보다는 안정적으로 state를 변화시킬 수 있었습니다.
 
 4. 관심사 분리의 부족함
 
