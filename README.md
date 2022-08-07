@@ -12,12 +12,12 @@
 
 ## 𝌆 Table of Contents
 
-- [💡 Motivation](Motivation)
-- [🔧 Tech Stack](Tech-Stack)
-- [📆 Planning](Planning)
-- [🕹 Features](Features)
-- [📝 Log & Challenge](Log-&-Challenge)
-- [📖 Key takeaways](Key-takeaways)
+- [💡 Motivation](#-motivation)
+- [🔧 Tech Stack](#-tech-stack)
+- [📆 Planning](#-planning)
+- [🕹 Features](#-features)
+- [📝 Log & Challenge](#-log--challenge)
+- [📖 Key takeaways](#-key-takeaways)
 
 <br />
 
