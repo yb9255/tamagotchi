@@ -338,10 +338,9 @@
 <div markdown="1">
   <br />
   
-  ![스크린샷 2022-07-19 오후 10 33 21](https://user-images.githubusercontent.com/92532339/179776118-0986faec-1a09-439c-8b8d-830a9bd8acf7.png)
-  
+  <img width="1673" alt="스크린샷 2022-08-08 오후 4 42 48" src="https://user-images.githubusercontent.com/92532339/183365835-c3e99819-80b4-4ba9-9c30-701e20315177.png">
 
-  ![스크린샷 2022-07-19 오후 11 31 19](https://user-images.githubusercontent.com/92532339/179776043-614847f5-262b-4037-b392-8e00b3d4adaa.png)
+<img width="1722" alt="스크린샷 2022-08-08 오후 4 44 21" src="https://user-images.githubusercontent.com/92532339/183366095-6bf92dd3-a186-44ad-8de1-494d08e74fd9.png">
 
   
   ![스크린샷 2022-07-19 오후 11 32 23](https://user-images.githubusercontent.com/92532339/179776265-169d5d12-40ce-46b1-8266-bc2fef7f0482.png)
