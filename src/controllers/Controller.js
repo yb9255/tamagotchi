@@ -225,7 +225,9 @@ class Controller {
       xBtn,
     );
 
-    this.helpModalView.addListeners();
+    this.helpModalView.addListeners(
+      this.helpModalView.toggleHelpmodal.bind(this),
+    );
   }
 
   handleSettingNavBar() {
