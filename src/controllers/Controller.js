@@ -32,7 +32,6 @@ import {
 } from '../utils/api.js';
 
 import mainStyles from '../css/main.css';
-import navbarStyles from '../css/navbar.css';
 import profileStyles from '../css/profile.css';
 
 class Controller {
@@ -230,9 +229,7 @@ class Controller {
   }
 
   handleSettingNavBar() {
-    const logoutLink = document.querySelector(`.${navbarStyles.logout}`);
-
-    logoutLink.addEventListener('click', () => {
+    this.navbarView.addLogoutListener(() => {
       localStorage.removeItem('isLoggedIn');
       this.handleUserLogout();
     });
