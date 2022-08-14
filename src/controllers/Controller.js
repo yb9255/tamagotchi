@@ -32,7 +32,6 @@ import {
 } from '../utils/api.js';
 
 import mainStyles from '../css/main.css';
-import navbarStyles from '../css/navbar.css';
 import profileStyles from '../css/profile.css';
 
 class Controller {
@@ -226,15 +225,11 @@ class Controller {
       xBtn,
     );
 
-    [xBtn, backdrop, helpModalBtn].forEach((element) => {
-      element.addEventListener('click', this.helpModalView.toggleHelpModal);
-    });
+    this.helpModalView.addListeners();
   }
 
   handleSettingNavBar() {
-    const logoutLink = document.querySelector(`.${navbarStyles.logout}`);
-
-    logoutLink.addEventListener('click', () => {
+    this.navbarView.addLogoutListener(() => {
       localStorage.removeItem('isLoggedIn');
       this.handleUserLogout();
     });
