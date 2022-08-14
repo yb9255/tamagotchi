@@ -226,9 +226,7 @@ class Controller {
       xBtn,
     );
 
-    [xBtn, backdrop, helpModalBtn].forEach((element) => {
-      element.addEventListener('click', this.helpModalView.toggleHelpModal);
-    });
+    this.helpModalView.addListeners();
   }
 
   handleSettingNavBar() {
