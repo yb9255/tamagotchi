@@ -18,20 +18,17 @@ class HelpModalView {
     this.#xBtn = xBtn;
   }
 
-  addListeners() {
-    this.#backdrop.addEventListener('click', this.#toggleHelpModal.bind(this));
-    this.#xBtn.addEventListener('click', this.#toggleHelpModal.bind(this));
-    this.#helpModalBtn.addEventListener(
-      'click',
-      this.#toggleHelpModal.bind(this),
-    );
+  addListeners(callback) {
+    this.#backdrop.addEventListener('click', callback);
+    this.#xBtn.addEventListener('click', callback);
+    this.#helpModalBtn.addEventListener('click', callback);
   }
 
   showHelpModalBtn() {
     this.#helpModalBtn.classList.remove(`${mainStyles.hidden}`);
   }
 
-  #toggleHelpModal() {
+  toggleHelpModal() {
     this.#backdrop.classList.toggle(`${mainStyles.hidden}`);
     this.#helpModal.classList.toggle(`${mainStyles.hidden}`);
   }
