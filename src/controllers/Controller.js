@@ -38,6 +38,7 @@ class Controller {
   constructor(states, views, subControllers, observers) {
     this.router = subControllers.router;
     this.audioController = subControllers.audioController;
+    this.validationController = subControllers.validationController;
     this.gameState = states.gameState;
     this.buttonState = states.buttonState;
     this.userState = states.userState;
@@ -117,37 +118,29 @@ class Controller {
   }
 
   async handleUserLogin() {
-    const userInformation = (await postLogin()).userInformation;
-
-    this.userState.setUserState({
-      email: userInformation.email,
-      picture: userInformation.picture,
-    });
-
-    this.gameState.setGameState({
-      state: userInformation.state,
-      growth: userInformation.growth,
-      fun: userInformation.fun,
-      hunger: userInformation.hunger,
-      birthCount: userInformation.birthCount,
-      tiredness: userInformation.tiredness,
-      exp: userInformation.exp,
-      happiness: userInformation.happiness,
-      profileName: userInformation.profileName,
-      profileDescription: userInformation.profileDescription,
-    });
-
-    this.router.navigateTo('/');
+    this.validationController.handleUserLogin(
+      this.gameState,
+      this.userState,
+      this.router,
+    );
   }
 
   async handleUserLogout() {
-    await this.handlePatchingUserInfo();
-    this.gameState.reset();
-    this.buttonState.reset();
-    logout();
+    this.validationController.handleUserLogout(
+      this.gameState,
+      this.buttonState,
+      this.handlePatchUserInfo,
+    );
   }
 
-  async handleGettingUserInfo() {
+  async handlePatchUserInfo() {
+    await patchUserInformation({
+      ...this.userState.getProperties(),
+      ...this.gameState.getProperties(),
+    });
+  }
+
+  async handleGetUserInfo() {
     const response = await getUserInformation();
 
     if (response.message === '로그인 토큰이 존재하지 않습니다.') {
@@ -327,13 +320,6 @@ class Controller {
   async handlePatchingProfileInfo(newProfile) {
     this.gameState.setProfile(...newProfile);
     await patchProfile(newProfile);
-  }
-
-  async handlePatchingUserInfo() {
-    await patchUserInformation({
-      ...this.userState.getProperties(),
-      ...this.gameState.getProperties(),
-    });
   }
 
   handleMoodImage() {

@@ -19,6 +19,7 @@ import RouteChangeObserver from './src/observers/RouteChangeObserver.js';
 import { postUserInfoWithClose } from './src/utils/api.js';
 import { GROWTH } from './src/constants/gameState.js';
 import HelpModalView from './src/views/HelpModalView.js';
+import ValidationController from './src/controllers/Validation.js';
 
 async function init() {
   const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
@@ -46,6 +47,7 @@ async function init() {
   const subControllers = {
     router: new Router(),
     audioController: new AudioController(),
+    validationController: new ValidationController(),
   };
 
   const observers = {
