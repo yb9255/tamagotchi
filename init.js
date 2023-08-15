@@ -17,15 +17,11 @@ import AudioController from './src/controllers/Audio.js';
 import RouteChangeObserver from './src/observers/RouteChangeObserver.js';
 import UserProfileController from './src/controllers/UserProfile.js';
 
-import { postUserInfoWithClose } from './src/utils/api.js';
-import { GROWTH } from './src/constants/gameState.js';
 import HelpModalView from './src/views/HelpModalView.js';
 import ValidationController from './src/controllers/Validation.js';
 import UserInformationController from './src/controllers/UserInformation.js';
 
 async function init() {
-  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-
   const states = {
     gameState: new GameState(),
     buttonState: new ButtonState(),
@@ -60,61 +56,12 @@ async function init() {
 
   const controller = new Controller(states, views, subControllers, observers);
 
+  controller.initController();
+
   window.addEventListener('beforeunload', (event) => {
     event.preventDefault();
-
-    if (location.pathname !== '/login') {
-      const userInformation = {
-        ...controller.userState.getProperties(),
-        ...controller.gameState.getProperties(),
-      };
-
-      postUserInfoWithClose(userInformation);
-    }
+    controller.handleUpdateUserInfoBeforeUnload();
   });
-
-  if (controller.router.currentRoute === '/') {
-    await controller.handleGetUserInfo();
-
-    if (controller.currentAnimationFrame) {
-      cancelAnimationFrame(controller.currentAnimationFrame);
-    }
-
-    if (isLoggedIn) {
-      controller.handleSettingNavBar();
-      controller.handleSettingMainPage();
-      controller.gameState.setIdlingState();
-      controller.handleEventsOverTime();
-    }
-
-    return;
-  }
-
-  if (controller.router.currentRoute === '/profile') {
-    await controller.handleGetUserInfo();
-
-    if (
-      controller.gameState.growth !== GROWTH[1] &&
-      controller.gameState.growth !== GROWTH[2]
-    ) {
-      controller.router.navigateTo('/');
-      return;
-    }
-
-    if (isLoggedIn) {
-      controller.handleSettingNavBar();
-      controller.handleSetProfilePage();
-      controller.handleEventsOverTime();
-    }
-
-    return;
-  }
-
-  if (controller.router.currentRoute === '/login') {
-    document
-      .querySelector('button')
-      .addEventListener('click', controller.handleUserLogin.bind(controller));
-  }
 }
 
 document.addEventListener('DOMContentLoaded', init);

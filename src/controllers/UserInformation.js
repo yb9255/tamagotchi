@@ -1,4 +1,8 @@
-import { getUserInformation, patchUserInformation } from '../utils/api.js';
+import {
+  getUserInformation,
+  patchUserInformation,
+  postUserInfoWithClose,
+} from '../utils/api.js';
 
 class userInformationController {
   async handlePatchUserInfo(userState, gameState) {
@@ -6,6 +10,17 @@ class userInformationController {
       ...userState.getProperties(),
       ...gameState.getProperties(),
     });
+  }
+
+  handlePatchUseInfoBeforeUnload(userState, gameState) {
+    if (location.pathname !== '/login') {
+      const userInformation = {
+        ...userState.getProperties(),
+        ...gameState.getProperties(),
+      };
+
+      postUserInfoWithClose(userInformation);
+    }
   }
 
   async handleGetUserInfo(userState, gameState, handleUserLogin) {

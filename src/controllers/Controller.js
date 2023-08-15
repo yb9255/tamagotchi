@@ -55,6 +55,60 @@ class Controller {
     this.routeChangeObserver.observeRoot();
   }
 
+  async initController() {
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+
+    if (this.router.currentRoute === '/') {
+      await this.handleGetUserInfo();
+
+      if (this.currentAnimationFrame) {
+        cancelAnimationFrame(this.currentAnimationFrame);
+      }
+
+      if (isLoggedIn) {
+        this.handleSettingNavBar();
+        this.handleSettingMainPage();
+        this.gameState.setIdlingState();
+        this.handleEventsOverTime();
+      }
+
+      return;
+    }
+
+    if (this.router.currentRoute === '/profile') {
+      await this.handleGetUserInfo();
+
+      if (
+        this.gameState.growth !== GROWTH[1] &&
+        this.gameState.growth !== GROWTH[2]
+      ) {
+        this.router.navigateTo('/');
+        return;
+      }
+
+      if (isLoggedIn) {
+        this.handleSettingNavBar();
+        this.handleSetProfilePage();
+        this.handleEventsOverTime();
+      }
+
+      return;
+    }
+
+    if (this.router.currentRoute === '/login') {
+      document
+        .querySelector('button')
+        .addEventListener('click', this.handleUserLogin.bind(this));
+    }
+  }
+
+  handleUpdateUserInfoBeforeUnload() {
+    this.userInformationController.handlePatchUseInfoBeforeUnload(
+      this.userState,
+      this.gameState,
+    );
+  }
+
   handleEventsOverTime() {
     let currentTime = 0;
     let nextTimeforEvent = TICK_SECONDS;
