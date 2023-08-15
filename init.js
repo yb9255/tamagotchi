@@ -20,6 +20,7 @@ import { postUserInfoWithClose } from './src/utils/api.js';
 import { GROWTH } from './src/constants/gameState.js';
 import HelpModalView from './src/views/HelpModalView.js';
 import ValidationController from './src/controllers/Validation.js';
+import UserInformationController from './src/controllers/UserInformation.js';
 
 async function init() {
   const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
@@ -48,6 +49,7 @@ async function init() {
     router: new Router(),
     audioController: new AudioController(),
     validationController: new ValidationController(),
+    userInformationController: new UserInformationController(),
   };
 
   const observers = {
@@ -70,7 +72,7 @@ async function init() {
   });
 
   if (controller.router.currentRoute === '/') {
-    await controller.handleGettingUserInfo();
+    await controller.handleGetUserInfo();
 
     if (controller.currentAnimationFrame) {
       cancelAnimationFrame(controller.currentAnimationFrame);
@@ -87,7 +89,7 @@ async function init() {
   }
 
   if (controller.router.currentRoute === '/profile') {
-    await controller.handleGettingUserInfo();
+    await controller.handleGetUserInfo();
 
     if (
       controller.gameState.growth !== GROWTH[1] &&
@@ -99,7 +101,7 @@ async function init() {
 
     if (isLoggedIn) {
       controller.handleSettingNavBar();
-      controller.handleSettingProfilePage();
+      controller.handleSetProfilePage();
       controller.handleEventsOverTime();
     }
 

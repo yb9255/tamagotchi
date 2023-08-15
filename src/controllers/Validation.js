@@ -1,10 +1,4 @@
-import {
-  postLogin,
-  logout,
-  getUserInformation,
-  patchUserInformation,
-  patchProfile,
-} from '../utils/api.js';
+import { postLogin, logout } from '../utils/api.js';
 
 class ValidationController {
   constructor() {}
