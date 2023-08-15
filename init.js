@@ -15,6 +15,7 @@ import NavbarView from './src/views/NavbarView.js';
 import Router from './src/controllers/Router.js';
 import AudioController from './src/controllers/Audio.js';
 import RouteChangeObserver from './src/observers/RouteChangeObserver.js';
+import UserProfileController from './src/controllers/UserProfile.js';
 
 import { postUserInfoWithClose } from './src/utils/api.js';
 import { GROWTH } from './src/constants/gameState.js';
@@ -50,6 +51,7 @@ async function init() {
     audioController: new AudioController(),
     validationController: new ValidationController(),
     userInformationController: new UserInformationController(),
+    userProfileController: new UserProfileController(),
   };
 
   const observers = {

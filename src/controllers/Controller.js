@@ -23,22 +23,15 @@ import {
   stateCallback,
 } from '../utils/callbacks.js';
 
-import {
-  postLogin,
-  logout,
-  getUserInformation,
-  patchUserInformation,
-  patchProfile,
-} from '../utils/api.js';
-
 import mainStyles from '../css/main.css';
-import profileStyles from '../css/profile.css';
 
 class Controller {
   constructor(states, views, subControllers, observers) {
     this.router = subControllers.router;
     this.audioController = subControllers.audioController;
     this.validationController = subControllers.validationController;
+    this.userInformationController = subControllers.userInformationController;
+    this.userProfileController = subControllers.userProfileController;
     this.gameState = states.gameState;
     this.buttonState = states.buttonState;
     this.userState = states.userState;
@@ -129,44 +122,20 @@ class Controller {
     this.validationController.handleUserLogout(
       this.gameState,
       this.buttonState,
-      this.handlePatchUserInfo,
+      () =>
+        this.userInformationController.handlePatchUserInfo(
+          this.userState,
+          this.gameState,
+        ),
     );
   }
 
-  async handlePatchUserInfo() {
-    await patchUserInformation({
-      ...this.userState.getProperties(),
-      ...this.gameState.getProperties(),
-    });
-  }
-
   async handleGetUserInfo() {
-    const response = await getUserInformation();
-
-    if (response.message === '로그인 토큰이 존재하지 않습니다.') {
-      await this.handleUserLogin();
-      return;
-    }
-
-    const userInformation = response.userInformation;
-
-    this.userState.setUserState({
-      email: userInformation.email,
-      picture: userInformation.picture,
-    });
-
-    this.gameState.setGameState({
-      state: userInformation.state,
-      growth: userInformation.growth,
-      fun: userInformation.fun,
-      hunger: userInformation.hunger,
-      birthCount: userInformation.birthCount,
-      tiredness: userInformation.tiredness,
-      exp: userInformation.exp,
-      happiness: userInformation.happiness,
-      profileName: userInformation.profileName,
-      profileDescription: userInformation.profileDescription,
-    });
+    this.userInformationController.handleGetUserInfo(
+      this.userState,
+      this.gameState,
+      this.handleUserLogin,
+    );
   }
 
   handleSettingMainPage() {
@@ -228,98 +197,19 @@ class Controller {
     });
   }
 
-  async handleSettingProfilePage() {
-    const {
-      profileBody,
-      profileHeading,
-      updateModal,
-      backdrop,
-      updateModalBtn,
-      nameInput,
-      descriptionTextArea,
-      xBtn,
-    } = this.#handleSettingProfilePageElementsInClasses();
-
-    this.profileView.setProfileElements(profileHeading, profileBody);
-    this.profileView.setModals(updateModal, backdrop);
-
-    updateModalBtn.addEventListener('click', () => {
-      this.profileView.openUpdateModal();
-    });
-
-    [xBtn, backdrop].forEach((element) =>
-      element.addEventListener('click', () => {
-        this.profileView.closeUpdateModal();
-        nameInput.value = '';
-        descriptionTextArea.value = '';
-      }),
+  handleSetProfilePage() {
+    this.userProfileController.handleSetProfilePage(
+      this.profileView,
+      this.userState,
+      this.gameState,
     );
-
-    this.profileView.drawProfile(this.userState, this.gameState);
-
-    updateModal
-      .querySelector('form')
-      .addEventListener('submit', async (event) => {
-        event.preventDefault();
-
-        if (
-          nameInput.value.trim() === '' &&
-          descriptionTextArea.value.trim() === ''
-        ) {
-          return;
-        }
-
-        await patchProfile({
-          profileName: nameInput.value,
-          profileDescription: descriptionTextArea.value,
-        });
-
-        this.gameState.setProfile(nameInput.value, descriptionTextArea.value);
-        this.profileView.drawProfile(this.userState, this.gameState);
-        this.profileView.closeUpdateModal();
-        nameInput.value = '';
-        descriptionTextArea.value = '';
-      });
   }
 
-  #handleSettingProfilePageElementsInClasses() {
-    const profileBody = document.querySelector(
-      `.${profileStyles['profile-body']}`,
+  handlePatchProfileInfo(newProfile) {
+    this.userProfileController.handlePatchProfileInfo(
+      newProfile,
+      this.gameState,
     );
-    const profileHeading = document.querySelector(
-      `.${profileStyles['profile-heading']}`,
-    );
-
-    const updateModal = document.querySelector(`.${profileStyles.modal}`);
-    const backdrop = document.querySelector(`.${profileStyles.backdrop}`);
-
-    const updateModalBtn = document.querySelector(
-      `.${profileStyles['edit-my-profile']}`,
-    );
-
-    const nameInput = document.querySelector(`.${profileStyles['name-input']}`);
-
-    const descriptionTextArea = document.querySelector(
-      `.${profileStyles['description-text-area']}`,
-    );
-
-    const xBtn = document.querySelector(`.${profileStyles['x-btn']}`);
-
-    return {
-      profileBody,
-      profileHeading,
-      updateModal,
-      backdrop,
-      updateModalBtn,
-      nameInput,
-      descriptionTextArea,
-      xBtn,
-    };
-  }
-
-  async handlePatchingProfileInfo(newProfile) {
-    this.gameState.setProfile(...newProfile);
-    await patchProfile(newProfile);
   }
 
   handleMoodImage() {

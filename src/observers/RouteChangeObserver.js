@@ -49,7 +49,7 @@ class RouteChangeObserver {
 
   #setProfileRoute() {
     this.#controller.handleSettingNavBar();
-    this.#controller.handleSettingProfilePage();
+    this.#controller.handleSetProfilePage();
 
     if (
       this.#controller.gameState.growth !== GROWTH[1] &&
