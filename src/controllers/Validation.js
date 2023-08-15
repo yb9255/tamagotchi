@@ -1,8 +1,6 @@
 import { postLogin, logout } from '../utils/api.js';
 
 class ValidationController {
-  constructor() {}
-
   async handleUserLogin(gameState, userState, routerController) {
     const userInformation = (await postLogin()).userInformation;
 

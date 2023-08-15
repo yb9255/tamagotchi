@@ -7,7 +7,7 @@ import {
   MIN_BIRTH_COUNT,
   MIN_FUN_FOR_HAPPINESS,
   MAX_ALLOWED_HUNGER_FOR_HAPPINESS,
-  MAX_ALLOWED_TIRDNESS_FOR_HAPPINESS,
+  MAX_ALLOWED_TIREDNESS_FOR_HAPPINESS,
   MAX_ALLOWED_FUN_FOR_ANGRY,
   MIN_HUNGER_FOR_ANGRY,
   MIN_TIREDNESS_FOR_ANGRY,
@@ -111,7 +111,7 @@ class Controller {
 
   handleEventsOverTime() {
     let currentTime = 0;
-    let nextTimeforEvent = TICK_SECONDS;
+    let nextTimeForEvent = TICK_SECONDS;
 
     this.handleMoodImage();
 
@@ -145,17 +145,17 @@ class Controller {
       }
 
       if (hasMaxExp) {
-        await this.gameState.growup(async () => {
+        await this.gameState.growUp(async () => {
           this.childView.cancelAnimation();
-          this.audioController.playGrowupSound();
+          this.audioController.playGrowUpSound();
           await this.childView.drawGrowingUp();
         });
       }
 
-      if (currentTime >= nextTimeforEvent) {
+      if (currentTime >= nextTimeForEvent) {
         this.gameState.setStatesByTime();
         this.handleMoodImage();
-        nextTimeforEvent = currentTime + TICK_SECONDS;
+        nextTimeForEvent = currentTime + TICK_SECONDS;
       }
 
       this.currentAnimationFrame = requestAnimationFrame(handleEventsOnTick);
@@ -270,7 +270,7 @@ class Controller {
     const isHappy =
       this.gameState.fun > MIN_FUN_FOR_HAPPINESS &&
       this.gameState.hunger < MAX_ALLOWED_HUNGER_FOR_HAPPINESS &&
-      this.gameState.tiredness < MAX_ALLOWED_TIRDNESS_FOR_HAPPINESS;
+      this.gameState.tiredness < MAX_ALLOWED_TIREDNESS_FOR_HAPPINESS;
 
     const isAngry =
       this.gameState.fun <= MAX_ALLOWED_FUN_FOR_ANGRY &&
@@ -423,13 +423,13 @@ class Controller {
 
     const callback = async () => {
       if (this.gameState.birthCount > MIN_BIRTH_COUNT) {
-        await this.eggView.drawShakedEgg();
+        await this.eggView.drawShakenEgg();
         this.audioController.playShakeEggSound();
         this.gameState.subtractBirthCount();
       }
 
       if (this.gameState.birthCount <= MIN_BIRTH_COUNT) {
-        this.audioController.playGrowupSound();
+        this.audioController.playGrowUpSound();
         this.buttonState.removeListeners();
         await this.eggView.drawBreakingEgg();
         this.gameState.eggToChild();

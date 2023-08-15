@@ -21,7 +21,7 @@ class EggView extends View {
     super();
 
     this.drawStandingEgg = this.drawStandingEgg.bind(this);
-    this.drawShakedEgg = this.drawShakedEgg.bind(this);
+    this.drawShakenEgg = this.drawShakenEgg.bind(this);
     this.drawBreakingEgg = this.drawBreakingEgg.bind(this);
   }
 
@@ -30,7 +30,7 @@ class EggView extends View {
     return this.#standEgg();
   }
 
-  async drawShakedEgg() {
+  async drawShakenEgg() {
     await this.loadImage(this.image, EGG_IMAGE_PATH);
     return this.#shakeEgg();
   }
