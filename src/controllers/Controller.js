@@ -131,7 +131,7 @@ class Controller {
   }
 
   async handleGetUserInfo() {
-    this.userInformationController.handleGetUserInfo(
+    await this.userInformationController.handleGetUserInfo(
       this.userState,
       this.gameState,
       this.handleUserLogin,
