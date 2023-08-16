@@ -5,12 +5,6 @@ import {
   MAX_TIREDNESS,
   MAX_EXP,
   MIN_BIRTH_COUNT,
-  MIN_FUN_FOR_HAPPINESS,
-  MAX_ALLOWED_HUNGER_FOR_HAPPINESS,
-  MAX_ALLOWED_TIREDNESS_FOR_HAPPINESS,
-  MAX_ALLOWED_FUN_FOR_ANGRY,
-  MIN_HUNGER_FOR_ANGRY,
-  MIN_TIREDNESS_FOR_ANGRY,
 } from '../constants/gameState.js';
 
 import {
@@ -34,6 +28,7 @@ class Controller {
     this.userInformationController = subControllers.userInformationController;
     this.userProfileController = subControllers.userProfileController;
     this.navBarController = subControllers.navBarController;
+    this.moodController = subControllers.moodController;
     this.gameState = states.gameState;
     this.buttonState = states.buttonState;
     this.userState = states.userState;
@@ -234,29 +229,11 @@ class Controller {
   }
 
   handleMoodImage() {
-    const isHappy =
-      this.gameState.fun > MIN_FUN_FOR_HAPPINESS &&
-      this.gameState.hunger < MAX_ALLOWED_HUNGER_FOR_HAPPINESS &&
-      this.gameState.tiredness < MAX_ALLOWED_TIREDNESS_FOR_HAPPINESS;
-
-    const isAngry =
-      this.gameState.fun <= MAX_ALLOWED_FUN_FOR_ANGRY &&
-      this.gameState.hunger >= MIN_HUNGER_FOR_ANGRY &&
-      this.gameState.tiredness >= MIN_TIREDNESS_FOR_ANGRY;
-
-    if (isHappy) {
-      this.moodView.drawHeart();
-      return;
-    }
-
-    if (isAngry) {
-      this.audioController.playAngryAlertSound();
-      this.moodView.drawAngryEmoji();
-      return;
-    }
-
-    this.moodView.clearMoodImage();
-    return;
+    this.moodController.handleMoodImage(
+      this.gameState,
+      this.moodView,
+      this.audioController,
+    );
   }
 
   async #handleFallingAsleepChild() {

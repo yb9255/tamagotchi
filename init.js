@@ -22,6 +22,7 @@ import ValidationController from './src/controllers/Validation.js';
 import UserInformationController from './src/controllers/UserInformation.js';
 import MainPageController from './src/controllers/MainPage.js';
 import NavBarController from './src/controllers/NavBar.js';
+import MoodController from './src/controllers/Mood.js';
 
 async function init() {
   const states = {
@@ -52,6 +53,7 @@ async function init() {
     userProfileController: new UserProfileController(),
     mainPageController: new MainPageController(),
     navBarController: new NavBarController(),
+    moodController: new MoodController(),
   };
 
   const observers = {
