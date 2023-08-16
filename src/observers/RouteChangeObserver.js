@@ -41,14 +41,14 @@ class RouteChangeObserver {
     }
 
     this.#controller.handleSetMainPage();
-    this.#controller.handleSettingNavBar();
+    this.#controller.handleSetNavBar();
     this.#controller.handleMoodImage();
     this.#controller.gameState.setIdlingState();
     this.#controller.handleEventsOverTime();
   }
 
   #setProfileRoute() {
-    this.#controller.handleSettingNavBar();
+    this.#controller.handleSetNavBar();
     this.#controller.handleSetProfilePage();
 
     if (

@@ -33,6 +33,7 @@ class Controller {
     this.mainPageController = subControllers.mainPageController;
     this.userInformationController = subControllers.userInformationController;
     this.userProfileController = subControllers.userProfileController;
+    this.navBarController = subControllers.navBarController;
     this.gameState = states.gameState;
     this.buttonState = states.buttonState;
     this.userState = states.userState;
@@ -67,7 +68,7 @@ class Controller {
       }
 
       if (isLoggedIn) {
-        this.handleSettingNavBar();
+        this.handleSetNavBar();
         this.handleSetMainPage();
         this.gameState.setIdlingState();
         this.handleEventsOverTime();
@@ -88,7 +89,7 @@ class Controller {
       }
 
       if (isLoggedIn) {
-        this.handleSettingNavBar();
+        this.handleSetNavBar();
         this.handleSetProfilePage();
         this.handleEventsOverTime();
       }
@@ -148,7 +149,7 @@ class Controller {
       if (hasMaxExp) {
         await this.gameState.growUp(async () => {
           this.childView.cancelAnimation();
-          this.audioController.playgrowUpSound();
+          this.audioController.playGrowUpSound();
           await this.childView.drawGrowingUp();
         });
       }
@@ -210,11 +211,11 @@ class Controller {
     });
   }
 
-  handleSettingNavBar() {
-    this.navbarView.addLogoutListener(() => {
-      localStorage.removeItem('isLoggedIn');
-      this.handleUserLogout();
-    });
+  handleSetNavBar() {
+    this.navBarController.addLogoutListener(
+      this.navbarView,
+      this.handleUserLogout.bind(this),
+    );
   }
 
   handleSetProfilePage() {
@@ -395,7 +396,7 @@ class Controller {
       }
 
       if (this.gameState.birthCount <= MIN_BIRTH_COUNT) {
-        this.audioController.playgrowUpSound();
+        this.audioController.playGrowUpSound();
         this.buttonState.removeListeners();
         await this.eggView.drawBreakingEgg();
         this.gameState.eggToChild();

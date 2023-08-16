@@ -32,7 +32,7 @@ class AudioController {
     this.playHangoutSound = this.playHangoutSound.bind(this);
     this.playSleepSound = this.playSleepSound.bind(this);
     this.playDenySound = this.playDenySound.bind(this);
-    this.playgrowUpSound = this.playgrowUpSound.bind(this);
+    this.playGrowUpSound = this.playGrowUpSound.bind(this);
     this.playAngryAlertSound = this.playAngryAlertSound.bind(this);
   }
 
@@ -84,7 +84,7 @@ class AudioController {
     this.#deny.play();
   }
 
-  playgrowUpSound() {
+  playGrowUpSound() {
     this.#growUp.currentTime = 0;
     this.#growUp.volume = 0.1;
     this.#growUp.play();
