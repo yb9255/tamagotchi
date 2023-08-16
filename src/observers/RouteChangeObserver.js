@@ -40,7 +40,7 @@ class RouteChangeObserver {
       cancelAnimationFrame(this.#controller.currentAnimationFrame);
     }
 
-    this.#controller.handleSettingMainPage();
+    this.#controller.handleSetMainPage();
     this.#controller.handleSettingNavBar();
     this.#controller.handleMoodImage();
     this.#controller.gameState.setIdlingState();

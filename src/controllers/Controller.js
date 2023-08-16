@@ -30,6 +30,7 @@ class Controller {
     this.router = subControllers.router;
     this.audioController = subControllers.audioController;
     this.validationController = subControllers.validationController;
+    this.mainPageController = subControllers.mainPageController;
     this.userInformationController = subControllers.userInformationController;
     this.userProfileController = subControllers.userProfileController;
     this.gameState = states.gameState;
@@ -67,7 +68,7 @@ class Controller {
 
       if (isLoggedIn) {
         this.handleSettingNavBar();
-        this.handleSettingMainPage();
+        this.handleSetMainPage();
         this.gameState.setIdlingState();
         this.handleEventsOverTime();
       }
@@ -129,7 +130,7 @@ class Controller {
         }
 
         if (this.gameState.growth !== this.buttonState.state) {
-          this.#handleChangingPetPhases();
+          this.handleChangePetPhases();
         }
       }
 
@@ -192,56 +193,21 @@ class Controller {
     );
   }
 
-  handleSettingMainPage() {
-    if (this.currentMainView) {
-      this.currentMainView.cancelAnimation();
-    }
-
-    this.#handleSettingMainPageElementsInClasses();
-
-    this.frameView.draw();
-    this.#handleChangingPetPhases();
-  }
-
-  #handleSettingMainPageElementsInClasses() {
-    const tamagotchiContainer = document.querySelector(
-      `.${mainStyles['tamagotchi-container']}`,
-    );
-
-    const leftBtn = document.querySelector(`.${mainStyles['btn--1']}`);
-    const middleBtn = document.querySelector(`.${mainStyles['btn--2']}`);
-    const rightBtn = document.querySelector(`.${mainStyles['btn--3']}`);
-    const frame = document.querySelector(`#${mainStyles.frame}`);
-    const tablet = document.querySelector(`#${mainStyles.tablet}`);
-    const modal = document.querySelector(`.${mainStyles.modal}`);
-    const navbar = document.querySelector('nav');
-    const helpModal = document.querySelector(`.${mainStyles['help-modal']}`);
-    const backdrop = document.querySelector(`.${mainStyles.backdrop}`);
-    const xBtn = document.querySelector(`.${mainStyles['x-btn']}`);
-
-    const helpModalBtn = document.querySelector(
-      `.${mainStyles['help-modal-btn']}`,
-    );
-
-    this.buttonState.setButtonElements(leftBtn, middleBtn, rightBtn);
-    this.frameView.setContext(frame);
-    this.eggView.setContext(tablet);
-    this.childView.setContext(tablet);
-    this.adultView.setContext(tablet);
-    this.moodView.setContext(tablet);
-    this.moodView.setContainer(tamagotchiContainer);
-    this.stateView.setContext(tablet);
-    this.mainModalView.setModalElement(modal);
-    this.navbarView.setNavbar(navbar);
-
-    this.helpModalView.setHelpModalElements(
-      helpModal,
-      backdrop,
-      helpModalBtn,
-      xBtn,
-    );
-
-    this.helpModalView.addListeners(() => this.helpModalView.toggleHelpModal());
+  handleSetMainPage() {
+    this.mainPageController.handleSetMainPage({
+      currentMainView: this.currentMainView,
+      buttonState: this.buttonState,
+      frameView: this.frameView,
+      eggView: this.eggView,
+      childView: this.childView,
+      adultView: this.adultView,
+      moodView: this.moodView,
+      stateView: this.stateView,
+      mainModalView: this.mainModalView,
+      navbarView: this.navbarView,
+      helpModalView: this.helpModalView,
+      onChangingPetPhases: this.handleChangePetPhases.bind(this),
+    });
   }
 
   handleSettingNavBar() {
@@ -380,7 +346,7 @@ class Controller {
     });
   }
 
-  #handleChangingPetPhases() {
+  handleChangePetPhases() {
     if (this.gameState.growth === STATE[0]) {
       this.buttonState.state = this.gameState.growth;
       const callback = () => {

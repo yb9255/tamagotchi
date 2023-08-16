@@ -20,6 +20,7 @@ import UserProfileController from './src/controllers/UserProfile.js';
 import HelpModalView from './src/views/HelpModalView.js';
 import ValidationController from './src/controllers/Validation.js';
 import UserInformationController from './src/controllers/UserInformation.js';
+import MainPageController from './src/controllers/MainPage.js';
 
 async function init() {
   const states = {
@@ -48,6 +49,7 @@ async function init() {
     validationController: new ValidationController(),
     userInformationController: new UserInformationController(),
     userProfileController: new UserProfileController(),
+    mainPageController: new MainPageController(),
   };
 
   const observers = {
