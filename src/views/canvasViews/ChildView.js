@@ -68,7 +68,7 @@ class ChildView extends View {
 
   async drawGrowingUp() {
     await this.loadImage(this.image, CHILD_GROWING_UP_IMAGE_PATH);
-    return this.#growup();
+    return this.#growUp();
   }
 
   #bounceUp() {
@@ -304,7 +304,7 @@ class ChildView extends View {
     }, SLEEP_TIME);
   }
 
-  #growup() {
+  #growUp() {
     this.#dx = 55;
     this.#dy = 55;
 

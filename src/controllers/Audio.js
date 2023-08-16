@@ -20,7 +20,7 @@ class AudioController {
   #hangout = new Audio(HANGOUT_AUDIO_PATH);
   #sleep = new Audio(SLEEP_AUDIO_PATH);
   #deny = new Audio(DENY_AUDIO_PATH);
-  #growup = new Audio(GROW_UP_AUDIO_PATH);
+  #growUp = new Audio(GROW_UP_AUDIO_PATH);
   #angryAlert = new Audio(ANGRY_ALERT_AUDIO_PATH);
 
   constructor() {
@@ -32,7 +32,7 @@ class AudioController {
     this.playHangoutSound = this.playHangoutSound.bind(this);
     this.playSleepSound = this.playSleepSound.bind(this);
     this.playDenySound = this.playDenySound.bind(this);
-    this.playGrowupSound = this.playGrowupSound.bind(this);
+    this.playgrowUpSound = this.playgrowUpSound.bind(this);
     this.playAngryAlertSound = this.playAngryAlertSound.bind(this);
   }
 
@@ -84,10 +84,10 @@ class AudioController {
     this.#deny.play();
   }
 
-  playGrowupSound() {
-    this.#growup.currentTime = 0;
-    this.#growup.volume = 0.1;
-    this.#growup.play();
+  playgrowUpSound() {
+    this.#growUp.currentTime = 0;
+    this.#growUp.volume = 0.1;
+    this.#growUp.play();
   }
 
   playAngryAlertSound() {

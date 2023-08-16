@@ -1,7 +1,7 @@
 export const STATE = ['INIT', 'MENU', 'IDLING'];
 export const GROWTH = ['EGG', 'CHILD', 'ADULT'];
 export const TICK_SECONDS = 300;
-export const MAX_EXP = 50;
+export const MAX_EXP = 30;
 export const MAX_FUN = 10;
 export const MAX_TIREDNESS = 10;
 export const MAX_HUNGER = 10;
@@ -28,7 +28,7 @@ export const INITIAL_BIRTH_COUNT = 5;
 export const INITIAL_FUN = 3;
 export const INITIAL_HUNGER = 7;
 export const INITIAL_TIREDNESS = 6;
-export const INITIAL_EXP = 70;
+export const INITIAL_EXP = 0;
 export const INITIAL_HAPPINESS = 0;
 export const FUN_INCREMENT = 3;
 export const TIREDNESS_AFTER_FALLING_ASLEEP = 6;

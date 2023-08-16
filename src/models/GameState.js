@@ -50,7 +50,7 @@ class GameState {
     this.setStatesByTime = this.setStatesByTime.bind(this);
     this.startGame = this.startGame.bind(this);
     this.subtractBirthCount = this.subtractBirthCount.bind(this);
-    this.growup = this.growup.bind(this);
+    this.growUp = this.growUp.bind(this);
     this.setMenuState = this.setMenuState.bind(this);
     this.setIdlingState = this.setIdlingState.bind(this);
     this.reduceHunger = this.reduceHunger.bind(this);
@@ -146,7 +146,7 @@ class GameState {
     this.state = STATE[2];
   }
 
-  async growup(blink) {
+  async growUp(blink) {
     await blink();
     this.growth = GROWTH[2];
     return;

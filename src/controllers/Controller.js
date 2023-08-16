@@ -148,7 +148,7 @@ class Controller {
       if (hasMaxExp) {
         await this.gameState.growUp(async () => {
           this.childView.cancelAnimation();
-          this.audioController.playGrowUpSound();
+          this.audioController.playgrowUpSound();
           await this.childView.drawGrowingUp();
         });
       }
@@ -395,7 +395,7 @@ class Controller {
       }
 
       if (this.gameState.birthCount <= MIN_BIRTH_COUNT) {
-        this.audioController.playGrowUpSound();
+        this.audioController.playgrowUpSound();
         this.buttonState.removeListeners();
         await this.eggView.drawBreakingEgg();
         this.gameState.eggToChild();
