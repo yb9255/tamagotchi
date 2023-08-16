@@ -1,7 +1,7 @@
 export const STATE = ['INIT', 'MENU', 'IDLING'];
 export const GROWTH = ['EGG', 'CHILD', 'ADULT'];
 export const TICK_SECONDS = 300;
-export const MAX_EXP = 100;
+export const MAX_EXP = 50;
 export const MAX_FUN = 10;
 export const MAX_TIREDNESS = 10;
 export const MAX_HUNGER = 10;
