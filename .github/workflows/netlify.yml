@@ -1,28 +1,26 @@
-name: Deploy prod
-
+# .github/workflows/netlify.yml
+name: Build and Deploy to Netlify
 on:
-  workflow_dispatch:
   push:
-    branches:
-      - main
+    branches: ['main']
   pull_request:
-    branches:
-      - main
-
+    branches: ['main']
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - name: Deploy to Netlify
+        uses: nwtgck/actions-netlify@v2.0
         with:
-          node-version: 18
-      - name: Install Netlify CLI
-        run: npm install -g netlify-cli
-      - name: Install deps
-        run: npm install
-      - name: Deploy
-        run: npm run build:prod
+          publish-dir: './build'
+          production-branch: main
+          github-token: ${{ secrets.ACTION_TOKEN }}
+          deploy-message: 'Deploy from GitHub Actions'
+          enable-pull-request-comment: false
+          enable-commit-comment: true
+          overwrites-pull-request-comment: true
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        timeout-minutes: 1
