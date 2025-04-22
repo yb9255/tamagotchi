@@ -63,7 +63,8 @@
 
 ## 🔗 Links
 
-- **메인 페이지(Netlify)** : https://yb-web-tamagotchi.netlify.app
+- ~~**메인 페이지(Netlify)** : https://yb-web-tamagotchi.netlify.app~~
+  - 현재 서버가 내려가 있어 정상적으로 동작하지 않습니다. 
 - **Github Repo(Frontend)** : https://github.com/yb9255/tamagotchi
 - **Github Repo(Backend)** : https://github.com/yb9255/tamagotchi-server
 
